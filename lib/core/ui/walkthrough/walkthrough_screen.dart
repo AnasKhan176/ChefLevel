@@ -119,16 +119,22 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                             const SizedBox(height: 20),
 
                             // // Next button (hide on last page if you want)
-                            if (index != pages.length - 1)
                               SizedBox(
                                 width: double.infinity,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    _pageController.nextPage(
-                                      duration: const Duration(milliseconds: 400),
-                                      curve: Curves.easeInOut,
+                                    if (currentPage == pages.length - 1) {
+                                    Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(builder: (_) => const LoginScreen())
                                     );
-                                  },
+                                  } else{
+                                      _pageController.nextPage(
+                                        duration: const Duration(milliseconds: 400),
+                                        curve: Curves.easeInOut,
+                                      );
+                                    }
+                                },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: AppColor.btnBackground,
                                     padding: const EdgeInsets.symmetric(vertical: 16),
@@ -136,11 +142,12 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                                       borderRadius: BorderRadius.circular(80),
                                     ),
                                   ),
-                                  child: const Text(
-                                    "Next",
-                                    style: TextStyle(
+                                  child: Text(
+                                    currentPage == pages.length - 1 ? "Get Started" : "Next",
+                                    style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
+                                      color: AppColor.WHITE,
                                     ),
                                   ),
                                 ),
