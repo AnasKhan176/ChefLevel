@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_chef/core/utils/app_string.dart';
 import 'package:food_chef/theme/app_color.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -57,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   // Title
                   const Text(
-                    'Login',
+                    AppString.login,
                     style: TextStyle(
                       color: AppColor.WHITE,
                       fontSize: 30,
@@ -68,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 8),
 
                   const Text(
-                    'Enter your login information',
+                    AppString.enterYourLoginInformation,
                     style: TextStyle(
                       color: AppColor.WHITE,
                       fontSize: 14,
@@ -79,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   // Email / Phone
                   _buildInputField(
-                    hint: 'Email or phone number',
+                    hint: AppString.emailPhone,
                     icon: Icons.email_outlined,
                   ),
 
@@ -87,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   // Password
                   _buildInputField(
-                    hint: 'Password',
+                    hint: AppString.password,
                     icon: Icons.lock_outline,
                     isPassword: true,
                   ),
@@ -100,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: TextButton(
                       onPressed: () {},
                       child: const Text(
-                        'Forgot password?',
+                        AppString.forgotPassword,
                         style: TextStyle(
                           color: AppColor.btnBackground,
                           fontSize: 13,
@@ -126,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.pushNamed(context, '/otp_login_screen');
                       },
                       child: const Text(
-                        'Login',
+                        AppString.login,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -142,14 +143,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   Center(
                     child: RichText(
                       text: TextSpan(
-                        text: "Don't have any account? ",
+                        text: AppString.dontAccount,
                         style: const TextStyle(
                           color: AppColor.WHITE,
                           fontSize: 13,
                         ),
                         children: [
                           TextSpan(
-                            text: 'Register',
+                            text: AppString.register,
                             style: const TextStyle(
                               color: AppColor.btnBackground,
                               fontWeight: FontWeight.bold,

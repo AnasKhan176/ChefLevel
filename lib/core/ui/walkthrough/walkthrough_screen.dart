@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_chef/core/ui/auth/login_screen.dart';
+import 'package:food_chef/core/utils/app_string.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../theme/app_color.dart';
@@ -18,18 +19,18 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
   final List<Map<String, String>> pages = [
     {
       "image": "assets/wth_1.jpg",
-      "title": "Build your \n flavour step by step",
-      "subtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Nunc sit amet finibus leo, id mattis urna",
+      "title": AppString.walkThroughTitle_1,
+      "subtitle": AppString.walkThroughDesc_1,
     },
     {
       "image": "assets/wth_2.jpg",
-      "title": "Cook like a pro with \n chef-approved recipes",
-      "subtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Nunc sit amet finibus leo, id mattis urna",
+      "title": AppString.walkThroughTitle_2,
+      "subtitle": AppString.walkThroughDesc_2,
     },
     {
       "image": "assets/wth_3.jpg",
-      "title": "We’ll tailor recipes \n just the way you like",
-      "subtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Nunc sit amet finibus leo, id mattis urna",
+      "title": AppString.walkThroughTitle_3,
+      "subtitle": AppString.walkThroughDesc_3,
     },
   ];
 
@@ -143,7 +144,7 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                                     ),
                                   ),
                                   child: Text(
-                                    currentPage == pages.length - 1 ? "Get Started" : "Next",
+                                    currentPage == pages.length - 1 ? AppString.getStarted : AppString.next,
                                     style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,

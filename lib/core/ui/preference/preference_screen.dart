@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_chef/core/utils/app_string.dart';
 
 class PreferencesScreen extends StatefulWidget {
   const PreferencesScreen({Key? key}) : super(key: key);
@@ -47,7 +48,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'Select your Preferences',
+                    AppString.selectYourPrefs,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 26,
@@ -58,7 +59,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
 
                   // Dietary Preferences Section
                   _buildExpandableSection(
-                    title: 'Dietary Preferences',
+                    title: AppString.dietaryPrefs,
                     expanded: dietaryExpanded,
                     onToggle: () => setState(() => dietaryExpanded = !dietaryExpanded),
                     child: Wrap(
@@ -99,7 +100,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
 
                   // Favourite Cuisines Section
                   _buildExpandableSection(
-                    title: 'Favourite Cuisines',
+                    title: AppString.favouriteCuisines,
                     expanded: cuisineExpanded,
                     onToggle: () => setState(() => cuisineExpanded = !cuisineExpanded),
                     child: DropdownButton<String>(
@@ -124,7 +125,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
 
                   // Spice Level Section
                   _buildExpandableSection(
-                    title: 'Spice Level Preference',
+                    title:AppString.spiceLevelPref,
                     expanded: spiceExpanded,
                     onToggle: () => setState(() => spiceExpanded = !spiceExpanded),
                     child: DropdownButton<String>(
@@ -162,7 +163,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                         // Save preferences
                       },
                       child: const Text(
-                        'Save',
+                        AppString.save,
                         style: TextStyle(fontSize: 18),
                       ),
                     ),

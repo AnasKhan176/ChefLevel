@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:food_chef/core/ui/auth/login_screen.dart';
+import 'package:food_chef/core/utils/app_string.dart';
 import '../walkthrough/walkthrough_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -44,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 child: Padding(
                     padding: const EdgeInsets.only(bottom: 20),
                     child: Text(
-                      "Version 1.0.0",
+                      "Version ${AppString.appVersion}",
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w500,

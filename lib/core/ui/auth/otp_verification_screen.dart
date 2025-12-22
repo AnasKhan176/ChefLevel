@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:food_chef/core/utils/app_string.dart';
 import 'package:food_chef/theme/app_color.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
@@ -86,7 +87,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   Icon(Icons.arrow_back, color: AppColor.WHITE),
                   SizedBox(height: 40),
                   Text(
-                    'OTP Verification',
+                    AppString.otpVerification,
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
@@ -95,7 +96,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   ),
                   SizedBox(height: 16),
                   Text(
-                    "Check your mail, we've sent one time password verification code to +91 9876543210. Enter the code below to verify your account",
+                    "${AppString.checkYourMailMsg} +91 9876543210. ${AppString.verifyAccountMsg}",
                     style: TextStyle(color: AppColor.WHITE),
                   ),
                   SizedBox(height: 32),
@@ -109,7 +110,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     onPressed: () {
                       // Handle verification
                     },
-                    child: Text('Verify'),
+                    child: Text(AppString.verify),
                   ),
                   SizedBox(height: 16),
                   Text(
@@ -127,7 +128,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     }
                         : null,
                     child: Text(
-                      "Don't get code? Resend It",
+                      AppString.dontGetCode,
                       style: TextStyle(
                         color: _secondsRemaining == 0
                             ? AppColor.WHITE
