@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_chef/core/utils/app_string.dart';
+import 'package:food_chef/theme/app_color.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class PreferencesScreen extends StatefulWidget {
   const PreferencesScreen({Key? key}) : super(key: key);
@@ -47,13 +49,19 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                   Text(
                     AppString.selectYourPrefs,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: 
+                    // TextStyle(
+                    //   color: Colors.white,
+                    //   fontSize: 26,
+                    //   fontWeight: FontWeight.bold,
+                    // ),
+                    GoogleFonts.playfairDisplay(
+  fontSize: 30,
+  fontWeight: FontWeight.w600,
+  fontStyle: FontStyle.normal,
+  color: AppColor.WHITE),
                   ),
                   const SizedBox(height: 20),
 
@@ -162,9 +170,15 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                       onPressed: () {
                         // Save preferences
                       },
-                      child: const Text(
+                      child:  Text(
                         AppString.save,
-                        style: TextStyle(fontSize: 18),
+                        style: 
+                        //TextStyle(fontSize: 18),
+                         GoogleFonts.montserrat(
+  fontSize: 16,
+  fontWeight: FontWeight.w700,
+  fontStyle: FontStyle.normal,
+  color: Colors.white),
                       ),
                     ),
                   ),

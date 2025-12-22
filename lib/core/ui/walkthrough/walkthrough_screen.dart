@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_chef/core/ui/auth/login_screen.dart';
 import 'package:food_chef/core/utils/app_string.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../theme/app_color.dart';
@@ -67,13 +68,20 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                             MaterialPageRoute(builder: (_) => LoginScreen()),
                           );
                         },
-                        child: const Text(
-                          "Skip",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: AppColor.WHITE,
-                          ),
+                        child:  Text(
+                          AppString.skip,
+                          style: 
+                          // TextStyle(
+                          //   fontSize: 16,
+                          //   fontWeight: FontWeight.w400,
+                          //   color: AppColor.WHITE,
+                          // ),
+
+                          GoogleFonts.montserrat(
+  fontSize: 16,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.normal,
+  color: Colors.white),
                         ),
                       ),
                     ),
@@ -89,20 +97,30 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                             Text(
                               pages[index]["title"]!,
                               textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                color: AppColor.WHITE,
-                              ),
+                              style: 
+                              // const TextStyle(
+                              //   fontSize: 22,
+                              //   fontWeight: FontWeight.bold,
+                              //   color: AppColor.WHITE,
+                              // ),
+                              GoogleFonts.playfairDisplay(
+  fontSize: 22,
+  fontWeight: FontWeight.w600,
+  color: AppColor.WHITE),
                             ),
                             const SizedBox(height: 8),
                             Text(
                               pages[index]["subtitle"]!,
                               textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: AppColor.WHITE,
-                              ),
+                              style: 
+                              // const TextStyle(
+                              //   fontSize: 16,
+                              //   color: AppColor.WHITE,
+                              // ),
+                                  GoogleFonts.montserrat(
+  fontSize: 16,
+  fontWeight: FontWeight.w400,
+  color: AppColor.WHITE),
                             ),
                             const SizedBox(height: 20),
 
@@ -145,11 +163,16 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                                   ),
                                   child: Text(
                                     currentPage == pages.length - 1 ? AppString.getStarted : AppString.next,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColor.WHITE,
-                                    ),
+                                    style: 
+                                    // const TextStyle(
+                                    //   fontSize: 18,
+                                    //   fontWeight: FontWeight.bold,
+                                    //   color: AppColor.WHITE,
+                                    // ),
+                                        GoogleFonts.montserrat(
+  fontSize: 18,
+  fontWeight: FontWeight.w700,
+  color: AppColor.WHITE),
                                   ),
                                 ),
                               ),

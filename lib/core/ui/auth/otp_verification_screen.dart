@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:food_chef/core/utils/app_string.dart';
 import 'package:food_chef/theme/app_color.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
   const OtpVerificationScreen({super.key});
@@ -88,16 +89,28 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   SizedBox(height: 40),
                   Text(
                     AppString.otpVerification,
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: AppColor.WHITE,
-                    ),
+                    style: 
+                    // TextStyle(
+                    //   fontSize: 28,
+                    //   fontWeight: FontWeight.bold,
+                    //   color: AppColor.WHITE,
+                    // ),
+                    GoogleFonts.playfairDisplay(
+  fontSize: 30,
+  fontWeight: FontWeight.w600,
+  fontStyle: FontStyle.normal,
+  color: AppColor.WHITE),
                   ),
                   SizedBox(height: 16),
                   Text(
                     "${AppString.checkYourMailMsg} +91 9876543210. ${AppString.verifyAccountMsg}",
-                    style: TextStyle(color: AppColor.WHITE),
+                    style: 
+                    //TextStyle(color: AppColor.WHITE),
+                    GoogleFonts.montserrat(
+  fontSize: 14,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.normal,
+  color: AppColor.WHITE),
                   ),
                   SizedBox(height: 32),
                   _buildOtpFields(),
@@ -110,14 +123,27 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     onPressed: () {
                       // Handle verification
                     },
-                    child: Text(AppString.verify),
+                    child: Text(AppString.verify,style: GoogleFonts.montserrat(
+  fontSize: 16,
+  fontWeight: FontWeight.w700,
+  fontStyle: FontStyle.normal,
+  color: AppColor.WHITE),),
                   ),
                   SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
                   Text(
                     '0:${_secondsRemaining.toString().padLeft(2, '0')}',
-                    style: TextStyle(color: AppColor.WHITE),
-                  ),
-                  SizedBox(height: 8),
+                    style: 
+                    //TextStyle(color: AppColor.WHITE),
+                    GoogleFonts.montserrat(
+  fontSize: 14,
+  fontWeight: FontWeight.w400,
+  color: _secondsRemaining == 0 ? AppColor.WHITE : AppColor.WHITE),
+                      
+                  ),],),
+                  SizedBox(height: 8),             
                   TextButton(
                     onPressed: _secondsRemaining == 0
                         ? () {
@@ -127,14 +153,43 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       });
                     }
                         : null,
-                    child: Text(
-                      AppString.dontGetCode,
-                      style: TextStyle(
-                        color: _secondsRemaining == 0
-                            ? AppColor.WHITE
-                            : AppColor.WHITE,
+                    child: 
+                    // Text(
+                    //   AppString.dontGetCode,
+                    //   style: TextStyle(
+                    //     color: _secondsRemaining == 0
+                    //         ? AppColor.WHITE
+                    //         : AppColor.WHITE,
+                    //   ),
+                    // ),
+                     Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                       Text(
+                        "Don't get code? ", 
+                        style: 
+                        //TextStyle(color: AppColor.WHITE),
+                        GoogleFonts.montserrat(
+  fontSize: 14,
+  fontWeight: FontWeight.w400,
+  color: _secondsRemaining == 0 ? AppColor.WHITE : AppColor.WHITE),
                       ),
-                    ),
+                        
+                        Text(
+                          'Resend It',
+                          style: 
+                          // TextStyle(
+                          //   color: AppColor.btnBackground,
+                          //   fontWeight: FontWeight.bold,
+                          // ),
+                          GoogleFonts.montserrat(
+  fontSize: 14,
+  fontWeight: FontWeight.w400,
+  color: AppColor.btnBackground),
+                        ),
+                      
+                    ],
+                  ),
                   ),
                 ],
               ),

@@ -35,6 +35,8 @@ static const dietaryPrefs ='Dietary Preferences';
 static const favouriteCuisines ='Favourite Cuisines'; 
 static const spiceLevelPref ='Spice Level Preference'; 
 static const save ='Save'; 
+static const noDataAvailable ='No data available!!'; 
+
 
 
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_chef/core/utils/app_string.dart';
 import 'package:food_chef/theme/app_color.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -57,23 +58,35 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 20),
 
                   // Title
-                  const Text(
+                   Text(
                     AppString.login,
-                    style: TextStyle(
-                      color: AppColor.WHITE,
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: 
+                    // TextStyle(
+                    //   color: AppColor.WHITE,
+                    //   fontSize: 30,
+                    //   fontWeight: FontWeight.bold,
+                    // ),
+                    GoogleFonts.playfairDisplay(
+  fontSize: 30,
+  fontWeight: FontWeight.w600,
+  fontStyle: FontStyle.normal,
+  color: Colors.white),
                   ),
 
                   const SizedBox(height: 8),
 
-                  const Text(
+                   Text(
                     AppString.enterYourLoginInformation,
-                    style: TextStyle(
-                      color: AppColor.WHITE,
-                      fontSize: 14,
-                    ),
+                    style: 
+                    // TextStyle(
+                    //   color: AppColor.WHITE,
+                    //   fontSize: 14,
+                    // ),
+                    GoogleFonts.montserrat(
+  fontSize: 14,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.normal,
+  color: Colors.white),
                   ),
 
                   const SizedBox(height: 30),
@@ -100,12 +113,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     alignment: Alignment.centerRight,
                     child: TextButton(
                       onPressed: () {},
-                      child: const Text(
+                      child:  Text(
                         AppString.forgotPassword,
-                        style: TextStyle(
-                          color: AppColor.btnBackground,
-                          fontSize: 13,
-                        ),
+                        style: 
+                        // TextStyle(
+                        //   color: AppColor.btnBackground,
+                        //   fontSize: 13,
+                        // ),
+                         GoogleFonts.montserrat(
+  fontSize: 14,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.normal,
+  color: AppColor.btnBackground),
                       ),
                     ),
                   ),
@@ -126,13 +145,19 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () {
                         Navigator.pushNamed(context, '/otp_login_screen');
                       },
-                      child: const Text(
+                      child:  Text(
                         AppString.login,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: AppColor.WHITE
-                        ),
+                        style: 
+                        // TextStyle(
+                        //   fontSize: 16,
+                        //   fontWeight: FontWeight.bold,
+                        //   color: AppColor.WHITE
+                        // ),
+                         GoogleFonts.montserrat(
+  fontSize: 16,
+  fontWeight: FontWeight.w700,
+  fontStyle: FontStyle.normal,
+  color: Colors.white),
                       ),
                     ),
                   ),
@@ -144,17 +169,27 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: RichText(
                       text: TextSpan(
                         text: AppString.dontAccount,
-                        style: const TextStyle(
-                          color: AppColor.WHITE,
-                          fontSize: 13,
-                        ),
+                        style: 
+                        //  TextStyle(
+                        //   color: AppColor.WHITE,
+                        //   fontSize: 13,
+                        // ),
+                         GoogleFonts.montserrat(
+  fontSize: 14,
+  fontWeight: FontWeight.w400,
+  color: AppColor.WHITE),
                         children: [
                           TextSpan(
                             text: AppString.register,
-                            style: const TextStyle(
-                              color: AppColor.btnBackground,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: 
+                            //  TextStyle(
+                            //   color: AppColor.btnBackground,
+                            //   fontWeight: FontWeight.bold,
+                            // ),
+                             GoogleFonts.montserrat(
+  fontSize: 14,
+  fontWeight: FontWeight.w400,
+  color: AppColor.btnBackground),
                           ),
                         ],
                       ),
@@ -178,7 +213,13 @@ class _LoginScreenState extends State<LoginScreen> {
   }) {
     return TextField(
       obscureText: isPassword ? _obscurePassword : false,
-      style: const TextStyle(color: Colors.white),
+      style: 
+      // TextStyle(color: Colors.white),
+       GoogleFonts.montserrat(
+  fontSize: 14,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.normal,
+  color: Colors.white),
       decoration: InputDecoration(
         hintText: hint,
         hintStyle: const TextStyle(color: Colors.white54),

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:food_chef/core/ui/auth/login_screen.dart';
 import 'package:food_chef/core/utils/app_string.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../walkthrough/walkthrough_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -47,14 +48,14 @@ class _SplashScreenState extends State<SplashScreen> {
                     padding: const EdgeInsets.only(bottom: 20),
                     child: Text(
                       "Version ${AppString.appVersion}",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white, // Custom color
-                      ),
+                      style: GoogleFonts.montserrat(
+  fontSize: 18,
+  fontWeight: FontWeight.w500,
+  fontStyle: FontStyle.normal,
+  color: Colors.white),
+),
                 ),
-              )
-              )
+              )  
             ],
           )
       ),
