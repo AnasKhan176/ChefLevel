@@ -1,5 +1,8 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:food_chef/core/utils/app_string.dart';
+import 'package:food_chef/core/utils/snackbar.dart';
 import 'package:food_chef/theme/app_color.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -12,6 +15,17 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _obscurePassword = true;
+  bool _isEmail = false;
+  bool _isMobile =false;
+  bool _isProfileExist =false;
+  final _emailMobileController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  bool isEmail(String input) => EmailValidator.validate(input);
+  bool isPhone(String input) =>
+    RegExp(r'^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$')
+        .hasMatch(input);
+
 
   @override
   Widget build(BuildContext context) {
@@ -95,20 +109,29 @@ class _LoginScreenState extends State<LoginScreen> {
                   _buildInputField(
                     hint: AppString.emailPhone,
                     icon: Icons.email_outlined,
+                    textController:_emailMobileController,
                   ),
 
                   const SizedBox(height: 16),
 
                   // Password
+                  Visibility(
+                    visible: _isProfileExist,
+                    child: 
                   _buildInputField(
                     hint: AppString.password,
                     icon: Icons.lock_outline,
                     isPassword: true,
-                  ),
+                    textController:_passwordController,
+
+                  )),
 
                   const SizedBox(height: 12),
 
                   // Forgot Password
+                  Visibility(
+                    visible: _isProfileExist,
+                    child: 
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
@@ -127,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
   color: AppColor.btnBackground),
                       ),
                     ),
-                  ),
+                  ),),
 
                   const SizedBox(height: 20),
 
@@ -143,7 +166,68 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       onPressed: () {
-                        Navigator.pushNamed(context, '/otp_login_screen');
+                        
+                        
+                           if (!isEmail(_emailMobileController.text.toString().trim()) && !isPhone(_emailMobileController.text.toString().trim())) {
+                            
+                            CustomSnackBar.showTopSnackbar(context,'Please enter correct email or phone number',AppColor.btnBackground);
+                           setState(() {
+                                _isProfileExist=false;
+                              });
+                           }
+                           else
+                        {
+                                                      
+                            setState(() {
+                              _isEmail= isEmail(_emailMobileController.text.toString().trim());
+                              _isMobile=  isPhone(_emailMobileController.text.toString().trim());
+                            });
+
+                            if(_isEmail==true && _emailMobileController.text.toString().trim().length<=255)
+                            {
+                               // call check profile exist api and send email
+                              CustomSnackBar.showTopSnackbar(context,'API mai email jaega.',AppColor.btnBackground);
+                              setState(() {
+                                _isProfileExist=true;
+                              });
+
+                              if(_passwordController.text.toString().isNotEmpty && _passwordController.text.toString().length<=8 && _isProfileExist==true)
+                              {
+                                                              CustomSnackBar.showTopSnackbar(context,'login api with email.',AppColor.btnBackground);
+Navigator.pushNamed(context, '/otp_login_screen');
+                              }else{                                                                                             
+                                CustomSnackBar.showTopSnackbar(context,'Please enter password',AppColor.btnBackground);
+}
+
+                              return;
+                            }else if(_isMobile==true && _emailMobileController.text.toString().trim().length<=15)
+                            {
+                              CustomSnackBar.showTopSnackbar(context,'API mai mobile jaega.',AppColor.btnBackground);
+                              setState(() {
+                                _isProfileExist=true;
+                              });
+
+                              if(_passwordController.text.toString().isNotEmpty && _passwordController.text.toString().length<=8 && _isProfileExist==true)
+                              {
+                                                              CustomSnackBar.showTopSnackbar(context,'login api with mobile.',AppColor.btnBackground);
+Navigator.pushNamed(context, '/otp_login_screen');
+                              }else{
+                                                                                             CustomSnackBar.showTopSnackbar(context,'Please enter password',AppColor.btnBackground);
+ 
+                              }
+                               return;
+
+                            }
+                            
+                            {
+                              setState(() {
+                                _isProfileExist=false;
+                              });
+                            CustomSnackBar.showTopSnackbar(context,_isEmail==true?'Please enter correct email':'Please enter correct phone number',AppColor.btnBackground);
+                             return;
+                            }
+
+                        }
                       },
                       child:  Text(
                         AppString.login,
@@ -210,9 +294,18 @@ class _LoginScreenState extends State<LoginScreen> {
     required String hint,
     required IconData icon,
     bool isPassword = false,
+    required TextEditingController textController,
   }) {
     return TextField(
+      controller: textController,
       obscureText: isPassword ? _obscurePassword : false,
+      maxLength: isPassword?8:255,
+      keyboardType: isPassword?TextInputType.number:TextInputType.text,
+        inputFormatters: isPassword?<TextInputFormatter>[
+          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+        ]:<TextInputFormatter>[
+    FilteringTextInputFormatter.allow(RegExp(r'.*')),
+  ],
       style: 
       // TextStyle(color: Colors.white),
        GoogleFonts.montserrat(
