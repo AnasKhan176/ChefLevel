@@ -17,7 +17,7 @@ class AppRoutes {
   static Route<dynamic> generateRoute(RouteSettings settings){
     switch(settings.name){
         case splashScreen:
-         return MaterialPageRoute(builder: (_) => const SplashScreen());
+         return MaterialPageRoute(builder: (_) => const SplashScreen(isSeenWalkthrough: true,));
 
         case walkthroughScreen:
           return MaterialPageRoute(builder: (_) => const WalkthroughScreen());

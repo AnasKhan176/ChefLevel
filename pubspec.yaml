@@ -38,6 +38,10 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
   google_fonts: ^6.3.3
   email_validator: ^3.0.0
+  get: ^4.7.3
+  flutter_udid: ^4.1.1
+  mobile_device_identifier: ^0.0.3
+  device_info_plus: ^12.3.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

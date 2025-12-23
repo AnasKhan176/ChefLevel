@@ -2,10 +2,12 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:food_chef/controller/login_controller.dart';
 import 'package:food_chef/core/ui/auth/register_screen.dart';
 import 'package:food_chef/core/utils/app_string.dart';
 import 'package:food_chef/core/utils/snackbar.dart';
 import 'package:food_chef/theme/app_color.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -22,6 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isProfileExist = false;
   final _emailMobileController = TextEditingController();
   final _passwordController = TextEditingController();
+  final LoginController loginController = Get.put(LoginController());
 
   bool isEmail(String input) => EmailValidator.validate(input);
   bool isPhone(String input) => RegExp(
@@ -160,114 +163,116 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       onPressed: () {
-                        if (!isEmail(_emailMobileController.text.toString().trim(),) &&
-                            !isPhone(_emailMobileController.text.toString().trim(),)) {
-                          CustomSnackBar.showTopSnackbar(
-                            context,
-                            'Please enter correct email or phone number',
-                            AppColor.btnBackground,
-                          );
-                          setState(() {
-                            _isProfileExist = false;
-                          });
-                        } else {
-                          setState(() {
-                            _isEmail = isEmail(
-                              _emailMobileController.text.toString().trim(),
-                            );
-                            _isMobile = isPhone(
-                              _emailMobileController.text.toString().trim(),
-                            );
-                          });
+                        // if (!isEmail(_emailMobileController.text.toString().trim(),) &&
+                        //     !isPhone(_emailMobileController.text.toString().trim(),)) {
+                        //   CustomSnackBar.showTopSnackbar(
+                        //     context,
+                        //     'Please enter correct email or phone number',
+                        //     AppColor.btnBackground,
+                        //   );
+                        //   setState(() {
+                        //     _isProfileExist = false;
+                        //   });
+                        // } else {
+                        //   setState(() {
+                        //     _isEmail = isEmail(
+                        //       _emailMobileController.text.toString().trim(),
+                        //     );
+                        //     _isMobile = isPhone(
+                        //       _emailMobileController.text.toString().trim(),
+                        //     );
+                        //   });
+                        //
+                        //   if (_isEmail == true &&
+                        //       _emailMobileController.text
+                        //               .toString()
+                        //               .trim()
+                        //               .length <=
+                        //           255) {
+                        //     // call check profile exist api and send email
+                        //     CustomSnackBar.showTopSnackbar(
+                        //       context,
+                        //       'API mai email jaega.',
+                        //       AppColor.btnBackground,
+                        //     );
+                        //     setState(() {
+                        //       _isProfileExist = true;
+                        //     });
+                        //
+                        //     if (_passwordController.text
+                        //             .toString()
+                        //             .isNotEmpty &&
+                        //         _passwordController.text.toString().length <=
+                        //             8 &&
+                        //         _isProfileExist == true) {
+                        //       CustomSnackBar.showTopSnackbar(
+                        //         context,
+                        //         'login api with email.',
+                        //         AppColor.btnBackground,
+                        //       );
+                        //       Navigator.pushNamed(context, '/otp_login_screen');
+                        //     } else {
+                        //       CustomSnackBar.showTopSnackbar(
+                        //         context,
+                        //         'Please enter password',
+                        //         AppColor.btnBackground,
+                        //       );
+                        //     }
+                        //
+                        //     return;
+                        //   } else if (_isMobile == true &&
+                        //       _emailMobileController.text
+                        //               .toString()
+                        //               .trim()
+                        //               .length <=
+                        //           15) {
+                        //     CustomSnackBar.showTopSnackbar(
+                        //       context,
+                        //       'API mai mobile jaega.',
+                        //       AppColor.btnBackground,
+                        //     );
+                        //     setState(() {
+                        //       _isProfileExist = true;
+                        //     });
+                        //
+                        //     if (_passwordController.text
+                        //             .toString()
+                        //             .isNotEmpty &&
+                        //         _passwordController.text.toString().length <=
+                        //             8 &&
+                        //         _isProfileExist == true) {
+                        //       CustomSnackBar.showTopSnackbar(
+                        //         context,
+                        //         'login api with mobile.',
+                        //         AppColor.btnBackground,
+                        //       );
+                        //       Navigator.pushNamed(context, '/otp_login_screen');
+                        //     } else {
+                        //       CustomSnackBar.showTopSnackbar(
+                        //         context,
+                        //         'Please enter password',
+                        //         AppColor.btnBackground,
+                        //       );
+                        //     }
+                        //     return;
+                        //   }
+                        //
+                        //   {
+                        //     setState(() {
+                        //       _isProfileExist = false;
+                        //     });
+                        //     CustomSnackBar.showTopSnackbar(
+                        //       context,
+                        //       _isEmail == true
+                        //           ? 'Please enter correct email'
+                        //           : 'Please enter correct phone number',
+                        //       AppColor.btnBackground,
+                        //     );
+                        //     return;
+                        //   }
+                        // }
+                        loginController.checkProfile("email");
 
-                          if (_isEmail == true &&
-                              _emailMobileController.text
-                                      .toString()
-                                      .trim()
-                                      .length <=
-                                  255) {
-                            // call check profile exist api and send email
-                            CustomSnackBar.showTopSnackbar(
-                              context,
-                              'API mai email jaega.',
-                              AppColor.btnBackground,
-                            );
-                            setState(() {
-                              _isProfileExist = true;
-                            });
-
-                            if (_passwordController.text
-                                    .toString()
-                                    .isNotEmpty &&
-                                _passwordController.text.toString().length <=
-                                    8 &&
-                                _isProfileExist == true) {
-                              CustomSnackBar.showTopSnackbar(
-                                context,
-                                'login api with email.',
-                                AppColor.btnBackground,
-                              );
-                              Navigator.pushNamed(context, '/otp_login_screen');
-                            } else {
-                              CustomSnackBar.showTopSnackbar(
-                                context,
-                                'Please enter password',
-                                AppColor.btnBackground,
-                              );
-                            }
-
-                            return;
-                          } else if (_isMobile == true &&
-                              _emailMobileController.text
-                                      .toString()
-                                      .trim()
-                                      .length <=
-                                  15) {
-                            CustomSnackBar.showTopSnackbar(
-                              context,
-                              'API mai mobile jaega.',
-                              AppColor.btnBackground,
-                            );
-                            setState(() {
-                              _isProfileExist = true;
-                            });
-
-                            if (_passwordController.text
-                                    .toString()
-                                    .isNotEmpty &&
-                                _passwordController.text.toString().length <=
-                                    8 &&
-                                _isProfileExist == true) {
-                              CustomSnackBar.showTopSnackbar(
-                                context,
-                                'login api with mobile.',
-                                AppColor.btnBackground,
-                              );
-                              Navigator.pushNamed(context, '/otp_login_screen');
-                            } else {
-                              CustomSnackBar.showTopSnackbar(
-                                context,
-                                'Please enter password',
-                                AppColor.btnBackground,
-                              );
-                            }
-                            return;
-                          }
-
-                          {
-                            setState(() {
-                              _isProfileExist = false;
-                            });
-                            CustomSnackBar.showTopSnackbar(
-                              context,
-                              _isEmail == true
-                                  ? 'Please enter correct email'
-                                  : 'Please enter correct phone number',
-                              AppColor.btnBackground,
-                            );
-                            return;
-                          }
-                        }
                       },
                       child: Text(
                         AppString.login,
