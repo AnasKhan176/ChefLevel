@@ -13,7 +13,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -32,32 +31,33 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
-          child: Stack(
-            children: [
-              Center(
-                child: Image.asset(
-                  'assets/splash.png',
-                  width: 150,
-                  height: 150,
-                  fit: BoxFit.contain,
+        child: Stack(
+          children: [
+            Center(
+              child: Image.asset(
+                'assets/splash.png',
+                width: 150,
+                height: 150,
+                fit: BoxFit.contain,
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Text(
+                  "Version ${AppString.appVersion}",
+                  style: GoogleFonts.montserrat(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    fontStyle: FontStyle.normal,
+                    color: Colors.white,
+                  ),
                 ),
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: Text(
-                      "Version ${AppString.appVersion}",
-                      style: GoogleFonts.montserrat(
-  fontSize: 18,
-  fontWeight: FontWeight.w500,
-  fontStyle: FontStyle.normal,
-  color: Colors.white),
-),
-                ),
-              )  
-            ],
-          )
+            ),
+          ],
+        ),
       ),
     );
   }

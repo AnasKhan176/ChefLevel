@@ -68,20 +68,20 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                             MaterialPageRoute(builder: (_) => LoginScreen()),
                           );
                         },
-                        child:  Text(
+                        child: Text(
                           AppString.skip,
-                          style: 
-                          // TextStyle(
-                          //   fontSize: 16,
-                          //   fontWeight: FontWeight.w400,
-                          //   color: AppColor.WHITE,
-                          // ),
-
-                          GoogleFonts.montserrat(
-  fontSize: 16,
-  fontWeight: FontWeight.w400,
-  fontStyle: FontStyle.normal,
-  color: Colors.white),
+                          style:
+                              // TextStyle(
+                              //   fontSize: 16,
+                              //   fontWeight: FontWeight.w400,
+                              //   color: AppColor.WHITE,
+                              // ),
+                              GoogleFonts.montserrat(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                fontStyle: FontStyle.normal,
+                                color: Colors.white,
+                              ),
                         ),
                       ),
                     ),
@@ -90,37 +90,42 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 40,
+                        ),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
                               pages[index]["title"]!,
                               textAlign: TextAlign.center,
-                              style: 
-                              // const TextStyle(
-                              //   fontSize: 22,
-                              //   fontWeight: FontWeight.bold,
-                              //   color: AppColor.WHITE,
-                              // ),
-                              GoogleFonts.playfairDisplay(
-  fontSize: 22,
-  fontWeight: FontWeight.w600,
-  color: AppColor.WHITE),
+                              style:
+                                  // const TextStyle(
+                                  //   fontSize: 22,
+                                  //   fontWeight: FontWeight.bold,
+                                  //   color: AppColor.WHITE,
+                                  // ),
+                                  GoogleFonts.playfairDisplay(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColor.WHITE,
+                                  ),
                             ),
                             const SizedBox(height: 8),
                             Text(
                               pages[index]["subtitle"]!,
                               textAlign: TextAlign.center,
-                              style: 
-                              // const TextStyle(
-                              //   fontSize: 16,
-                              //   color: AppColor.WHITE,
-                              // ),
+                              style:
+                                  // const TextStyle(
+                                  //   fontSize: 16,
+                                  //   color: AppColor.WHITE,
+                                  // ),
                                   GoogleFonts.montserrat(
-  fontSize: 16,
-  fontWeight: FontWeight.w400,
-  color: AppColor.WHITE),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColor.WHITE,
+                                  ),
                             ),
                             const SizedBox(height: 20),
 
@@ -138,44 +143,53 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                             const SizedBox(height: 20),
 
                             // // Next button (hide on last page if you want)
-                              SizedBox(
-                                width: double.infinity,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    if (currentPage == pages.length - 1) {
+                            SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  if (currentPage == pages.length - 1) {
                                     Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(builder: (_) => const LoginScreen())
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => const LoginScreen(),
+                                      ),
                                     );
-                                  } else{
-                                      _pageController.nextPage(
-                                        duration: const Duration(milliseconds: 400),
-                                        curve: Curves.easeInOut,
-                                      );
-                                    }
+                                  } else {
+                                    _pageController.nextPage(
+                                      duration: const Duration(
+                                        milliseconds: 400,
+                                      ),
+                                      curve: Curves.easeInOut,
+                                    );
+                                  }
                                 },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColor.btnBackground,
-                                    padding: const EdgeInsets.symmetric(vertical: 16),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(80),
-                                    ),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColor.btnBackground,
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 16,
                                   ),
-                                  child: Text(
-                                    currentPage == pages.length - 1 ? AppString.getStarted : AppString.next,
-                                    style: 
-                                    // const TextStyle(
-                                    //   fontSize: 18,
-                                    //   fontWeight: FontWeight.bold,
-                                    //   color: AppColor.WHITE,
-                                    // ),
-                                        GoogleFonts.montserrat(
-  fontSize: 18,
-  fontWeight: FontWeight.w700,
-  color: AppColor.WHITE),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(80),
                                   ),
                                 ),
+                                child: Text(
+                                  currentPage == pages.length - 1
+                                      ? AppString.getStarted
+                                      : AppString.next,
+                                  style:
+                                      // const TextStyle(
+                                      //   fontSize: 18,
+                                      //   fontWeight: FontWeight.bold,
+                                      //   color: AppColor.WHITE,
+                                      // ),
+                                      GoogleFonts.montserrat(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700,
+                                        color: AppColor.WHITE,
+                                      ),
+                                ),
                               ),
+                            ),
                           ],
                         ),
                       ),
