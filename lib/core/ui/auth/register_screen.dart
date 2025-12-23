@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_chef/core/ui/auth/login_screen.dart';
 import 'package:food_chef/core/utils/app_string.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -24,38 +25,43 @@ class RegisterScreen extends StatelessWidget {
           // Overlay content
           SafeArea(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 40),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24.0,
+                vertical: 40,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                   Text(
+                  Text(
                     'Register',
-                    style: 
-                    // TextStyle(
-                    //   color: AppColor.WHITE,
-                    //   fontSize: 32,
-                    //   fontWeight: FontWeight.bold,
-                    // ),
-                    GoogleFonts.playfairDisplay(
-  fontSize: 30,
-  fontWeight: FontWeight.w600,
-  fontStyle: FontStyle.normal,
-  color: Colors.white),
+                    style:
+                        // TextStyle(
+                        //   color: AppColor.WHITE,
+                        //   fontSize: 32,
+                        //   fontWeight: FontWeight.bold,
+                        // ),
+                        GoogleFonts.playfairDisplay(
+                          fontSize: 30,
+                          fontWeight: FontWeight.w600,
+                          fontStyle: FontStyle.normal,
+                          color: Colors.white,
+                        ),
                   ),
                   const SizedBox(height: 8),
 
-                   Text(
+                  Text(
                     'Enter your personal data to create your account',
-                    style: 
-                    // TextStyle(
-                    //   color: AppColor.WHITE,
-                    //   fontSize: 14,
-                    // ),
-                    GoogleFonts.montserrat(
-  fontSize: 14,
-  fontWeight: FontWeight.w400,
-  fontStyle: FontStyle.normal,
-  color: Colors.white),
+                    style:
+                        // TextStyle(
+                        //   color: AppColor.WHITE,
+                        //   fontSize: 14,
+                        // ),
+                        GoogleFonts.montserrat(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          fontStyle: FontStyle.normal,
+                          color: Colors.white,
+                        ),
                   ),
                   const SizedBox(height: 30),
 
@@ -77,30 +83,34 @@ class RegisterScreen extends StatelessWidget {
                       Container(
                         width: 120,
                         padding: const EdgeInsets.symmetric(horizontal: 8),
-                        decoration: BoxDecoration( color: Colors.black.withOpacity(0.6),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.6),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: DropdownMenu<String>(
-                            initialSelection: '+91',
-                            textStyle: 
-                            // TextStyle(color: AppColor.WHITE),
-                            GoogleFonts.montserrat(
-  fontSize: 14,
-  fontWeight: FontWeight.w400,
-  color: AppColor.WHITE),
-                            menuStyle: MenuStyle( backgroundColor: MaterialStateProperty.all(AppColor.WHITE),),
-                            inputDecorationTheme: const InputDecorationTheme(
-                              border: InputBorder.none,
+                          initialSelection: '+91',
+                          textStyle:
+                              // TextStyle(color: AppColor.WHITE),
+                              GoogleFonts.montserrat(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: AppColor.WHITE,
+                              ),
+                          menuStyle: MenuStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                              AppColor.WHITE,
                             ),
-                          onSelected: (value){
-
-                          },
-                            dropdownMenuEntries: const [
-                              DropdownMenuEntry(value: '+91', label: '+91'),
-                              DropdownMenuEntry(value: '+1', label: '+1'),
-                              DropdownMenuEntry(value: '+44', label: '+44'),
-                              DropdownMenuEntry(value: '+61', label: '+61'),
-                            ]
+                          ),
+                          inputDecorationTheme: const InputDecorationTheme(
+                            border: InputBorder.none,
+                          ),
+                          onSelected: (value) {},
+                          dropdownMenuEntries: const [
+                            DropdownMenuEntry(value: '+91', label: '+91'),
+                            DropdownMenuEntry(value: '+1', label: '+1'),
+                            DropdownMenuEntry(value: '+44', label: '+44'),
+                            DropdownMenuEntry(value: '+61', label: '+61'),
+                          ],
                         ),
                       ),
                       const SizedBox(width: 10),
@@ -112,19 +122,24 @@ class RegisterScreen extends StatelessWidget {
                           ),
                           child: TextField(
                             keyboardType: TextInputType.phone,
-                            style:  GoogleFonts.montserrat(
-  fontSize: 14,
-  fontWeight: FontWeight.w400,
-  color: AppColor.WHITE),
+                            style: GoogleFonts.montserrat(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: AppColor.WHITE,
+                            ),
                             decoration: InputDecoration(
-                              prefixIcon: const Icon(Icons.phone, color: AppColor.WHITE),
+                              prefixIcon: const Icon(
+                                Icons.phone,
+                                color: AppColor.WHITE,
+                              ),
                               hintText: 'Phone number',
-                              hintStyle: 
-                              //TextStyle(color: AppColor.WHITE),
-                              GoogleFonts.montserrat(
-  fontSize: 14,
-  fontWeight: FontWeight.w400,
-  color: AppColor.WHITE),
+                              hintStyle:
+                                  //TextStyle(color: AppColor.WHITE),
+                                  GoogleFonts.montserrat(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColor.WHITE,
+                                  ),
                               border: InputBorder.none,
                               contentPadding: const EdgeInsets.all(16),
                             ),
@@ -140,7 +155,11 @@ class RegisterScreen extends StatelessWidget {
                   const SizedBox(height: 16),
 
                   // Confirm Password
-                  _buildInputField('Confirm password', Icons.lock_outline, obscure: true),
+                  _buildInputField(
+                    'Confirm password',
+                    Icons.lock_outline,
+                    obscure: true,
+                  ),
                   const SizedBox(height: 30),
 
                   // Register Button
@@ -157,15 +176,16 @@ class RegisterScreen extends StatelessWidget {
                       onPressed: () {
                         // Handle registration logic
                       },
-                      child:  Text(
+                      child: Text(
                         'Register',
-                        style: 
-                        //TextStyle(fontSize: 18, color: AppColor.WHITE),
-                         GoogleFonts.montserrat(
-  fontSize: 18,
-  fontWeight: FontWeight.w700,
-  fontStyle: FontStyle.normal,
-  color: AppColor.WHITE),
+                        style:
+                            //TextStyle(fontSize: 18, color: AppColor.WHITE),
+                            GoogleFonts.montserrat(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                              fontStyle: FontStyle.normal,
+                              color: AppColor.WHITE,
+                            ),
                       ),
                     ),
                   ),
@@ -175,30 +195,35 @@ class RegisterScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                       Text(
+                      Text(
                         'Already have an account? ',
-                        style: 
-                        //TextStyle(color: AppColor.WHITE),
-                        GoogleFonts.montserrat(
-  fontSize: 14,
-  fontWeight: FontWeight.w400,
-  color: AppColor.WHITE),
+                        style:
+                            //TextStyle(color: AppColor.WHITE),
+                            GoogleFonts.montserrat(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: AppColor.WHITE,
+                            ),
                       ),
                       GestureDetector(
                         onTap: () {
-                          // Navigate to login screen
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (_) => LoginScreen())
+                          );
                         },
-                        child:  Text(
+                        child: Text(
                           'Login',
-                          style: 
-                          // TextStyle(
-                          //   color: AppColor.btnBackground,
-                          //   fontWeight: FontWeight.bold,
-                          // ),
-                          GoogleFonts.montserrat(
-  fontSize: 14,
-  fontWeight: FontWeight.w400,
-  color: AppColor.btnBackground),
+                          style:
+                              // TextStyle(
+                              //   color: AppColor.btnBackground,
+                              //   fontWeight: FontWeight.bold,
+                              // ),
+                              GoogleFonts.montserrat(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: AppColor.btnBackground,
+                              ),
                         ),
                       ),
                     ],
@@ -216,25 +241,27 @@ class RegisterScreen extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.black.withOpacity(0.6),
-        borderRadius: BorderRadius.circular(30)
+        borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
         obscureText: obscure,
-        style: 
-        // TextStyle(color: AppColor.WHITE),
-        GoogleFonts.montserrat(
-  fontSize: 14,
-  fontWeight: FontWeight.w400,
-  color: AppColor.WHITE),
+        style:
+            // TextStyle(color: AppColor.WHITE),
+            GoogleFonts.montserrat(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: AppColor.WHITE,
+            ),
         decoration: InputDecoration(
           prefixIcon: Icon(icon, color: AppColor.WHITE),
           hintText: hint,
-          hintStyle: 
-          // TextStyle(color: AppColor.WHITE),
-            GoogleFonts.montserrat(
-  fontSize: 14,
-  fontWeight: FontWeight.w400,
-  color: AppColor.WHITE),
+          hintStyle:
+              // TextStyle(color: AppColor.WHITE),
+              GoogleFonts.montserrat(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: AppColor.WHITE,
+              ),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.all(16),
         ),

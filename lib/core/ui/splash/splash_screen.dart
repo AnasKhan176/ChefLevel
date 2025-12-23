@@ -6,7 +6,9 @@ import 'package:google_fonts/google_fonts.dart';
 import '../walkthrough/walkthrough_screen.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  final bool isSeenWalkthrough;
+
+  const SplashScreen({super.key, required this.isSeenWalkthrough});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -19,10 +21,17 @@ class _SplashScreenState extends State<SplashScreen> {
 
     // Splash delay
     Timer(const Duration(seconds: 2), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => WalkthroughScreen()),
-      );
+      if (widget.isSeenWalkthrough) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => LoginScreen()),
+        );
+      }else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => WalkthroughScreen()),
+        );
+      }
     });
   }
 

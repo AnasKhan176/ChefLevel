@@ -1,15 +1,15 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefService {
-  static final _prefs = SharedPreferences.getInstance();
+  static const String walkthroughKey = 'is_walkthrough_seen';
 
-  static Future<bool> isFirstLaunch() async {
-    final prefs = await _prefs;
-    return prefs.getBool('first_launch') ?? true;
+  static Future<void> setWalkthroughSeen(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(walkthroughKey, value);
   }
 
-  static Future<void> setLaunched() async {
-    final prefs = await _prefs;
-    await prefs.setBool('first_launch', false);
+  static Future<bool> isWalkthroughSeen() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(walkthroughKey) ?? false;
   }
 }

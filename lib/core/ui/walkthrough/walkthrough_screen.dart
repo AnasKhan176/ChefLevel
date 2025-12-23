@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:food_chef/core/services/shared_pref_service.dart';
 import 'package:food_chef/core/ui/auth/login_screen.dart';
 import 'package:food_chef/core/utils/app_string.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../theme/app_color.dart';
@@ -146,7 +148,8 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                             SizedBox(
                               width: double.infinity,
                               child: ElevatedButton(
-                                onPressed: () {
+                                onPressed: () async {
+                                  await SharedPrefService.setWalkthroughSeen(true);
                                   if (currentPage == pages.length - 1) {
                                     Navigator.pushReplacement(
                                       context,
