@@ -58,10 +58,10 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                     //   fontWeight: FontWeight.bold,
                     // ),
                     GoogleFonts.playfairDisplay(
-  fontSize: 30,
-  fontWeight: FontWeight.w600,
-  fontStyle: FontStyle.normal,
-  color: AppColor.WHITE),
+              fontSize: 30,
+              fontWeight: FontWeight.w600,
+              fontStyle: FontStyle.normal,
+              color: AppColor.WHITE),
                   ),
                   const SizedBox(height: 20),
 
