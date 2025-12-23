@@ -4,5 +4,6 @@ class AppColor {
   AppColor._(); // prevent instentiation
   static const Color btnBackground = Color(0xFFFF2700);
   static const Color WHITE = Color(0xFFFFFFFF);
+  static const Color loightBlack = Color(0x36353537);
 
 }
