@@ -18,7 +18,11 @@ Future<void> main() async {
   final bool isSeenWalkthrough = await SharedPrefService.isWalkthroughSeen();
   final device = await Utility.getDeviceId();//UDID
   final deviceType = await Utility.getDeviceType();
-  await SharedPrefService.setUDID(device!);
+  if(device != null) {
+    await SharedPrefService.setUDID(device);
+  }else {
+    await SharedPrefService.setUDID('UNKNOWN_DEVICE');
+  }
   await SharedPrefService.setDeviceType(deviceType);
   // await SharedPrefService.setUDID('shdfrtgklj');
   // await SharedPrefService.setDeviceType('android');
