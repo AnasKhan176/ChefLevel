@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_chef/core/ui/auth/login_screen.dart';
 import 'package:food_chef/core/ui/auth/register_screen.dart';
+import 'package:food_chef/core/ui/home/home_screen.dart';
 import 'package:food_chef/core/ui/preference/preference_screen.dart';
 import 'package:food_chef/core/ui/walkthrough/walkthrough_screen.dart';
 import 'package:food_chef/core/utils/utility.dart';
@@ -16,7 +17,9 @@ Future<void> main() async {
   final bool isSeenWalkthrough = await SharedPrefService.isWalkthroughSeen();
   final device = await Utility.getDeviceId();//UDID
   final deviceType = await Utility.getDeviceType(); // DEVCE TYPE
-  await SharedPrefService.setUDID(device!);
+  if(device != null) {
+    await SharedPrefService.setUDID(device);
+  }
   await SharedPrefService.setDeviceType(deviceType);
   Get.put(ApiService());
   runApp(MyApp(isSeenWalkthrough: isSeenWalkthrough,));
@@ -29,7 +32,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(isSeenWalkthrough: isSeenWalkthrough),
+      // home: SplashScreen(isSeenWalkthrough: isSeenWalkthrough),
+      home: HomeScreen(),
     );
   }
 }
