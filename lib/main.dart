@@ -5,18 +5,23 @@ import 'package:food_chef/core/providers/preference_level_provider.dart';
 import 'package:food_chef/core/ui/auth/login_screen.dart';
 import 'package:food_chef/core/ui/auth/otp_verification_screen.dart';
 import 'package:food_chef/core/ui/auth/register_screen.dart';
+import 'package:food_chef/core/ui/home/home.dart';
 import 'package:food_chef/core/ui/preference/preference_screen.dart';
 import 'package:food_chef/core/ui/splash/splash_screen.dart';
 import 'package:food_chef/core/utils/shared_pref_service.dart';
+import 'package:food_chef/core/utils/utility.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await setup();
-   final bool isSeenWalkthrough = await SharedPrefService.isWalkthroughSeen();
-  //final device = await Utility.getDeviceId();//UDID
-  //final deviceType = await Utility.getDeviceType(); // DEVCE TYPE
-  await SharedPrefService.setUDID('shdfrtgklj');
-  await SharedPrefService.setDeviceType('android');
+  final bool isSeenWalkthrough = await SharedPrefService.isWalkthroughSeen();
+  final device = await Utility.getDeviceId();//UDID
+  final deviceType = await Utility.getDeviceType();
+  await SharedPrefService.setUDID(device!);
+  await SharedPrefService.setDeviceType(deviceType);
+  // await SharedPrefService.setUDID('shdfrtgklj');
+  // await SharedPrefService.setDeviceType('android');
   await SharedPrefService.setSessionID('sdfad99fdshu');
   await SharedPrefService.setIdentifier('asdacs933nck');
 
@@ -39,7 +44,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-     home: SplashScreen(isSeenWalkthrough: isSeenWalkthrough),
+      home: SplashScreen(isSeenWalkthrough: isSeenWalkthrough),
     );
   }
 }

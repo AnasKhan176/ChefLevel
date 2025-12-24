@@ -79,6 +79,14 @@ flutter:
     - assets/wth_2.jpg
     - assets/wth_3.jpg
     - assets/common.png
+    - assets/bbq.png
+    - assets/deserts.png
+    - assets/italian.png
+    - assets/japenies.png
+    - assets/maxican.png
+    - assets/safe_marco.png
+    - assets/sea_food_salad.jpg
+    - assets/vegeterian.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 
