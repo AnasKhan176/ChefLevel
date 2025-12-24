@@ -6,24 +6,32 @@ import 'package:google_fonts/google_fonts.dart';
 import '../walkthrough/walkthrough_screen.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  final bool isSeenWalkthrough;
+
+  const SplashScreen({super.key, required this.isSeenWalkthrough});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
     super.initState();
 
     // Splash delay
     Timer(const Duration(seconds: 2), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => WalkthroughScreen()),
-      );
+      if (widget.isSeenWalkthrough) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => LoginScreen()),
+        );
+      }else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => WalkthroughScreen()),
+        );
+      }
     });
   }
 
@@ -32,32 +40,33 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
-          child: Stack(
-            children: [
-              Center(
-                child: Image.asset(
-                  'assets/splash.png',
-                  width: 150,
-                  height: 150,
-                  fit: BoxFit.contain,
+        child: Stack(
+          children: [
+            Center(
+              child: Image.asset(
+                'assets/splash.png',
+                width: 150,
+                height: 150,
+                fit: BoxFit.contain,
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Text(
+                  "Version ${AppString.appVersion}",
+                  style: GoogleFonts.montserrat(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    fontStyle: FontStyle.normal,
+                    color: Colors.white,
+                  ),
                 ),
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: Text(
-                      "Version ${AppString.appVersion}",
-                      style: GoogleFonts.montserrat(
-  fontSize: 18,
-  fontWeight: FontWeight.w500,
-  fontStyle: FontStyle.normal,
-  color: Colors.white),
-),
-                ),
-              )  
-            ],
-          )
+            ),
+          ],
+        ),
       ),
     );
   }

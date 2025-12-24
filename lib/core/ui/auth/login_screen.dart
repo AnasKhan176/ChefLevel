@@ -1,7 +1,18 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:food_chef/core/domain/di/service_locator.dart';
+import 'package:food_chef/core/controller/user_controller.dart';
+import 'package:food_chef/core/domain/models/check_profile_model.dart';
+import 'package:food_chef/core/ui/auth/otp_verification_screen.dart';
+import 'package:food_chef/core/ui/auth/register_screen.dart';
+import 'package:food_chef/core/ui/home/home.dart';
+import 'package:food_chef/core/ui/preference/preference_screen.dart';
 import 'package:food_chef/core/utils/app_string.dart';
+import 'package:food_chef/core/utils/shared_pref_service.dart';
 import 'package:food_chef/core/utils/snackbar.dart';
 import 'package:food_chef/theme/app_color.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -25,6 +36,123 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isPhone(String input) =>
     RegExp(r'^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$')
         .hasMatch(input);
+
+  final userController = getIt.get<UserController>(); 
+
+    Future<void>  _checkProfileExist(bool email, bool phone) async
+  {
+
+    // Usage example:
+final Map<String, dynamic> data = {
+  email == true?'email':'mobileNumber': _emailMobileController.text.toString().trim(),
+  'loginMode': email == true? 'email':'mobile',
+};
+
+
+DataModel api_response= await userController.checkUserProfileExist(data);
+print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+
+print(api_response.responseCode);
+print(api_response.message);
+
+if(api_response.responseCode==20000)
+{
+  setState(() {
+   _isProfileExist = false; 
+  });
+  // user not exist
+  // Go to registration screen
+  Navigator.pushReplacement(
+                                   context,
+                                   MaterialPageRoute(builder: (_) => RegisterScreen())
+                               );
+}else if(api_response.responseCode==5120)
+{
+  setState(() {
+   _isProfileExist = true; 
+  });
+      await SharedPrefService.setUid(api_response.data?.uid);
+
+
+  if(_isProfileExist )
+  {
+    if(_passwordController.text.isNotEmpty && _emailMobileController.text.isNotEmpty){
+     _checkLogin(email,phone);
+    }else{
+           CustomSnackBar.showTopSnackbar(context,'Please enter Pin!!',AppColor.btnBackground); 
+    }
+
+  }
+
+}else{
+  CustomSnackBar.showTopSnackbar(context,api_response.message,AppColor.btnBackground);
+}
+
+}      
+
+     
+
+  Future<void>  _checkLogin(bool email, bool phone) async
+  {
+
+    // Usage example:
+final Map<String, dynamic> data = {
+  'loginId': _emailMobileController.text.toString().trim(),
+  'loginMode': email == true? 'email':'mobile',
+  'password': _passwordController.text.toString().trim()
+   
+};
+
+DataModel api_response= await userController.login(data);
+print(api_response.responseCode);
+print(api_response.message);
+
+if(api_response.responseCode==20000)
+{
+  setState(() {
+   _isProfileExist = false; 
+  });
+                               final bool isPrefLevel = await SharedPrefService.isPrefLevel();
+
+               CustomSnackBar.showTopSnackbar(context,api_response.message,AppColor.btnBackground); 
+               if(isPrefLevel)
+               {
+                     //Home Screen open hogi
+                     
+  Navigator.pushReplacement(
+                                   context,
+                                   MaterialPageRoute(builder: (_) => HomeScreen())
+                               );
+               }else{
+
+  Navigator.pushReplacement(
+                                   context,
+                                   MaterialPageRoute(builder: (_) => PreferencesScreen())
+                               );
+               }
+
+}
+else if(api_response.responseCode==20019)
+{
+  setState(() {
+   _isProfileExist = false; 
+  });
+  // open OTP screen & pass the data
+  //{"status":"SUCCESS","message":"SUCCESS","responseCode":20019,"data":{"check":"019931","uid":null}}
+             CustomSnackBar.showTopSnackbar(context,'Otp Sent : ${api_response.data!.check}',AppColor.btnBackground); 
+
+  Navigator.pushReplacement(
+                                   context,
+                                   MaterialPageRoute(builder: (_) => OtpVerificationScreen(contact: _emailMobileController.text.toString(),password:_passwordController.text.toString(),loginMode:email == true? 'email':'mobile',otpCode:api_response.data?.check))                              );
+}
+
+
+else{
+    CustomSnackBar.showTopSnackbar(context,api_response.message,AppColor.btnBackground);
+
+}
+
+}      
 
 
   @override
@@ -135,14 +263,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                                                    CustomSnackBar.showTopSnackbar(context,'Pin has been sent on your registered email !!',AppColor.btnBackground);                           
+
+                      },
                       child:  Text(
                         AppString.forgotPassword,
                         style: 
-                        // TextStyle(
-                        //   color: AppColor.btnBackground,
-                        //   fontSize: 13,
-                        // ),
                          GoogleFonts.montserrat(
   fontSize: 14,
   fontWeight: FontWeight.w400,
@@ -165,79 +292,22 @@ class _LoginScreenState extends State<LoginScreen> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
-                      onPressed: () {
-                        
-                        
-                           if (!isEmail(_emailMobileController.text.toString().trim()) && !isPhone(_emailMobileController.text.toString().trim())) {
+                      onPressed: () async {
+
+                        if (!isEmail(_emailMobileController.text.toString().trim()) && !isPhone(_emailMobileController.text.toString().trim())) {
                             
-                            CustomSnackBar.showTopSnackbar(context,'Please enter correct email or phone number',AppColor.btnBackground);
-                           setState(() {
-                                _isProfileExist=false;
-                              });
+                            CustomSnackBar.showTopSnackbar(context,'Please enter correct email or phone number',AppColor.btnBackground);                           
+                           }else {
+
+                            _checkProfileExist(isEmail(_emailMobileController.text.toString().trim()),isPhone(_emailMobileController.text.toString().trim()));
+
                            }
-                           else
-                        {
-                                                      
-                            setState(() {
-                              _isEmail= isEmail(_emailMobileController.text.toString().trim());
-                              _isMobile=  isPhone(_emailMobileController.text.toString().trim());
-                            });
-
-                            if(_isEmail==true && _emailMobileController.text.toString().trim().length<=255)
-                            {
-                               // call check profile exist api and send email
-                              CustomSnackBar.showTopSnackbar(context,'API mai email jaega.',AppColor.btnBackground);
-                              setState(() {
-                                _isProfileExist=true;
-                              });
-
-                              if(_passwordController.text.toString().isNotEmpty && _passwordController.text.toString().length<=8 && _isProfileExist==true)
-                              {
-                                                              CustomSnackBar.showTopSnackbar(context,'login api with email.',AppColor.btnBackground);
-Navigator.pushNamed(context, '/otp_login_screen');
-                              }else{                                                                                             
-                                CustomSnackBar.showTopSnackbar(context,'Please enter password',AppColor.btnBackground);
-}
-
-                              return;
-                            }else if(_isMobile==true && _emailMobileController.text.toString().trim().length<=15)
-                            {
-                              CustomSnackBar.showTopSnackbar(context,'API mai mobile jaega.',AppColor.btnBackground);
-                              setState(() {
-                                _isProfileExist=true;
-                              });
-
-                              if(_passwordController.text.toString().isNotEmpty && _passwordController.text.toString().length<=8 && _isProfileExist==true)
-                              {
-                                                              CustomSnackBar.showTopSnackbar(context,'login api with mobile.',AppColor.btnBackground);
-Navigator.pushNamed(context, '/otp_login_screen');
-                              }else{
-                                                                                             CustomSnackBar.showTopSnackbar(context,'Please enter password',AppColor.btnBackground);
- 
-                              }
-                               return;
-
-                            }
-                            
-                            {
-                              setState(() {
-                                _isProfileExist=false;
-                              });
-                            CustomSnackBar.showTopSnackbar(context,_isEmail==true?'Please enter correct email':'Please enter correct phone number',AppColor.btnBackground);
-                             return;
-                            }
-
-                        }
+                        
                       },
                       child:  Text(
                         AppString.login,
                         style: 
-                        // TextStyle(
-                        //   fontSize: 16,
-                        //   fontWeight: FontWeight.bold,
-                        //   color: AppColor.WHITE
-                        // ),
-                         GoogleFonts.montserrat(
+                        GoogleFonts.montserrat(
   fontSize: 16,
   fontWeight: FontWeight.w700,
   fontStyle: FontStyle.normal,
@@ -247,33 +317,41 @@ Navigator.pushNamed(context, '/otp_login_screen');
                   ),
 
                   const Spacer(),
-
-                  // Register Text
+               // Register Text
                   Center(
                     child: RichText(
                       text: TextSpan(
                         text: AppString.dontAccount,
-                        style: 
-                        //  TextStyle(
-                        //   color: AppColor.WHITE,
-                        //   fontSize: 13,
-                        // ),
-                         GoogleFonts.montserrat(
-  fontSize: 14,
-  fontWeight: FontWeight.w400,
-  color: AppColor.WHITE),
+                        style:
+                            //  TextStyle(
+                            //   color: AppColor.WHITE,
+                            //   fontSize: 13,
+                            // ),
+                            GoogleFonts.montserrat(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: AppColor.WHITE,
+                            ),
                         children: [
                           TextSpan(
                             text: AppString.register,
-                            style: 
-                            //  TextStyle(
-                            //   color: AppColor.btnBackground,
-                            //   fontWeight: FontWeight.bold,
-                            // ),
-                             GoogleFonts.montserrat(
-  fontSize: 14,
-  fontWeight: FontWeight.w400,
-  color: AppColor.btnBackground),
+                            style:
+                                //  TextStyle(
+                                //   color: AppColor.btnBackground,
+                                //   fontWeight: FontWeight.bold,
+                                // ),
+                                GoogleFonts.montserrat(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColor.btnBackground,
+                                ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                               Navigator.pushReplacement(
+                                   context,
+                                   MaterialPageRoute(builder: (_) => RegisterScreen())
+                               );
+                              }
                           ),
                         ],
                       ),

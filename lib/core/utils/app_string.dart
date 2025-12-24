@@ -18,16 +18,15 @@ static const getStarted ='Get Started';
 static const login ='Login'; 
 static const enterYourLoginInformation ='Enter your login information'; 
 static const emailPhone ='Email or phone number'; 
-static const password ='Password'; 
-static const forgotPassword ='Forgot password?'; 
+static const password ='Pin'; 
+static const forgotPassword ='Forgot Pin?'; 
 static const dontAccount = "Don't have any account? ";
 static const register ='Register'; 
 
 static const otpVerification ='OTP Verification';
 static const verify ='Verify'; 
 static const dontGetCode="Don't get code? Resend It";
-static const checkYourMailMsg ="Check your mail, we've sent one time password verification code to";
-static const verifyAccountMsg ="Enter the code below to verify your account";
+static const verifyAccountMsg =" Enter the code below to verify your account";
 
 
 static const selectYourPrefs ='Select your Preferences'; 

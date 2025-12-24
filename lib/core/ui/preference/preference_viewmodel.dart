@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
-
-import '../../data/models/food_model.dart';
-import '../../services/database_service.dart';
+import 'package:food_chef/core/domain/models/food_model.dart';
+import 'package:food_chef/core/utils/database_service.dart';
 
 class PreferenceViewModel extends ChangeNotifier {
   List<FoodModel> foods = [
