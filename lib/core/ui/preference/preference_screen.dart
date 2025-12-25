@@ -3,11 +3,14 @@ import 'package:food_chef/core/controller/user_controller.dart';
 import 'package:food_chef/core/domain/di/service_locator.dart';
 import 'package:food_chef/core/domain/models/pref_data_model.dart';
 import 'package:food_chef/core/ui/home/home.dart';
+import 'package:food_chef/core/ui/snackbar/app_loader.dart';
 import 'package:food_chef/core/utils/app_string.dart';
 import 'package:food_chef/core/utils/shared_pref_service.dart';
 import 'package:food_chef/core/utils/snackbar.dart';
 import 'package:food_chef/theme/app_color.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../snackbar/bottom_snackbar.dart';
 
 class PreferencesScreen extends StatefulWidget {
   const PreferencesScreen({Key? key}) : super(key: key);
@@ -50,92 +53,91 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
   String? selectedSpice;
 
   String _selectedSpice = 'Mild';
-  final userController = getIt.get<UserController>(); 
+  final userController = getIt.get<UserController>();
 
   // Api Data
-  List<Data> ? spice_data_list;
-  List<Data> ? favorite_data_list;
-  List<Data> ? dietary_data_list;
+  List<Data>? spice_data_list;
+  List<Data>? favorite_data_list;
+  List<Data>? dietary_data_list;
 
-
-   @override
+  @override
   void initState() {
     super.initState();
-    
+
     getData();
   }
 
-  Future<void>  getData() async{
-   await Future.wait([
-
-    getSpice('SPICE_LEVEL'),
-    getFavourite('FAVOURITE_CUISINE'),
-    getDietary('DIETARY_PREFERENCE'),
-    
-   ]);
-}
-
-
-  Future<void>  getSpice(String test) async{
-
-      // Usage example:
-final Map<String, dynamic> data = {
-  'check': test  
-};
-var api_response= await userController.dataDefination(data);
-
-
-if(api_response?.responseCode==20000)
-{
-spice_data_list=api_response?.data;
-print(spice_data_list!.length.toString());
-
- }
-else{
-    CustomSnackBar.showTopSnackbar(context,api_response?.message,AppColor.btnBackground);
-}
+  Future<void> getData() async {
+    await Future.wait([
+      getSpice('SPICE_LEVEL'),
+      getFavourite('FAVOURITE_CUISINE'),
+      getDietary('DIETARY_PREFERENCE'),
+    ]);
   }
-  
 
-  Future<void>  getFavourite(String test) async{
+  Future<void> getSpice(String test) async {
+    // Usage example:
+    AppLoader.show(context);
+    final Map<String, dynamic> data = {'check': test};
+    var api_response = await userController.dataDefination(data);
 
-      // Usage example:
-final Map<String, dynamic> data = {
-  'check': test  
-};
-var api_response= await userController.dataDefination(data);
-
-
-if(api_response?.responseCode==20000)
-{
-favorite_data_list=api_response?.data;
-print(favorite_data_list!.length.toString());
-
- }
-else{
-    CustomSnackBar.showTopSnackbar(context,api_response?.message,AppColor.btnBackground);
-}
+    if (api_response?.responseCode == 20000) {
+      AppLoader.hide();
+      spice_data_list = api_response?.data;
+      print(spice_data_list!.length.toString());
+    } else {
+      AppLoader.hide();
+      BottomSnackBar.show(
+          context,
+          message: api_response!.message!,
+          backgroundColor: AppColor.btnBackground,
+          icon: Icons.check_circle
+      );
+    }
   }
-  Future<void>  getDietary(String test) async{
 
-      // Usage example:
-final Map<String, dynamic> data = {
-  'check': test  
-};
-var api_response= await userController.dataDefination(data);
+  Future<void> getFavourite(String test) async {
+    // Usage example:
+    final Map<String, dynamic> data = {'check': test};
+    var api_response = await userController.dataDefination(data);
+    AppLoader.show(context);
 
-
-if(api_response?.responseCode==20000)
-{
-dietary_data_list=api_response?.data;
-print(dietary_data_list!.length.toString());
-
- }
-else{
-    CustomSnackBar.showTopSnackbar(context,api_response?.message,AppColor.btnBackground);
-}
+    if (api_response?.responseCode == 20000) {
+      favorite_data_list = api_response?.data;
+      print(favorite_data_list!.length.toString());
+    } else {
+      AppLoader.hide();
+      BottomSnackBar.show(
+          context,
+          message: api_response!.message!,
+          backgroundColor: AppColor.btnBackground,
+          icon: Icons.check_circle
+      );
+    }
   }
-  
+
+  Future<void> getDietary(String test) async {
+    // Usage example:
+    final Map<String, dynamic> data = {'check': test};
+    var api_response = await userController.dataDefination(data);
+    AppLoader.show(context);
+
+    if (api_response?.responseCode == 20000) {
+      dietary_data_list = api_response?.data;
+      print(dietary_data_list!.length.toString());
+    } else {
+      AppLoader.hide();
+
+      BottomSnackBar.show(
+          context,
+          message: api_response!.message!,
+          backgroundColor: AppColor.btnBackground,
+          icon: Icons.check_circle
+      );
+
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -297,12 +299,11 @@ else{
                         ),
                         onPressed: () async {
                           // first check user select all the fields then save
-                        await SharedPrefService.setPrefLevel(true);
-                        Navigator.pushReplacement(
-                                   context,
-                                   MaterialPageRoute(builder: (_) => HomeScreen())
-                               );
-
+                          await SharedPrefService.setPrefLevel(true);
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (_) => HomeScreen()),
+                          );
                         },
                         child: Text(
                           AppString.save,

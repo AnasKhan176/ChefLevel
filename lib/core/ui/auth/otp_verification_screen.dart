@@ -9,29 +9,34 @@ import 'package:food_chef/core/domain/models/check_profile_model.dart';
 import 'package:food_chef/core/ui/auth/login_screen.dart';
 import 'package:food_chef/core/ui/home/home.dart';
 import 'package:food_chef/core/ui/preference/preference_screen.dart';
+import 'package:food_chef/core/ui/snackbar/app_loader.dart';
 import 'package:food_chef/core/utils/app_string.dart';
 import 'package:food_chef/core/utils/shared_pref_service.dart';
 import 'package:food_chef/core/utils/snackbar.dart';
 import 'package:food_chef/theme/app_color.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../snackbar/bottom_snackbar.dart';
+
 class OtpVerificationScreen extends StatefulWidget {
- final String contact;
- final String password;
- final String loginMode;
- final String? otpCode;
+  final String contact;
+  final String password;
+  final String loginMode;
+  final String? otpCode;
 
-
-const OtpVerificationScreen({super.key, required this.contact, required  this.password, required  this.loginMode,  required this.otpCode});
-
+  const OtpVerificationScreen({
+    super.key,
+    required this.contact,
+    required this.password,
+    required this.loginMode,
+    required this.otpCode,
+  });
 
   @override
   _OtpVerificationScreenState createState() => _OtpVerificationScreenState();
 }
 
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
-
-
   final txtController1 = TextEditingController();
   final txtController2 = TextEditingController();
   final txtController3 = TextEditingController();
@@ -40,11 +45,11 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   final txtController6 = TextEditingController();
 
   int totalTime = 30;
-  var remainingTime ='0';
+  var remainingTime = '0';
   Timer? timer;
   bool isCodeExpired = false;
 
-  final userController = getIt.get<UserController>(); 
+  final userController = getIt.get<UserController>();
 
   @override
   void initState() {
@@ -53,112 +58,119 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     startTimer();
   }
 
-    Future<void>  _verifyOtp() async
-  {
-
+  Future<void> _verifyOtp() async {
     // Usage example:
-final Map<String, dynamic> data = {
-  'contact': widget.contact,
-  'otpCode': txtController1.text.toString()+txtController2.text.toString()+txtController3.text.toString()
-  +txtController4.text.toString()+txtController5.text.toString()+txtController6.text.toString(),
-  'password': widget.password,
-  'loginMode': widget.loginMode   
-};
+    final Map<String, dynamic> data = {
+      'contact': widget.contact,
+      'otpCode':
+          txtController1.text.toString() +
+          txtController2.text.toString() +
+          txtController3.text.toString() +
+          txtController4.text.toString() +
+          txtController5.text.toString() +
+          txtController6.text.toString(),
+      'password': widget.password,
+      'loginMode': widget.loginMode,
+    };
 
-DataModel api_response= await userController.verifyOtp(data);
-print(api_response.responseCode);
-print(api_response.message);
+    DataModel api_response = await userController.verifyOtp(data);
+    print(api_response.responseCode);
+    print(api_response.message);
 
+    if (api_response.responseCode == 20000) {
+      final bool isPrefLevel = await SharedPrefService.isPrefLevel();
+      BottomSnackBar.show(
+          context,
+          message: 'Otp verified successfully!!',
+          backgroundColor: AppColor.btnBackground,
+          icon: Icons.check_circle
+      );
 
+      if (isPrefLevel) {
+        //Home Screen open hogi
 
-if(api_response.responseCode==20000)
-{
-                                 final bool isPrefLevel = await SharedPrefService.isPrefLevel();
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => HomeScreen()),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => PreferencesScreen()),
+        );
+      }
+    } else {
 
-               CustomSnackBar.showTopSnackbar(context,'Otp verified successfully!!',AppColor.btnBackground); 
-
-  if(isPrefLevel)
-               {
-                     //Home Screen open hogi
-                     
-  Navigator.pushReplacement(
-                                   context,
-                                   MaterialPageRoute(builder: (_) => HomeScreen())
-                               );
-               }else{
-
-  Navigator.pushReplacement(
-                                   context,
-                                   MaterialPageRoute(builder: (_) => PreferencesScreen())
-                               );
-               }
-}
-
-else{
-    CustomSnackBar.showTopSnackbar(context,api_response.message,AppColor.btnBackground);
-
-}
-
-}  
-
-
-  Future<void>  _resendOtp() async
-  {
-
-    // Usage example:
-final Map<String, dynamic> data = {
-  'loginId': widget.contact,
-  'loginMode': widget.loginMode,
-  'password': widget.password
-   
-};
-
-DataModel api_response= await userController.login(data);
-print(api_response.responseCode);
-print(api_response.message);
-
-
-if(api_response.responseCode==20019)
-{
-
-CustomSnackBar.showTopSnackbar(context,'Otp Resend : ${api_response.data!.check}',AppColor.btnBackground); 
-setOtp(api_response.data!.check);
-
- }
-else{
-    CustomSnackBar.showTopSnackbar(context,api_response.message,AppColor.btnBackground);
-}
-
-}      
-
-  void setOtp(String? otp)
-  {
-      txtController1.text= otp![0];
-      txtController2.text= otp[1];
-      txtController3.text= otp[2];
-      txtController4.text= otp[3];
-      txtController5.text= otp[4];
-      txtController6.text= otp[5];     
+      BottomSnackBar.show(
+          context,
+          message: api_response.message!,
+          backgroundColor: AppColor.btnBackground,
+          icon: Icons.check_circle
+      );
+    }
   }
 
-   void startTimer() {
+  Future<void> _resendOtp() async {
+    // Usage example:
+    final Map<String, dynamic> data = {
+      'loginId': widget.contact,
+      'loginMode': widget.loginMode,
+      'password': widget.password,
+    };
+
+    DataModel api_response = await userController.login(data);
+    print(api_response.responseCode);
+    print(api_response.message);
+    AppLoader.show(context);
+
+    if (api_response.responseCode == 20019) {
+      AppLoader.hide();
+      BottomSnackBar.show(
+          context,
+          message: 'Otp Resend : ${api_response.data!.check}',
+          backgroundColor: AppColor.btnBackground,
+          icon: Icons.check_circle
+      );
+      setOtp(api_response.data!.check);
+    } else {
+      AppLoader.hide();
+      BottomSnackBar.show(
+          context,
+          message: api_response.message!,
+          backgroundColor: AppColor.btnBackground,
+          icon: Icons.check_circle
+      );
+
+    }
+  }
+
+  void setOtp(String? otp) {
+    txtController1.text = otp![0];
+    txtController2.text = otp[1];
+    txtController3.text = otp[2];
+    txtController4.text = otp[3];
+    txtController5.text = otp[4];
+    txtController6.text = otp[5];
+  }
+
+  void startTimer() {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (totalTime > 0) {
         totalTime--;
         updatData();
       } else {
         setState(() {
-        isCodeExpired = true;
+          isCodeExpired = true;
         });
         timer.cancel();
       }
     });
   }
 
-   void resendCode() {
+  void resendCode() {
     totalTime = 30; // Reset timer to 60 seconds
     setState(() {
-         isCodeExpired = false; 
+      isCodeExpired = false;
     });
     clearTextFields(); // Clear the OTP field in the controller
     clearController(); // Clear the text fields in PinCodeTextField
@@ -166,42 +178,40 @@ else{
     updatData(); // Notify UI to update
   }
 
-  int getOtpLength()
-  {
-  return  txtController1.text.length+txtController2.text.length+txtController3.text.length+txtController4.text.length+txtController5.text.length+txtController6.text.length;
+  int getOtpLength() {
+    return txtController1.text.length +
+        txtController2.text.length +
+        txtController3.text.length +
+        txtController4.text.length +
+        txtController5.text.length +
+        txtController6.text.length;
   }
 
-  void disposeController()
-  {
+  void disposeController() {
     txtController1.dispose();
     txtController2.dispose();
     txtController3.dispose();
     txtController4.dispose();
     txtController5.dispose();
     txtController6.dispose();
-
   }
 
-  void clearTextFields()
-  {
-    
-    txtController1.text='';
-    txtController2.text='';
-    txtController3.text='';
-    txtController4.text='';
-    txtController5.text='';
-    txtController6.text='';
+  void clearTextFields() {
+    txtController1.text = '';
+    txtController2.text = '';
+    txtController3.text = '';
+    txtController4.text = '';
+    txtController5.text = '';
+    txtController6.text = '';
   }
 
-  void clearController()
-  {
-    
-    txtController1.text='';
-    txtController2.text='';
-    txtController3.text='';
-    txtController4.text='';
-    txtController5.text='';
-    txtController6.text='';
+  void clearController() {
+    txtController1.text = '';
+    txtController2.text = '';
+    txtController3.text = '';
+    txtController4.text = '';
+    txtController5.text = '';
+    txtController6.text = '';
 
     txtController1.clear();
     txtController2.clear();
@@ -211,10 +221,9 @@ else{
     txtController6.clear();
   }
 
-  void updatData()
-  {
+  void updatData() {
     setState(() {
-     remainingTime= "00:${totalTime.toString().padLeft(2, '0')}";
+      remainingTime = "00:${totalTime.toString().padLeft(2, '0')}";
     });
   }
 
@@ -225,7 +234,11 @@ else{
     super.dispose();
   }
 
-  Widget _textFieldOTP({bool? first, last, required TextEditingController otpController}) {
+  Widget _textFieldOTP({
+    bool? first,
+    last,
+    required TextEditingController otpController,
+  }) {
     return SizedBox(
       height: 80,
       child: AspectRatio(
@@ -244,42 +257,43 @@ else{
           showCursor: false,
           readOnly: false,
           textAlign: TextAlign.center,
-          style:  GoogleFonts.montserrat(
-  fontSize: 20,
-  fontWeight: FontWeight.w400,
-  fontStyle: FontStyle.normal,
-  color: Colors.white),
+          style: GoogleFonts.montserrat(
+            fontSize: 20,
+            fontWeight: FontWeight.w400,
+            fontStyle: FontStyle.normal,
+            color: Colors.white,
+          ),
           keyboardType: TextInputType.number,
           maxLength: 1,
-          
+
           decoration: InputDecoration(
             counter: Offstage(),
             enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 0.5, color:Color(0xFF8F8787)),
-                borderRadius: BorderRadius.circular(6)),
+              borderSide: BorderSide(width: 0.5, color: Color(0xFF8F8787)),
+              borderRadius: BorderRadius.circular(6),
+            ),
             focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 1, color: AppColor.WHITE),
-                borderRadius: BorderRadius.circular(6)),
+              borderSide: BorderSide(width: 1, color: AppColor.WHITE),
+              borderRadius: BorderRadius.circular(6),
+            ),
           ),
         ),
       ),
     );
   }
 
-
-   Widget _buildOtpFields() {
-              return 
-              Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _textFieldOTP(first: true, last: false , otpController:txtController1),
-                        _textFieldOTP(first: false, last: false,otpController:txtController2),
-                        _textFieldOTP(first: false, last: false,otpController:txtController3),
-                        _textFieldOTP(first: false, last: false,otpController:txtController4),
-                        _textFieldOTP(first: false, last: false,otpController:txtController5),
-                        _textFieldOTP(first: false, last: true,otpController:txtController6),
-                      ],
-              );             
+  Widget _buildOtpFields() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        _textFieldOTP(first: true, last: false, otpController: txtController1),
+        _textFieldOTP(first: false, last: false, otpController: txtController2),
+        _textFieldOTP(first: false, last: false, otpController: txtController3),
+        _textFieldOTP(first: false, last: false, otpController: txtController4),
+        _textFieldOTP(first: false, last: false, otpController: txtController5),
+        _textFieldOTP(first: false, last: true, otpController: txtController6),
+      ],
+    );
   }
 
   @override
@@ -288,13 +302,8 @@ else{
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
-            'assets/common.png',
-            fit: BoxFit.cover,
-          ),
-          Container(
-            color: Colors.black.withOpacity(0.6),
-          ),
+          Image.asset('assets/common.png', fit: BoxFit.cover),
+          Container(color: Colors.black.withOpacity(0.6)),
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(24.0),
@@ -306,21 +315,21 @@ else{
                   Text(
                     AppString.otpVerification,
                     style: GoogleFonts.playfairDisplay(
-  fontSize: 30,
-  fontWeight: FontWeight.w600,
-  fontStyle: FontStyle.normal,
-  color: AppColor.WHITE),
+                      fontSize: 30,
+                      fontWeight: FontWeight.w600,
+                      fontStyle: FontStyle.normal,
+                      color: AppColor.WHITE,
+                    ),
                   ),
                   SizedBox(height: 16),
                   Text(
-                    '${widget.loginMode == 'mobile'?'Check your mobile, we have sent one time verification code to ':'Check your email, we have sent one time verification code to '
-}${widget.contact}.${AppString.verifyAccountMsg}',
-                    style: 
-                    GoogleFonts.montserrat(
-  fontSize: 14,
-  fontWeight: FontWeight.w400,
-  fontStyle: FontStyle.normal,
-  color: AppColor.WHITE),
+                    '${widget.loginMode == 'mobile' ? 'Check your mobile, we have sent one time verification code to ' : 'Check your email, we have sent one time verification code to '}${widget.contact}.${AppString.verifyAccountMsg}',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      fontStyle: FontStyle.normal,
+                      color: AppColor.WHITE,
+                    ),
                   ),
                   SizedBox(height: 32),
                   _buildOtpFields(),
@@ -332,72 +341,78 @@ else{
                     ),
                     onPressed: () {
                       //Navigator.pop(context);
-                      if(!isCodeExpired && txtController1.text.isNotEmpty  && txtController2.text.isNotEmpty  && txtController3.text.isNotEmpty  && txtController4.text.isNotEmpty  && txtController5.text.isNotEmpty  && txtController6.text.isNotEmpty )
-                      {
-
-
-
-_verifyOtp();
-
+                      if (!isCodeExpired &&
+                          txtController1.text.isNotEmpty &&
+                          txtController2.text.isNotEmpty &&
+                          txtController3.text.isNotEmpty &&
+                          txtController4.text.isNotEmpty &&
+                          txtController5.text.isNotEmpty &&
+                          txtController6.text.isNotEmpty) {
+                        _verifyOtp();
                       }
- 
                     },
-                    child: Text(AppString.verify,style: GoogleFonts.montserrat(
-  fontSize: 16,
-  fontWeight: FontWeight.w700,
-  fontStyle: FontStyle.normal,
-  color: AppColor.WHITE),),
+                    child: Text(
+                      AppString.verify,
+                      style: GoogleFonts.montserrat(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        fontStyle: FontStyle.normal,
+                        color: AppColor.WHITE,
+                      ),
+                    ),
                   ),
                   SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                  Text(
-                    isCodeExpired
-                    ? "Your otp has expired please resend"
-                    : remainingTime,              
-                    style: 
-                    GoogleFonts.montserrat(
-  fontSize: 14,
-  fontWeight: FontWeight.w400,
-  color: totalTime == 0 ? AppColor.WHITE : AppColor.WHITE),
-                      
-                  ),],),
-                  SizedBox(height: 8),             
+                      Text(
+                        isCodeExpired
+                            ? "Your otp has expired please resend"
+                            : remainingTime,
+                        style: GoogleFonts.montserrat(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: totalTime == 0
+                              ? AppColor.WHITE
+                              : AppColor.WHITE,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 8),
                   TextButton(
                     onPressed: isCodeExpired
                         ? () {
-                                     resendCode();
-                                    //call login api again
-                                    _resendOtp();
-          
-                    }
+                            resendCode();
+                            //call login api again
+                            _resendOtp();
+                          }
                         : null,
-                    child: 
-                     Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                       Text(
-                        "Don't get code? ", 
-                        style: 
-                        //TextStyle(color: AppColor.WHITE),
-                        GoogleFonts.montserrat(
-  fontSize: 14,
-  fontWeight: FontWeight.w400,
-  color: totalTime == 0 ? AppColor.WHITE : AppColor.WHITE),
-                      ),
-                      Text(
-                          'Resend It',
-                          style: 
-                        
-                          GoogleFonts.montserrat(
-  fontSize: 14,
-  fontWeight: FontWeight.w400,
-  color: AppColor.btnBackground),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Don't get code? ",
+                          style:
+                              //TextStyle(color: AppColor.WHITE),
+                              GoogleFonts.montserrat(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: totalTime == 0
+                                    ? AppColor.WHITE
+                                    : AppColor.WHITE,
+                              ),
                         ),
-                      
-                    ],
-                  ),
+                        Text(
+                          'Resend It',
+                          style: GoogleFonts.montserrat(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: AppColor.btnBackground,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
