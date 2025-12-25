@@ -103,7 +103,7 @@ CustomSnackBar.showTopSnackbar(context,api_response.message,AppColor.btnBackgrou
                           fontSize: 30,
                           fontWeight: FontWeight.w600,
                           fontStyle: FontStyle.normal,
-                          color: Colors.white,
+                          color:AppColor.WHITE,
                         ),
                   ),
                   const SizedBox(height: 8),
@@ -113,9 +113,9 @@ CustomSnackBar.showTopSnackbar(context,api_response.message,AppColor.btnBackgrou
                     style:
                         GoogleFonts.montserrat(
                           fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          fontStyle: FontStyle.normal,
-                          color: Colors.white,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.normal,
+  color: AppColor.WHITE
                         ),
                   ),
                   const SizedBox(height: 30),
@@ -271,10 +271,10 @@ CustomSnackBar.showTopSnackbar(context,api_response.message,AppColor.btnBackgrou
                         style:
                             //TextStyle(fontSize: 18, color: AppColor.WHITE),
                             GoogleFonts.montserrat(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                              fontStyle: FontStyle.normal,
-                              color: AppColor.WHITE,
+                              fontSize: 14,
+  fontWeight: FontWeight.w700,
+  fontStyle: FontStyle.normal,
+  color: Colors.white
                             ),
                       ),
                     ),

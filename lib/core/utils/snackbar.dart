@@ -12,7 +12,7 @@ class CustomSnackBar {
         width: MediaQuery.of(context).size.width,
         // height: 100,
         child: Material(
-          elevation: 8.0,
+          elevation: 30,
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
             color: color,
@@ -20,8 +20,8 @@ class CustomSnackBar {
               textAlign: TextAlign.center,
               message ?? AppString.noDataAvailable,
               style:  GoogleFonts.montserrat(
-  fontSize: 18,
-  fontWeight: FontWeight.w500,
+  fontSize: 16,
+  fontWeight: FontWeight.w600,
   fontStyle: FontStyle.normal,
   color: Colors.white),
             ),

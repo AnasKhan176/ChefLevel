@@ -160,7 +160,7 @@ else{
                     Text(
                       AppString.selectYourPrefs,
                       style: GoogleFonts.playfairDisplay(
-                        fontSize: 20,
+                        fontSize: 30,
                         fontWeight: FontWeight.w600,
                         fontStyle: FontStyle.normal,
                         color: AppColor.WHITE,
@@ -202,12 +202,12 @@ else{
                               ),
                               child: Text(
                                 option,
-                                style: TextStyle(
-                                  color: isSelected
-                                      ? AppColor.WHITE
-                                      : AppColor.WHITE,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                                style: GoogleFonts.montserrat(
+  fontSize: 14,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.normal,
+  color:isSelected? AppColor.WHITE:AppColor.WHITE) 
+                                ,
                               ),
                             ),
                           );
@@ -251,12 +251,15 @@ else{
                               ),
                               child: Text(
                                 option,
-                                style: TextStyle(
-                                  color: isSelected
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 14,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.normal,
+                                    color: isSelected
                                       ? AppColor.WHITE
                                       : AppColor.WHITE,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                                  )
+                                
                               ),
                             ),
                           );
@@ -307,7 +310,7 @@ else{
                         child: Text(
                           AppString.save,
                           style: GoogleFonts.montserrat(
-                            fontSize: 16,
+                            fontSize: 14,
                             fontWeight: FontWeight.w700,
                             fontStyle: FontStyle.normal,
                             color: AppColor.WHITE,
@@ -346,7 +349,12 @@ else{
             children: [
               Text(
                 title, // use the parameter
-                style: const TextStyle(color: AppColor.WHITE, fontSize: 14),
+                style: GoogleFonts.playfairDisplay(
+                                    fontSize: 16,
+  fontWeight: FontWeight.w600,
+  fontStyle: FontStyle.normal,
+                                    color: AppColor.WHITE,
+                                  ),
               ),
               IconButton(
                 icon: Icon(
@@ -372,7 +380,12 @@ else{
   Widget _buildRadio(String value) {
     return RadioListTile<String>(
       contentPadding: EdgeInsets.zero,
-      title: Text(value, style: const TextStyle(color: AppColor.WHITE)),
+      title: Text(value, style: GoogleFonts.montserrat(
+                                    fontSize: 14,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.normal,
+                                    color: AppColor.WHITE,
+                                  )),
       value: value,
       groupValue: _selectedSpice,
       activeColor: AppColor.btnBackground,

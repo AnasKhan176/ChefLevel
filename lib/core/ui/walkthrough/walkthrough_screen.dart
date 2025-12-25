@@ -79,7 +79,7 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                               //   color: AppColor.WHITE,
                               // ),
                               GoogleFonts.montserrat(
-                                fontSize: 16,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w400,
                                 fontStyle: FontStyle.normal,
                                 color: Colors.white,
@@ -109,8 +109,9 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                                   //   color: AppColor.WHITE,
                                   // ),
                                   GoogleFonts.playfairDisplay(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w600,
+                                    fontSize: 30,
+  fontWeight: FontWeight.w600,
+  fontStyle: FontStyle.normal,
                                     color: AppColor.WHITE,
                                   ),
                             ),
@@ -119,14 +120,12 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                               pages[index]["subtitle"]!,
                               textAlign: TextAlign.center,
                               style:
-                                  // const TextStyle(
-                                  //   fontSize: 16,
-                                  //   color: AppColor.WHITE,
-                                  // ),
+                                  
                                   GoogleFonts.montserrat(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                    color: AppColor.WHITE,
+                                    fontSize: 14,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.normal,
+  color: AppColor.WHITE
                                   ),
                             ),
                             const SizedBox(height: 20),
@@ -186,9 +185,10 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                                       //   color: AppColor.WHITE,
                                       // ),
                                       GoogleFonts.montserrat(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700,
-                                        color: AppColor.WHITE,
+                                        fontSize: 14,
+  fontWeight: FontWeight.w700,
+  fontStyle: FontStyle.normal,
+  color: Colors.white
                                       ),
                                 ),
                               ),

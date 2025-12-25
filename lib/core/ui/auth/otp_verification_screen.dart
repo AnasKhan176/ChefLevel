@@ -245,7 +245,7 @@ else{
           readOnly: false,
           textAlign: TextAlign.center,
           style:  GoogleFonts.montserrat(
-  fontSize: 20,
+  fontSize: 14,
   fontWeight: FontWeight.w400,
   fontStyle: FontStyle.normal,
   color: Colors.white),
@@ -343,10 +343,10 @@ _verifyOtp();
  
                     },
                     child: Text(AppString.verify,style: GoogleFonts.montserrat(
-  fontSize: 16,
+  fontSize: 14,
   fontWeight: FontWeight.w700,
   fontStyle: FontStyle.normal,
-  color: AppColor.WHITE),),
+  color: Colors.white),),
                   ),
                   SizedBox(height: 16),
                   Row(

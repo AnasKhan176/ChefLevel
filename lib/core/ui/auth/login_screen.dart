@@ -212,7 +212,7 @@ else{
   fontSize: 30,
   fontWeight: FontWeight.w600,
   fontStyle: FontStyle.normal,
-  color: Colors.white),
+  color: AppColor.WHITE),
                   ),
 
                   const SizedBox(height: 8),
@@ -228,7 +228,7 @@ else{
   fontSize: 14,
   fontWeight: FontWeight.w400,
   fontStyle: FontStyle.normal,
-  color: Colors.white),
+  color: AppColor.WHITE),
                   ),
 
                   const SizedBox(height: 30),
@@ -308,7 +308,7 @@ else{
                         AppString.login,
                         style: 
                         GoogleFonts.montserrat(
-  fontSize: 16,
+  fontSize: 14,
   fontWeight: FontWeight.w700,
   fontStyle: FontStyle.normal,
   color: Colors.white),
