@@ -305,10 +305,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         style:
                             //TextStyle(fontSize: 18, color: AppColor.WHITE),
                             GoogleFonts.montserrat(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                              fontStyle: FontStyle.normal,
-                              color: AppColor.WHITE,
+                              fontSize: 14,
+  fontWeight: FontWeight.w700,
+  fontStyle: FontStyle.normal,
+  color: Colors.white
                             ),
                       ),
                     ),
@@ -359,7 +359,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  // name
+  // name 
 
   Widget _nameInputField(
     String hint,

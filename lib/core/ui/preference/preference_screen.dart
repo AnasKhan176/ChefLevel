@@ -41,15 +41,20 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
   Set<String> selectedDietary = {'Non-Veg', 'Gluten-Free'};
 
   final List<String> cuisines = [
-    'Indian',
-    'Chinese',
     'Italian',
-    'Mexican',
+    'Indian',
+    'Asian',
     'Thai',
+    'Mediterranean',
+    'Mexican',
+    'American',
+    'Japanese',
+    'Middle Eastern'
+    'Others'
   ];
-  Set<String> selectedCuisine = {'Indian', 'Chinese'};
+  Set<String> selectedCuisine = {'Italian','Indian'};
 
-  final List<String> spiceLevels = ['Mild', 'Medium', 'Hot'];
+  final List<String> spiceLevels = ['Mild', 'Medium', 'Spicy'];
   String? selectedSpice;
 
   String _selectedSpice = 'Mild';
@@ -103,6 +108,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
     AppLoader.show(context);
 
     if (api_response?.responseCode == 20000) {
+      AppLoader.hide();
       favorite_data_list = api_response?.data;
       print(favorite_data_list!.length.toString());
     } else {
@@ -123,6 +129,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
     AppLoader.show(context);
 
     if (api_response?.responseCode == 20000) {
+      AppLoader.hide();
       dietary_data_list = api_response?.data;
       print(dietary_data_list!.length.toString());
     } else {
@@ -162,7 +169,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                     Text(
                       AppString.selectYourPrefs,
                       style: GoogleFonts.playfairDisplay(
-                        fontSize: 20,
+                        fontSize: 30,
                         fontWeight: FontWeight.w600,
                         fontStyle: FontStyle.normal,
                         color: AppColor.WHITE,
@@ -204,12 +211,12 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                               ),
                               child: Text(
                                 option,
-                                style: TextStyle(
-                                  color: isSelected
-                                      ? AppColor.WHITE
-                                      : AppColor.WHITE,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                                style: GoogleFonts.montserrat(
+  fontSize: 14,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.normal,
+  color:isSelected? AppColor.WHITE:AppColor.WHITE) 
+                                ,
                               ),
                             ),
                           );
@@ -253,12 +260,15 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                               ),
                               child: Text(
                                 option,
-                                style: TextStyle(
-                                  color: isSelected
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 14,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.normal,
+                                    color: isSelected
                                       ? AppColor.WHITE
                                       : AppColor.WHITE,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                                  )
+                                
                               ),
                             ),
                           );
@@ -308,7 +318,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                         child: Text(
                           AppString.save,
                           style: GoogleFonts.montserrat(
-                            fontSize: 16,
+                            fontSize: 14,
                             fontWeight: FontWeight.w700,
                             fontStyle: FontStyle.normal,
                             color: AppColor.WHITE,
@@ -347,7 +357,12 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
             children: [
               Text(
                 title, // use the parameter
-                style: const TextStyle(color: AppColor.WHITE, fontSize: 14),
+                style: GoogleFonts.playfairDisplay(
+                                    fontSize: 16,
+  fontWeight: FontWeight.w600,
+  fontStyle: FontStyle.normal,
+                                    color: AppColor.WHITE,
+                                  ),
               ),
               IconButton(
                 icon: Icon(
@@ -373,7 +388,12 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
   Widget _buildRadio(String value) {
     return RadioListTile<String>(
       contentPadding: EdgeInsets.zero,
-      title: Text(value, style: const TextStyle(color: AppColor.WHITE)),
+      title: Text(value, style: GoogleFonts.montserrat(
+                                    fontSize: 14,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.normal,
+                                    color: AppColor.WHITE,
+                                  )),
       value: value,
       groupValue: _selectedSpice,
       activeColor: AppColor.btnBackground,

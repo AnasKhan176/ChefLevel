@@ -49,6 +49,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: SplashScreen(isSeenWalkthrough: isSeenWalkthrough),
+      // home: OtpVerificationScreen(contact: "23524278947", password: "password", loginMode: "loginMode", otpCode: "123456"),
     );
   }
 }

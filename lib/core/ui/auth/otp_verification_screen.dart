@@ -240,7 +240,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     required TextEditingController otpController,
   }) {
     return SizedBox(
-      height: 80,
+      height: 50,
       child: AspectRatio(
         aspectRatio: 1.0,
         child: TextField(
@@ -299,11 +299,14 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false, // Prevent layout shift
       body: Stack(
         fit: StackFit.expand,
         children: [
+          // Background image
           Image.asset('assets/common.png', fit: BoxFit.cover),
           Container(color: Colors.black.withOpacity(0.6)),
+
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(24.0),
@@ -317,7 +320,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     style: GoogleFonts.playfairDisplay(
                       fontSize: 30,
                       fontWeight: FontWeight.w600,
-                      fontStyle: FontStyle.normal,
                       color: AppColor.WHITE,
                     ),
                   ),
@@ -327,20 +329,23 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     style: GoogleFonts.montserrat(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
-                      fontStyle: FontStyle.normal,
                       color: AppColor.WHITE,
                     ),
                   ),
                   SizedBox(height: 32),
+
+                  // OTP fields in a row
                   _buildOtpFields(),
+
                   SizedBox(height: 32),
+
+                  // Verify button
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColor.btnBackground,
                       minimumSize: Size(double.infinity, 50),
                     ),
                     onPressed: () {
-                      //Navigator.pop(context);
                       if (!isCodeExpired &&
                           txtController1.text.isNotEmpty &&
                           txtController2.text.isNotEmpty &&
@@ -356,12 +361,14 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       style: GoogleFonts.montserrat(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
-                        fontStyle: FontStyle.normal,
                         color: AppColor.WHITE,
                       ),
                     ),
                   ),
+
                   SizedBox(height: 16),
+
+                  // Timer / Expired message
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -372,36 +379,32 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         style: GoogleFonts.montserrat(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
-                          color: totalTime == 0
-                              ? AppColor.WHITE
-                              : AppColor.WHITE,
+                          color: AppColor.WHITE,
                         ),
                       ),
                     ],
                   ),
+
                   SizedBox(height: 8),
+
+                  // Resend button
                   TextButton(
                     onPressed: isCodeExpired
                         ? () {
-                            resendCode();
-                            //call login api again
-                            _resendOtp();
-                          }
+                      resendCode();
+                      _resendOtp();
+                    }
                         : null,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           "Don't get code? ",
-                          style:
-                              //TextStyle(color: AppColor.WHITE),
-                              GoogleFonts.montserrat(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: totalTime == 0
-                                    ? AppColor.WHITE
-                                    : AppColor.WHITE,
-                              ),
+                          style: GoogleFonts.montserrat(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: AppColor.WHITE,
+                          ),
                         ),
                         Text(
                           'Resend It',
