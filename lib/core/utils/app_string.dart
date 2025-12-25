@@ -17,7 +17,7 @@ static const getStarted ='Get Started';
 
 static const login ='Login'; 
 static const enterYourLoginInformation ='Enter your login information'; 
-static const emailPhone ='Email or phone number'; 
+static const emailPhone ='Email or Phone number'; 
 static const password ='Pin'; 
 static const forgotPassword ='Forgot Pin?'; 
 static const dontAccount = "Don't have any account? ";

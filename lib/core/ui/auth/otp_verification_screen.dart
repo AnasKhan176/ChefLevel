@@ -83,8 +83,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       final bool isPrefLevel = await SharedPrefService.isPrefLevel();
       BottomSnackBar.show(
           context,
-          message: 'Otp verified successfully!!',
-          backgroundColor: AppColor.btnBackground,
+          message: 'Otp verified successfully.!!',
+          backgroundColor: Colors.green,
           icon: Icons.check_circle
       );
 

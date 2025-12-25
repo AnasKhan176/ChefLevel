@@ -310,6 +310,12 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                         onPressed: () async {
                           // first check user select all the fields then save
                           await SharedPrefService.setPrefLevel(true);
+                          BottomSnackBar.show(
+              context,
+              message: 'Preference saved.!!',
+              backgroundColor: Colors.green,
+              icon: Icons.check_circle
+          );
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(builder: (_) => HomeScreen()),

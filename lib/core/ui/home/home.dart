@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../theme/app_color.dart';
 
@@ -62,14 +63,14 @@ class HomeScreen extends StatelessWidget {
   // ---------------- WIDGETS ----------------
 
   Widget _headerText() {
-    return const Text(
+    return  Text(
       'Find your Best Chef & Recipe\naround you',
-      style: TextStyle(
-        color: AppColor.WHITE,
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
-        height: 1.3,
-      ),
+      style:GoogleFonts.playfairDisplay(
+                                    fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      fontStyle: FontStyle.normal,
+                      color: AppColor.WHITE,
+                                  ),
     );
   }
 
@@ -82,13 +83,17 @@ class HomeScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(30),
       ),
       child: Row(
-        children: const [
+        children:  [
           Icon(Icons.search, color: AppColor.WHITE),
           SizedBox(width: 10),
           Expanded(
             child: Text(
               'Search by chef, recipes...',
-              style: TextStyle(color: AppColor.WHITE),
+              style: GoogleFonts.montserrat(
+  fontSize: 14,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.normal,
+  color: AppColor.WHITE,                                 ),
             ),
           ),
           Icon(Icons.tune, color: AppColor.WHITE),
@@ -103,15 +108,22 @@ class HomeScreen extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(
-            color: AppColor.WHITE,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
+          style: 
+          GoogleFonts.playfairDisplay(
+  fontSize: 14,
+  fontWeight: FontWeight.w700,
+  fontStyle: FontStyle.normal,
+  color: AppColor.WHITE,
+                                  ),
         ),
-        const Text(
+         Text(
           'See All',
-          style: TextStyle(color: AppColor.btnBackground, fontSize: 13),
+          style: GoogleFonts.montserrat(
+  fontSize: 12,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.normal,
+  color: AppColor.btnBackground,                                  
+  ),
         ),
       ],
     );
@@ -155,10 +167,15 @@ class HomeScreen extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children:  [
                 Text(
                   'Seafood Salad',
-                  style: TextStyle(color: AppColor.WHITE, fontWeight: FontWeight.w600),
+                  style:       GoogleFonts.playfairDisplay(
+  fontSize: 12,
+  fontWeight: FontWeight.w600,
+  fontStyle: FontStyle.normal,
+  color: AppColor.WHITE,                                  
+  ),
                 ),
                 SizedBox(height: 4),
                 Text(
@@ -203,11 +220,16 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              child: const Align(
+              child:  Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
                   'Chef Marco\n⭐ 4.9',
-                  style: TextStyle(color: AppColor.WHITE),
+                  style: GoogleFonts.playfairDisplay(
+  fontSize: 12,
+  fontWeight: FontWeight.w600,
+  fontStyle: FontStyle.normal,
+  color: AppColor.WHITE,                                  
+  ),
                 ),
               ),
             ),
@@ -241,9 +263,14 @@ class HomeScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(14),
               color: Colors.black.withOpacity(0.4),
             ),
-            child: const Text(
+            child:  Text(
               'Cuisine',
-              style: TextStyle(color: Colors.white, fontSize: 12),
+              style: GoogleFonts.playfairDisplay(
+  fontSize: 12,
+  fontWeight: FontWeight.w600,
+  fontStyle: FontStyle.normal,
+  color: AppColor.WHITE,                                  
+  ),
             ),
           ),
         ),
@@ -285,7 +312,7 @@ class HomeScreen extends StatelessWidget {
     return Drawer(
       backgroundColor: Colors.black,
       child: ListView(
-        children: const [
+        children:  [
           DrawerHeader(
             child: Text(
               'Menu',
@@ -294,15 +321,30 @@ class HomeScreen extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.home, color: AppColor.WHITE),
-            title: Text('Home', style: TextStyle(color: AppColor.WHITE)),
+            title: Text('Home', style: GoogleFonts.montserrat(
+  fontSize: 14,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.normal,
+  color: AppColor.WHITE,                                  
+  ),),
           ),
           ListTile(
             leading: Icon(Icons.favorite, color: AppColor.WHITE),
-            title: Text('Favorites', style: TextStyle(color: AppColor.WHITE)),
+            title: Text('Favorites', style: GoogleFonts.montserrat(
+  fontSize: 14,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.normal,
+  color: AppColor.WHITE,                                  
+  ),),
           ),
           ListTile(
             leading: Icon(Icons.logout, color: AppColor.WHITE),
-            title: Text('Logout', style: TextStyle(color: Colors.white)),
+            title: Text('Logout', style: GoogleFonts.montserrat(
+  fontSize: 14,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.normal,
+  color: AppColor.WHITE,                                  
+  ),),
           ),
         ],
       ),

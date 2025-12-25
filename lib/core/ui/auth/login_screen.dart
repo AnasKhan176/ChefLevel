@@ -118,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
       BottomSnackBar.show(
           context,
           message: api_response.message!,
-          backgroundColor: AppColor.btnBackground,
+          backgroundColor: Colors.green,
           icon: Icons.check_circle
       );
       if (isPrefLevel) {
@@ -145,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
       BottomSnackBar.show(
           context,
           message: 'Otp Sent : ${api_response.data!.check}',
-          backgroundColor: AppColor.btnBackground,
+          backgroundColor: Colors.green,
           icon: Icons.check_circle
       );
 
@@ -323,7 +323,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             )) {
                           BottomSnackBar.show(
                               context,
-                              message: 'Please enter correct email or phone number',
+                              message: 'Please enter correct email or phone number.!!',
                               backgroundColor: AppColor.btnBackground,
                               icon: Icons.error
                           );
