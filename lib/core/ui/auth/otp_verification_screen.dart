@@ -76,8 +76,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     DataModel api_response = await userController.verifyOtp(data);
     print(api_response.responseCode);
     print(api_response.message);
+    AppLoader.show(context);
 
     if (api_response.responseCode == 20000) {
+      AppLoader.hide();
       final bool isPrefLevel = await SharedPrefService.isPrefLevel();
       BottomSnackBar.show(
           context,
@@ -94,13 +96,14 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
           MaterialPageRoute(builder: (_) => HomeScreen()),
         );
       } else {
+        AppLoader.hide();
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (_) => PreferencesScreen()),
         );
       }
     } else {
-
+      AppLoader.hide();
       BottomSnackBar.show(
           context,
           message: api_response.message!,
