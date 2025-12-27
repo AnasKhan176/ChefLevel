@@ -15,7 +15,6 @@ import 'package:food_chef/core/ui/snackbar/app_loader.dart';
 import 'package:food_chef/core/ui/snackbar/bottom_snackbar.dart';
 import 'package:food_chef/core/utils/app_string.dart';
 import 'package:food_chef/core/utils/shared_pref_service.dart';
-import 'package:food_chef/core/utils/snackbar.dart';
 import 'package:food_chef/theme/app_color.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -51,8 +50,6 @@ class _LoginScreenState extends State<LoginScreen> {
     };
 
     DataModel api_response = await userController.checkUserProfileExist(data);
-    print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-
     print(api_response.responseCode);
     print(api_response.message);
 
@@ -60,8 +57,13 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         _isProfileExist = false;
       });
-      // user not exist
-      // Go to registration screen
+      BottomSnackBar.show(
+        context,
+        message: 'Please register your account.!!',
+        backgroundColor: AppColor.btnBackground,
+        icon: Icons.error,
+      );
+      // User not exist, please open registration screen
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => RegisterScreen()),
@@ -78,19 +80,19 @@ class _LoginScreenState extends State<LoginScreen> {
           _checkLogin(email, phone);
         } else {
           BottomSnackBar.show(
-              context,
-              message: api_response.message!,
-              backgroundColor: AppColor.btnBackground,
-              icon: Icons.check_circle
+            context,
+            message: api_response.message!,
+            backgroundColor: AppColor.btnBackground,
+            icon: Icons.check_circle,
           );
         }
       }
     } else {
       BottomSnackBar.show(
-          context,
-          message: api_response.message!,
-          backgroundColor: AppColor.btnBackground,
-          icon: Icons.check_circle
+        context,
+        message: api_response.message!,
+        backgroundColor: AppColor.btnBackground,
+        icon: Icons.check_circle,
       );
     }
   }
@@ -115,15 +117,18 @@ class _LoginScreenState extends State<LoginScreen> {
         _isProfileExist = false;
       });
       final bool isPrefLevel = await SharedPrefService.isPrefLevel();
+      await SharedPrefService.setLoggedIn(true);
+      await SharedPrefService.setUserId(_emailMobileController.text.toString().trim());
+      await SharedPrefService.setPin(_passwordController.text.toString().trim());
+
       BottomSnackBar.show(
-          context,
-          message: api_response.message!,
-          backgroundColor: AppColor.btnBackground,
-          icon: Icons.check_circle
+        context,
+        message: api_response.message!,
+        backgroundColor: Colors.green,
+        icon: Icons.check_circle,
       );
       if (isPrefLevel) {
         //Home Screen open hogi
-
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (_) => HomeScreen()),
@@ -142,11 +147,14 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       // open OTP screen & pass the data
       //{"status":"SUCCESS","message":"SUCCESS","responseCode":20019,"data":{"check":"019931","uid":null}}
+      
+      await SharedPrefService.setUserId(_emailMobileController.text.toString().trim());
+      await SharedPrefService.setPin(_passwordController.text.toString().trim());
       BottomSnackBar.show(
-          context,
-          message: 'Otp Sent : ${api_response.data!.check}',
-          backgroundColor: AppColor.btnBackground,
-          icon: Icons.check_circle
+        context,
+        message: 'Otp Sent : ${api_response.data!.check}',
+        backgroundColor: Colors.green,
+        icon: Icons.check_circle,
       );
 
       Navigator.pushReplacement(
@@ -164,10 +172,10 @@ class _LoginScreenState extends State<LoginScreen> {
       AppLoader.hide();
 
       BottomSnackBar.show(
-          context,
-          message: api_response.message!,
-          backgroundColor: AppColor.btnBackground,
-        icon: Icons.check_circle
+        context,
+        message: api_response.message!,
+        backgroundColor: AppColor.btnBackground,
+        icon: Icons.check_circle,
       );
     }
   }
@@ -219,35 +227,24 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Title
                   Text(
                     AppString.login,
-                    style:
-                        // TextStyle(
-                        //   color: AppColor.WHITE,
-                        //   fontSize: 30,
-                        //   fontWeight: FontWeight.bold,
-                        // ),
-                        GoogleFonts.playfairDisplay(
-                          fontSize: 30,
-                          fontWeight: FontWeight.w600,
-                          fontStyle: FontStyle.normal,
-                          color: Colors.white,
-                        ),
+                    style: GoogleFonts.playfairDisplay(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w600,
+                      fontStyle: FontStyle.normal,
+                      color: Colors.white,
+                    ),
                   ),
 
                   const SizedBox(height: 8),
 
                   Text(
                     AppString.enterYourLoginInformation,
-                    style:
-                        // TextStyle(
-                        //   color: AppColor.WHITE,
-                        //   fontSize: 14,
-                        // ),
-                        GoogleFonts.montserrat(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          fontStyle: FontStyle.normal,
-                          color: Colors.white,
-                        ),
+                    style: GoogleFonts.montserrat(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      fontStyle: FontStyle.normal,
+                      color: Colors.white,
+                    ),
                   ),
 
                   const SizedBox(height: 30),
@@ -285,7 +282,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             context,
                             message: AppString.forgotPassword,
                             backgroundColor: Colors.green,
-                            icon: Icons.check_circle
+                            icon: Icons.check_circle,
                           );
                         },
                         child: Text(
@@ -322,10 +319,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               _emailMobileController.text.toString().trim(),
                             )) {
                           BottomSnackBar.show(
-                              context,
-                              message: 'Please enter correct email or phone number',
-                              backgroundColor: AppColor.btnBackground,
-                              icon: Icons.error
+                            context,
+                            message:
+                                'Please enter correct email or phone number.!!',
+                            backgroundColor: AppColor.btnBackground,
+                            icon: Icons.error,
                           );
                         } else {
                           _checkProfileExist(
@@ -356,29 +354,19 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: RichText(
                       text: TextSpan(
                         text: AppString.dontAccount,
-                        style:
-                            //  TextStyle(
-                            //   color: AppColor.WHITE,
-                            //   fontSize: 13,
-                            // ),
-                            GoogleFonts.montserrat(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: AppColor.WHITE,
-                            ),
+                        style: GoogleFonts.montserrat(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: AppColor.WHITE,
+                        ),
                         children: [
                           TextSpan(
                             text: AppString.register,
-                            style:
-                                //  TextStyle(
-                                //   color: AppColor.btnBackground,
-                                //   fontWeight: FontWeight.bold,
-                                // ),
-                                GoogleFonts.montserrat(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColor.btnBackground,
-                                ),
+                            style: GoogleFonts.montserrat(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: AppColor.btnBackground,
+                            ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 Navigator.pushReplacement(

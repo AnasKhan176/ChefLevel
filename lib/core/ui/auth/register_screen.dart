@@ -56,7 +56,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       BottomSnackBar.show(
           context,
           message: api_response.message!,
-          backgroundColor: AppColor.btnBackground,
+          backgroundColor:Colors.green,
           icon: Icons.check_circle
       );
       // Redirect to login screen
@@ -190,6 +190,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           child: TextField(
                             controller: _mobileController,
+                            maxLength: 15,
                             keyboardType: TextInputType.phone,
                             style: GoogleFonts.montserrat(
                               fontSize: 14,
@@ -240,6 +241,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   // Register Button
                   SizedBox(
                     width: double.infinity,
+                    height: 50,
+
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColor.btnBackground,
@@ -262,13 +265,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             if (isPhone(
                               _mobileController.text.toString().trim(),
                             )) {
+                              if(_passwordController.text.length>=4){
                               if (_passwordController.text.toString().trim() ==
                                   _confirmController.text.toString().trim()) {
                                 await _userRegistrationt();
                               } else {
                                 BottomSnackBar.show(
                                     context,
-                                    message: 'Pin & confirm pin should be same',
+                                    message: 'Pin & confirm pin should be same.!!',
+                                    backgroundColor: AppColor.btnBackground,
+                                    icon: Icons.error
+                                );
+                              }
+                              }else{
+                                BottomSnackBar.show(
+                                    context,
+                                    message: 'Pin should be 4 to 8 character long.!!',
                                     backgroundColor: AppColor.btnBackground,
                                     icon: Icons.error
                                 );
@@ -276,7 +288,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             } else {
                               BottomSnackBar.show(
                                   context,
-                                  message: 'Please enter correct mobile number',
+                                  message: 'Please enter correct mobile number.!!',
                                   backgroundColor: AppColor.btnBackground,
                                   icon: Icons.error
                               );
@@ -284,7 +296,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           } else {
                             BottomSnackBar.show(
                                 context,
-                                message: 'Please enter correct email id',
+                                message: 'Please enter correct email id.!!',
                                 backgroundColor: AppColor.btnBackground,
                                 icon: Icons.error
                             );
@@ -293,7 +305,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         } else {
                           BottomSnackBar.show(
                               context,
-                              message: 'Please enter all fields',
+                              message: 'Please enter all fields.!!',
                               backgroundColor: AppColor.btnBackground,
                               icon: Icons.error
                           );
@@ -373,6 +385,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
       child: TextField(
         controller: nameController,
+        keyboardType: TextInputType.text,
+        maxLength: 50,
         style: GoogleFonts.montserrat(
           fontSize: 14,
           fontWeight: FontWeight.w400,
@@ -405,6 +419,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
       child: TextField(
         controller: emailController,
+        maxLength: 255,
         style: GoogleFonts.montserrat(
           fontSize: 14,
           fontWeight: FontWeight.w400,
@@ -439,7 +454,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: TextField(
         controller: passwordController,
         obscureText: obscure,
-        maxLength: 6,
+        maxLength: 8,
         keyboardType: TextInputType.number,
         style: GoogleFonts.montserrat(
           fontSize: 14,

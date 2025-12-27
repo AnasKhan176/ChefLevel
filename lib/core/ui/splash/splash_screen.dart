@@ -1,14 +1,22 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:food_chef/core/ui/auth/login_screen.dart';
+import 'package:food_chef/core/ui/home/home.dart';
+import 'package:food_chef/core/ui/preference/preference_screen.dart';
 import 'package:food_chef/core/utils/app_string.dart';
+import 'package:food_chef/core/utils/shared_pref_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../walkthrough/walkthrough_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   final bool isSeenWalkthrough;
+  final bool isLoggedIn;
 
-  const SplashScreen({super.key, required this.isSeenWalkthrough});
+  const SplashScreen({
+    super.key,
+    required this.isSeenWalkthrough,
+    required this.isLoggedIn,
+  });
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -20,13 +28,26 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     // Splash delay
-    Timer(const Duration(seconds: 2), () {
+    Timer(const Duration(seconds: 2), () async {
       if (widget.isSeenWalkthrough) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => LoginScreen()),
-        );
-      }else {
+        if (!widget.isLoggedIn) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => LoginScreen()),
+          );
+        } else {
+          final bool isPrefLevel = await SharedPrefService.isPrefLevel();
+          isPrefLevel
+              ? Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => HomeScreen()),
+                )
+              : Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => PreferencesScreen()),
+                );
+        }
+      } else {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (_) => WalkthroughScreen()),

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:food_chef/core/controller/user_controller.dart';
 import 'package:food_chef/core/domain/di/service_locator.dart';
@@ -21,43 +23,13 @@ class PreferencesScreen extends StatefulWidget {
 
 class _PreferencesScreenState extends State<PreferencesScreen> {
   // Expand/collapse state
-  bool dietaryExpanded = true;
+  bool dietaryExpanded = false;
   bool cuisineExpanded = false;
   bool spiceExpanded = false;
 
-  // Options
-  final List<String> dietaryOptions = [
-    'Veg',
-    'Non-Veg',
-    'Vegan',
-    'Keto',
-    'High-Protein',
-    'Gluten-Free',
-    'Halal',
-    'Dairy-Free',
-    'Kosher',
-    'Others',
-  ];
-  Set<String> selectedDietary = {'Non-Veg', 'Gluten-Free'};
-
-  final List<String> cuisines = [
-    'Italian',
-    'Indian',
-    'Asian',
-    'Thai',
-    'Mediterranean',
-    'Mexican',
-    'American',
-    'Japanese',
-    'Middle Eastern'
-    'Others'
-  ];
-  Set<String> selectedCuisine = {'Italian','Indian'};
-
-  final List<String> spiceLevels = ['Mild', 'Medium', 'Spicy'];
-  String? selectedSpice;
-
-  String _selectedSpice = 'Mild';
+  //radio group value
+  int _selectedVal = 0;
+  String? _selectedSpice = '';
   final userController = getIt.get<UserController>();
 
   // Api Data
@@ -65,84 +37,100 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
   List<Data>? favorite_data_list;
   List<Data>? dietary_data_list;
 
+  final List<Data> _filters_spice = <Data>[];
+  final List<Data> _filters_favorite = <Data>[];
+  final List<Data> _filters_dietary = <Data>[];
+
   @override
   void initState() {
     super.initState();
-
     getData();
   }
 
   Future<void> getData() async {
     await Future.wait([
-      getSpice('SPICE_LEVEL'),
-      getFavourite('FAVOURITE_CUISINE'),
-      getDietary('DIETARY_PREFERENCE'),
+      fetchSpiceApi('SPICE_LEVEL'),
+      fetchFavouriteApi('FAVOURITE_CUISINE'),
+      fetchDietaryApi('DIETARY_PREFERENCE'),
     ]);
   }
 
-  Future<void> getSpice(String test) async {
+  Future<List<Data>> fetchSpiceApi(String test) async {
     // Usage example:
-    AppLoader.show(context);
+    // AppLoader.show(context);
     final Map<String, dynamic> data = {'check': test};
     var api_response = await userController.dataDefination(data);
 
     if (api_response?.responseCode == 20000) {
-      AppLoader.hide();
+      //  AppLoader.hide();
       spice_data_list = api_response?.data;
       print(spice_data_list!.length.toString());
     } else {
-      AppLoader.hide();
+      // AppLoader.hide();
       BottomSnackBar.show(
-          context,
-          message: api_response!.message!,
-          backgroundColor: AppColor.btnBackground,
-          icon: Icons.check_circle
+        context,
+        message: api_response!.message!,
+        backgroundColor: AppColor.btnBackground,
+        icon: Icons.check_circle,
       );
     }
+    return spice_data_list ?? [];
   }
 
-  Future<void> getFavourite(String test) async {
+  Future<List<Data>> fetchFavouriteApi(String test) async {
     // Usage example:
     final Map<String, dynamic> data = {'check': test};
     var api_response = await userController.dataDefination(data);
-    AppLoader.show(context);
+    // AppLoader.show(context);
 
     if (api_response?.responseCode == 20000) {
-      AppLoader.hide();
+      // AppLoader.hide();
       favorite_data_list = api_response?.data;
-      print(favorite_data_list!.length.toString());
     } else {
-      AppLoader.hide();
+      //  AppLoader.hide();
       BottomSnackBar.show(
-          context,
-          message: api_response!.message!,
-          backgroundColor: AppColor.btnBackground,
-          icon: Icons.check_circle
+        context,
+        message: api_response!.message!,
+        backgroundColor: AppColor.btnBackground,
+        icon: Icons.check_circle,
       );
     }
+    return favorite_data_list ?? [];
   }
 
-  Future<void> getDietary(String test) async {
+  Future<List<Data>> fetchDietaryApi(String test) async {
     // Usage example:
     final Map<String, dynamic> data = {'check': test};
     var api_response = await userController.dataDefination(data);
-    AppLoader.show(context);
+    // AppLoader.show(context);
 
     if (api_response?.responseCode == 20000) {
-      AppLoader.hide();
+      // AppLoader.hide();
       dietary_data_list = api_response?.data;
       print(dietary_data_list!.length.toString());
     } else {
-      AppLoader.hide();
+      // AppLoader.hide();
 
       BottomSnackBar.show(
-          context,
-          message: api_response!.message!,
-          backgroundColor: AppColor.btnBackground,
-          icon: Icons.check_circle
+        context,
+        message: api_response!.message!,
+        backgroundColor: AppColor.btnBackground,
+        icon: Icons.check_circle,
       );
-
     }
+    return dietary_data_list ?? [];
+  }
+
+  Future<List<Data>> getSpice() async {
+    return spice_data_list ?? [];
+  }
+
+  Future<List<Data>> getFavorite() async {
+    return favorite_data_list ?? [];
+  }
+
+  Future<List<Data>> getDietary() async {
+    return dietary_data_list ?? [];
   }
 
   @override
@@ -177,50 +165,79 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                     ),
                     const SizedBox(height: 20),
 
-                    // Dietary Preferences Section
+                    //  Dietary Preferences Section
                     _buildExpandableSection(
                       title: AppString.dietaryPrefs,
                       expanded: dietaryExpanded,
                       onToggle: () =>
                           setState(() => dietaryExpanded = !dietaryExpanded),
-                      child: Wrap(
-                        spacing: 10,
-                        runSpacing: 10,
-                        children: dietaryOptions.map((option) {
-                          final isSelected = selectedDietary.contains(option);
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                if (isSelected) {
-                                  selectedDietary.remove(option);
-                                } else {
-                                  selectedDietary.add(option);
-                                }
-                              });
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 14,
-                                vertical: 10,
-                              ),
-                              decoration: BoxDecoration(
-                                color: isSelected
-                                    ? AppColor.btnBackground
-                                    : Colors.black.withOpacity(0.6),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text(
-                                option,
-                                style: GoogleFonts.montserrat(
-  fontSize: 14,
-  fontWeight: FontWeight.w400,
-  fontStyle: FontStyle.normal,
-  color:isSelected? AppColor.WHITE:AppColor.WHITE) 
-                                ,
-                              ),
-                            ),
-                          );
-                        }).toList(),
+                      child: Column(
+                        children: <Widget>[
+                          FutureBuilder<List<Data>>(
+                            future: getDietary(),
+                            builder:
+                                (
+                                  BuildContext context,
+                                  AsyncSnapshot<List<Data>> snapshot,
+                                ) {
+                                  Widget result;
+                                  if (snapshot.hasData) {
+                                    result = Wrap(
+                                      spacing: 10,
+                                      runSpacing: 10,
+                                      children: snapshot.data!.map((
+                                        Data option,
+                                      ) {
+                                        final isSelected = _filters_dietary
+                                            .contains(option);
+                                        return GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              if (isSelected) {
+                                                _filters_dietary.remove(option);
+                                              } else {
+                                                _filters_dietary.add(option);
+                                              }
+                                            });
+                                          },
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 14,
+                                              vertical: 10,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: isSelected
+                                                  ? AppColor.btnBackground
+                                                  : Colors.black.withOpacity(
+                                                      0.6,
+                                                    ),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            child: Text(
+                                              option.value ?? '',
+                                              style: GoogleFonts.montserrat(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400,
+                                                fontStyle: FontStyle.normal,
+                                                color: isSelected
+                                                    ? AppColor.WHITE
+                                                    : AppColor.WHITE,
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
+                                    );
+                                  } else if (snapshot.hasError) {
+                                    result = Text('Error: ${snapshot.error}');
+                                  } else {
+                                    result = const Text('Awaiting result...');
+                                  }
+                                  return result;
+                                },
+                          ),
+                        ],
                       ),
                     ),
 
@@ -232,47 +249,75 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                       expanded: cuisineExpanded,
                       onToggle: () =>
                           setState(() => cuisineExpanded = !cuisineExpanded),
-                      child: Wrap(
-                        spacing: 10,
-                        runSpacing: 10,
-                        children: cuisines.map((option) {
-                          final isSelected = selectedCuisine.contains(option);
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                if (isSelected) {
-                                  selectedCuisine.remove(option);
-                                } else {
-                                  selectedCuisine.add(option);
-                                }
-                              });
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 14,
-                                vertical: 10,
-                              ),
-                              decoration: BoxDecoration(
-                                color: isSelected
-                                    ? AppColor.btnBackground
-                                    : Colors.black.withOpacity(0.6),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text(
-                                option,
-                                style: GoogleFonts.montserrat(
-                                    fontSize: 14,
-  fontWeight: FontWeight.w400,
-  fontStyle: FontStyle.normal,
-                                    color: isSelected
-                                      ? AppColor.WHITE
-                                      : AppColor.WHITE,
-                                  )
-                                
-                              ),
-                            ),
-                          );
-                        }).toList(),
+                      child: Column(
+                        children: <Widget>[
+                          FutureBuilder<List<Data>>(
+                            future: getFavorite(),
+                            builder:
+                                (
+                                  BuildContext context,
+                                  AsyncSnapshot<List<Data>> snapshot,
+                                ) {
+                                  Widget result;
+                                  if (snapshot.hasData) {
+                                    result = Wrap(
+                                      spacing: 10,
+                                      runSpacing: 10,
+                                      children: snapshot.data!.map((
+                                        Data option,
+                                      ) {
+                                        final isSelected = _filters_favorite
+                                            .contains(option);
+                                        return GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              if (isSelected) {
+                                                _filters_favorite.remove(
+                                                  option,
+                                                );
+                                              } else {
+                                                _filters_favorite.add(option);
+                                              }
+                                            });
+                                          },
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 14,
+                                              vertical: 10,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: isSelected
+                                                  ? AppColor.btnBackground
+                                                  : Colors.black.withOpacity(
+                                                      0.6,
+                                                    ),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            child: Text(
+                                              option.value ?? '',
+                                              style: GoogleFonts.montserrat(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400,
+                                                fontStyle: FontStyle.normal,
+                                                color: isSelected
+                                                    ? AppColor.WHITE
+                                                    : AppColor.WHITE,
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
+                                    );
+                                  } else if (snapshot.hasError) {
+                                    result = Text('Error: ${snapshot.error}');
+                                  } else {
+                                    result = const Text('Awaiting result...');
+                                  }
+                                  return result;
+                                },
+                          ),
+                        ],
                       ),
                     ),
 
@@ -285,10 +330,33 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                           setState(() => spiceExpanded = !spiceExpanded),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _buildRadio('Mild'),
-                          _buildRadio('Medium'),
-                          _buildRadio('Spicy'),
+                        children: <Widget>[
+                          FutureBuilder<List<Data>>(
+                            future: getSpice(),
+                            builder:
+                                (
+                                  BuildContext context,
+                                  AsyncSnapshot<List<Data>> snapshot,
+                                ) {
+                                  Widget result;
+                                  if (snapshot.hasData) {
+                                    result = Wrap(
+                                      spacing: 2,
+                                      runSpacing: 2,
+                                      children: snapshot.data!.map((
+                                        Data option,
+                                      ) {
+                                        return _buildRadio(option);
+                                      }).toList(),
+                                    );
+                                  } else if (snapshot.hasError) {
+                                    result = Text('Error: ${snapshot.error}');
+                                  } else {
+                                    result = const Text('Awaiting result...');
+                                  }
+                                  return result;
+                                },
+                          ),
                         ],
                       ),
                     ),
@@ -309,11 +377,33 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                         ),
                         onPressed: () async {
                           // first check user select all the fields then save
-                          await SharedPrefService.setPrefLevel(true);
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (_) => HomeScreen()),
-                          );
+
+                          print(_filters_favorite.toString());
+                          print(_filters_dietary.toString());
+                          print(_selectedSpice);
+
+                          if (_filters_dietary.isNotEmpty &&
+                              _filters_favorite.isNotEmpty &&
+                              _selectedSpice!.isNotEmpty) {
+                            await SharedPrefService.setPrefLevel(true);
+                            BottomSnackBar.show(
+                              context,
+                              message: 'Preference saved.!!',
+                              backgroundColor: Colors.green,
+                              icon: Icons.check_circle,
+                            );
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (_) => HomeScreen()),
+                            );
+                          } else {
+                            BottomSnackBar.show(
+                              context,
+                              message: 'Please select preferences.!!',
+                              backgroundColor: AppColor.btnBackground,
+                              icon: Icons.error,
+                            );
+                          }
                         },
                         child: Text(
                           AppString.save,
@@ -358,11 +448,11 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
               Text(
                 title, // use the parameter
                 style: GoogleFonts.playfairDisplay(
-                                    fontSize: 16,
-  fontWeight: FontWeight.w600,
-  fontStyle: FontStyle.normal,
-                                    color: AppColor.WHITE,
-                                  ),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  fontStyle: FontStyle.normal,
+                  color: AppColor.WHITE,
+                ),
               ),
               IconButton(
                 icon: Icon(
@@ -385,21 +475,26 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
     );
   }
 
-  Widget _buildRadio(String value) {
-    return RadioListTile<String>(
+  Widget _buildRadio(Data data) {
+    return RadioListTile(
       contentPadding: EdgeInsets.zero,
-      title: Text(value, style: GoogleFonts.montserrat(
-                                    fontSize: 14,
-  fontWeight: FontWeight.w400,
-  fontStyle: FontStyle.normal,
-                                    color: AppColor.WHITE,
-                                  )),
-      value: value,
-      groupValue: _selectedSpice,
+      title: Text(
+        data.value ?? '',
+        style: GoogleFonts.montserrat(
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          fontStyle: FontStyle.normal,
+          color: AppColor.WHITE,
+        ),
+      ),
+      value: data.id,
+      // ignore: deprecated_member_use
+      groupValue: _selectedVal,
       activeColor: AppColor.btnBackground,
       onChanged: (val) {
         setState(() {
-          _selectedSpice = val!;
+          _selectedVal = data.id!;
+          _selectedSpice = data.value;
         });
       },
     );
