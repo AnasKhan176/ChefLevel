@@ -16,6 +16,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setup();
   final bool isSeenWalkthrough = await SharedPrefService.isWalkthroughSeen();
+  final bool isLoggedIn = await SharedPrefService.isLoggedIn();
+
   final device = await Utility.getDeviceId();//UDID
   final deviceType = await Utility.getDeviceType();
   if(device != null) {
@@ -36,19 +38,20 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => LoginProvider()),
         ChangeNotifierProvider(create: (_) => PreferenceLevelProvider()),
 
-    ], child: MyApp(isSeenWalkthrough: isSeenWalkthrough))
+    ], child: MyApp(isSeenWalkthrough: isSeenWalkthrough, isLoggedIn:isLoggedIn))
     
     
     );
 }
 class MyApp extends StatelessWidget {
   final bool isSeenWalkthrough;
-  const MyApp({super.key, required this.isSeenWalkthrough});
+  final bool isLoggedIn;
+  const MyApp({super.key, required this.isSeenWalkthrough, required this.isLoggedIn});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(isSeenWalkthrough: isSeenWalkthrough),
+      home: SplashScreen(isSeenWalkthrough: isSeenWalkthrough, isLoggedIn: isLoggedIn),
       // home: OtpVerificationScreen(contact: "23524278947", password: "password", loginMode: "loginMode", otpCode: "123456"),
     );
   }

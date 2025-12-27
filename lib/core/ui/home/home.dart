@@ -9,14 +9,14 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: _buildDrawer(),
+      drawer: _buildDrawer(context),
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
         elevation: 0,
         leading: Builder(
           builder: (context) => IconButton(
-            icon: const Icon(Icons.menu, color: AppColor.WHITE,),
+            icon: const Icon(Icons.menu, color: AppColor.WHITE),
             onPressed: () => Scaffold.of(context).openDrawer(),
           ),
         ),
@@ -27,11 +27,11 @@ class HomeScreen extends StatelessWidget {
               radius: 18,
               backgroundImage: AssetImage('assets/common.png'),
             ),
-          )
+          ),
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -63,14 +63,14 @@ class HomeScreen extends StatelessWidget {
   // ---------------- WIDGETS ----------------
 
   Widget _headerText() {
-    return  Text(
+    return Text(
       'Find your Best Chef & Recipe\naround you',
-      style:GoogleFonts.playfairDisplay(
-                                    fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      fontStyle: FontStyle.normal,
-                      color: AppColor.WHITE,
-                                  ),
+      style: GoogleFonts.playfairDisplay(
+        fontSize: 16,
+        fontWeight: FontWeight.w400,
+        fontStyle: FontStyle.normal,
+        color: AppColor.WHITE,
+      ),
     );
   }
 
@@ -83,17 +83,22 @@ class HomeScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(30),
       ),
       child: Row(
-        children:  [
+        children: [
           Icon(Icons.search, color: AppColor.WHITE),
           SizedBox(width: 10),
           Expanded(
-            child: Text(
-              'Search by chef, recipes...',
+            child: TextField(
+              autofocus: false,
               style: GoogleFonts.montserrat(
-  fontSize: 14,
-  fontWeight: FontWeight.w400,
-  fontStyle: FontStyle.normal,
-  color: AppColor.WHITE,                                 ),
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                fontStyle: FontStyle.normal,
+                color: AppColor.WHITE,
+              ),
+              decoration: InputDecoration.collapsed(
+                hintText: "Search by chef, recipes...",
+                border: InputBorder.none,
+              ),
             ),
           ),
           Icon(Icons.tune, color: AppColor.WHITE),
@@ -108,22 +113,21 @@ class HomeScreen extends StatelessWidget {
       children: [
         Text(
           title,
-          style: 
-          GoogleFonts.playfairDisplay(
-  fontSize: 14,
-  fontWeight: FontWeight.w700,
-  fontStyle: FontStyle.normal,
-  color: AppColor.WHITE,
-                                  ),
+          style: GoogleFonts.playfairDisplay(
+            fontSize: 14,
+            fontWeight: FontWeight.w700,
+            fontStyle: FontStyle.normal,
+            color: AppColor.WHITE,
+          ),
         ),
-         Text(
+        Text(
           'See All',
           style: GoogleFonts.montserrat(
-  fontSize: 12,
-  fontWeight: FontWeight.w400,
-  fontStyle: FontStyle.normal,
-  color: AppColor.btnBackground,                                  
-  ),
+            fontSize: 12,
+            fontWeight: FontWeight.w400,
+            fontStyle: FontStyle.normal,
+            color: AppColor.btnBackground,
+          ),
         ),
       ],
     );
@@ -155,7 +159,9 @@ class HomeScreen extends StatelessWidget {
         children: [
           Expanded(
             child: ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(16),
+              ),
               child: Image.asset(
                 'assets/sea_food_salad.jpg',
                 fit: BoxFit.cover,
@@ -167,24 +173,39 @@ class HomeScreen extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children:  [
+              children: [
                 Text(
                   'Seafood Salad',
-                  style:       GoogleFonts.playfairDisplay(
-  fontSize: 12,
-  fontWeight: FontWeight.w600,
-  fontStyle: FontStyle.normal,
-  color: AppColor.WHITE,                                  
-  ),
+                  style: GoogleFonts.playfairDisplay(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    fontStyle: FontStyle.normal,
+                    color: AppColor.WHITE,
+                  ),
                 ),
-                SizedBox(height: 4),
+                SizedBox(height: 2),
+                Text(
+                  'Chef Tieghan Gerard',
+                  style: GoogleFonts.montserrat(
+                    fontSize: 8,
+                    fontWeight: FontWeight.w400,
+                    fontStyle: FontStyle.normal,
+                    color: AppColor.lightgray,
+                  ),
+                ),
+                SizedBox(height: 2),
                 Text(
                   '⭐ 4.8 (120)',
-                  style: TextStyle(color: AppColor.WHITE, fontSize: 12),
+                  style: GoogleFonts.montserrat(
+                    fontSize: 8,
+                    fontWeight: FontWeight.w400,
+                    fontStyle: FontStyle.normal,
+                    color: AppColor.lightgray,
+                  ),
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
@@ -214,22 +235,39 @@ class HomeScreen extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
-                  colors: [
-                    Colors.black.withOpacity(0.8),
-                    Colors.transparent,
-                  ],
+                  colors: [Colors.black.withOpacity(0.8), Colors.transparent],
                 ),
               ),
-              child:  Align(
+              child: Align(
                 alignment: Alignment.bottomLeft,
-                child: Text(
-                  'Chef Marco\n⭐ 4.9',
-                  style: GoogleFonts.playfairDisplay(
-  fontSize: 12,
-  fontWeight: FontWeight.w600,
-  fontStyle: FontStyle.normal,
-  color: AppColor.WHITE,                                  
-  ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Text(
+                        'Chef Marco',
+                        style: GoogleFonts.playfairDisplay(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          fontStyle: FontStyle.normal,
+                          color: AppColor.WHITE,
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Text(
+                        '⭐ 4.9',
+                        style: GoogleFonts.montserrat(
+                          fontSize: 8,
+                          fontWeight: FontWeight.w400,
+                          fontStyle: FontStyle.normal,
+                          color: AppColor.lightgray,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -248,7 +286,7 @@ class HomeScreen extends StatelessWidget {
       mainAxisSpacing: 12,
       children: List.generate(
         6,
-            (index) => Container(
+        (index) => Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
             image: const DecorationImage(
@@ -263,14 +301,20 @@ class HomeScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(14),
               color: Colors.black.withOpacity(0.4),
             ),
-            child:  Text(
-              'Cuisine',
-              style: GoogleFonts.playfairDisplay(
-  fontSize: 12,
-  fontWeight: FontWeight.w600,
-  fontStyle: FontStyle.normal,
-  color: AppColor.WHITE,                                  
-  ),
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                padding: EdgeInsets.all(5),
+                child: Text(
+                  'Cuisine',
+                  style: GoogleFonts.playfairDisplay(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    fontStyle: FontStyle.normal,
+                    color: AppColor.WHITE,
+                  ),
+                ),
+              ),
             ),
           ),
         ),
@@ -308,46 +352,239 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDrawer() {
+  Widget _buildDrawer(BuildContext context) {
     return Drawer(
       backgroundColor: Colors.black,
-      child: ListView(
-        children:  [
-          DrawerHeader(
-            child: Text(
-              'Menu',
-              style: TextStyle(color: AppColor.WHITE, fontSize: 20),
+      child: Column(
+        // Changed this to a Column from a ListView
+        children: <Widget>[
+          _createHeader(context),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Align(
+                    alignment: AlignmentGeometry.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Text(
+                        'Your Information',
+                        style: GoogleFonts.playfairDisplay(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          fontStyle: FontStyle.normal,
+                          color: AppColor.WHITE,
+                        ),
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.home, color: AppColor.WHITE),
+                    title: Text(
+                      'Your Orders',
+                      style: GoogleFonts.montserrat(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        fontStyle: FontStyle.normal,
+                        color: AppColor.WHITE,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.favorite, color: AppColor.WHITE),
+                    title: Text(
+                      'Save Recipes',
+                      style: GoogleFonts.montserrat(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        fontStyle: FontStyle.normal,
+                        color: AppColor.WHITE,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.emoji_emotions, color: AppColor.WHITE),
+                    title: Text(
+                      'Coupons',
+                      style: GoogleFonts.montserrat(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        fontStyle: FontStyle.normal,
+                        color: AppColor.WHITE,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.money, color: AppColor.WHITE),
+                    title: Text(
+                      'Earn & Redeem',
+                      style: GoogleFonts.montserrat(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        fontStyle: FontStyle.normal,
+                        color: AppColor.WHITE,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.email, color: AppColor.WHITE),
+                    title: Text(
+                      'Address Book',
+                      style: GoogleFonts.montserrat(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        fontStyle: FontStyle.normal,
+                        color: AppColor.WHITE,
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: AlignmentGeometry.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Text(
+                        'Others',
+                        style: GoogleFonts.playfairDisplay(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          fontStyle: FontStyle.normal,
+                          color: AppColor.WHITE,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  ListTile(
+                    leading: Icon(Icons.logout, color: AppColor.WHITE),
+                    title: Text(
+                      'Share App',
+                      style: GoogleFonts.montserrat(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        fontStyle: FontStyle.normal,
+                        color: AppColor.WHITE,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.abc, color: AppColor.WHITE),
+                    title: Text(
+                      'About Us',
+                      style: GoogleFonts.montserrat(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        fontStyle: FontStyle.normal,
+                        color: AppColor.WHITE,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.settings, color: AppColor.WHITE),
+                    title: Text(
+                      'Settings',
+                      style: GoogleFonts.montserrat(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        fontStyle: FontStyle.normal,
+                        color: AppColor.WHITE,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.privacy_tip, color: AppColor.WHITE),
+                    title: Text(
+                      'Privacy Center',
+                      style: GoogleFonts.montserrat(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        fontStyle: FontStyle.normal,
+                        color: AppColor.WHITE,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-          ListTile(
-            leading: Icon(Icons.home, color: AppColor.WHITE),
-            title: Text('Home', style: GoogleFonts.montserrat(
-  fontSize: 14,
-  fontWeight: FontWeight.w400,
-  fontStyle: FontStyle.normal,
-  color: AppColor.WHITE,                                  
-  ),),
-          ),
-          ListTile(
-            leading: Icon(Icons.favorite, color: AppColor.WHITE),
-            title: Text('Favorites', style: GoogleFonts.montserrat(
-  fontSize: 14,
-  fontWeight: FontWeight.w400,
-  fontStyle: FontStyle.normal,
-  color: AppColor.WHITE,                                  
-  ),),
-          ),
-          ListTile(
-            leading: Icon(Icons.logout, color: AppColor.WHITE),
-            title: Text('Logout', style: GoogleFonts.montserrat(
-  fontSize: 14,
-  fontWeight: FontWeight.w400,
-  fontStyle: FontStyle.normal,
-  color: AppColor.WHITE,                                  
-  ),),
-          ),
+          _createFooterItem(),
         ],
       ),
     );
+
+    // //         ),
+    // Container(
+    //       height: 60, // Set your desired height
+    //       decoration: BoxDecoration(
+    //         color: Colors.transparent, // Optional: set a background color
+    //         // No default border here
+    //       ),
+    //       child: Center(
+    //                    child: Text(
+    //             'Chef Level',
+    //             style:  GoogleFonts.playfairDisplay(
+    // fontSize: 14,
+    // fontWeight: FontWeight.w600,
+    // fontStyle: FontStyle.normal,
+    // color: AppColor.btnBackground,
+    // ),
+    //       ),
+    //     ),),
+  }
+
+  Widget _createFooterItem() {
+    return DecoratedBox(
+      decoration: BoxDecoration(color: Colors.black),
+      child: ListTile(
+        title: Row(
+          children: <Widget>[
+            Icon(Icons.logout, color: AppColor.WHITE),
+            Padding(
+              padding: EdgeInsets.only(left: 8.0),
+              child: Text(
+                'Logout',
+                style: GoogleFonts.montserrat(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  fontStyle: FontStyle.normal,
+                  color: AppColor.WHITE,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _createHeader(BuildContext context) {
+    return
+    Theme(
+data: Theme.of(context).copyWith(
+dividerTheme: const DividerThemeData(color: Colors.transparent),
+),
+child:
+     SizedBox(
+      height: 60.0, // Set your desired height here
+      child: DrawerHeader(
+        decoration: BoxDecoration(color: Colors.black,),
+        margin: EdgeInsets.zero,
+        //padding: EdgeInsets.all(10.0),
+        child: Row(
+          children: [
+            Icon(Icons.arrow_back, color: AppColor.WHITE),
+            SizedBox(width: 50.0),
+            Text(
+              'Chef Level',
+              style: GoogleFonts.playfairDisplay(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                fontStyle: FontStyle.normal,
+                color: AppColor.btnBackground,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),);
   }
 }

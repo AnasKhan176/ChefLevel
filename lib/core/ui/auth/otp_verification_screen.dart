@@ -81,6 +81,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     if (api_response.responseCode == 20000) {
       AppLoader.hide();
       final bool isPrefLevel = await SharedPrefService.isPrefLevel();
+      await SharedPrefService.setLoggedIn(true);
+
       BottomSnackBar.show(
           context,
           message: 'Otp verified successfully.!!',
