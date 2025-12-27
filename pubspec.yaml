@@ -43,6 +43,7 @@ dependencies:
   flutter_udid: ^4.1.1
   mobile_device_identifier: ^0.0.3
   device_info_plus: ^12.3.0
+  get: ^4.7.3
 
 
 

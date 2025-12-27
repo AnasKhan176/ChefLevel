@@ -1,11 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:food_chef/core/controller/favourite_receipe_controller.dart';
+import 'package:food_chef/core/ui/snackbar/bottom_snackbar.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../theme/app_color.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget{
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
 
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late FavouriteReceipeController _favouriteReceipeController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _favouriteReceipeController = Get.put(FavouriteReceipeController());
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -138,15 +155,15 @@ class HomeScreen extends StatelessWidget {
       height: 210,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: 3,
+        itemCount: 4,
         itemBuilder: (context, index) {
-          return _recipeCard();
+          return _recipeCard(index);
         },
       ),
     );
   }
 
-  Widget _recipeCard() {
+  Widget _recipeCard(int id) {
     return Container(
       width: 160,
       margin: const EdgeInsets.only(right: 16),
@@ -157,18 +174,55 @@ class HomeScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // IMAGE WITH HEART ICON
           Expanded(
-            child: ClipRRect(
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(16),
-              ),
-              child: Image.asset(
-                'assets/sea_food_salad.jpg',
-                fit: BoxFit.cover,
-                width: double.infinity,
-              ),
+            child: Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(16),
+                  ),
+                  child: Image.asset(
+                    'assets/sea_food_salad.jpg',
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                  ),
+                ),
+
+                // HEART ICON (TOP RIGHT)
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: InkWell(
+                    onTap: () {
+                        _favouriteReceipeController.toggleFavorite(id);
+                    },
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.4),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Obx(
+                          () => Icon(
+                            _favouriteReceipeController.isFavorite(id)
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            size: 14,
+                            color: _favouriteReceipeController.isFavorite(id)
+                                ? Colors.red
+                                : Colors.white,
+                          )
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
+
+          // TEXT CONTENT
           Padding(
             padding: const EdgeInsets.all(10),
             child: Column(
@@ -179,29 +233,41 @@ class HomeScreen extends StatelessWidget {
                   style: GoogleFonts.playfairDisplay(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
-                    fontStyle: FontStyle.normal,
                     color: AppColor.WHITE,
                   ),
                 ),
-                SizedBox(height: 2),
+                const SizedBox(height: 2),
                 Text(
                   'Chef Tieghan Gerard',
                   style: GoogleFonts.montserrat(
                     fontSize: 8,
                     fontWeight: FontWeight.w400,
-                    fontStyle: FontStyle.normal,
                     color: AppColor.lightgray,
                   ),
                 ),
-                SizedBox(height: 2),
-                Text(
-                  '⭐ 4.8 (120)',
-                  style: GoogleFonts.montserrat(
-                    fontSize: 8,
-                    fontWeight: FontWeight.w400,
-                    fontStyle: FontStyle.normal,
-                    color: AppColor.lightgray,
-                  ),
+                const SizedBox(height: 4),
+
+                // STAR + TIME ROW
+                Row(
+                  children: [
+                    Text(
+                      '⭐ 4.8 (120)',
+                      style: GoogleFonts.montserrat(
+                        fontSize: 8,
+                        fontWeight: FontWeight.w400,
+                        color: AppColor.lightgray,
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      '25 min',
+                      style: GoogleFonts.montserrat(
+                        fontSize: 8,
+                        fontWeight: FontWeight.w400,
+                        color: AppColor.lightgray,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -210,6 +276,7 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
 
   Widget _chefHorizontalList() {
     return SizedBox(
@@ -286,7 +353,7 @@ class HomeScreen extends StatelessWidget {
       mainAxisSpacing: 12,
       children: List.generate(
         6,
-        (index) => Container(
+            (index) => Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
             image: const DecorationImage(
@@ -558,33 +625,36 @@ class HomeScreen extends StatelessWidget {
 
   Widget _createHeader(BuildContext context) {
     return
-    Theme(
-data: Theme.of(context).copyWith(
-dividerTheme: const DividerThemeData(color: Colors.transparent),
-),
-child:
-     SizedBox(
-      height: 60.0, // Set your desired height here
-      child: DrawerHeader(
-        decoration: BoxDecoration(color: Colors.black,),
-        margin: EdgeInsets.zero,
-        //padding: EdgeInsets.all(10.0),
-        child: Row(
-          children: [
-            Icon(Icons.arrow_back, color: AppColor.WHITE),
-            SizedBox(width: 50.0),
-            Text(
-              'Chef Level',
-              style: GoogleFonts.playfairDisplay(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                fontStyle: FontStyle.normal,
-                color: AppColor.btnBackground,
-              ),
-            ),
-          ],
+      Theme(
+        data: Theme.of(context).copyWith(
+          dividerTheme: const DividerThemeData(color: Colors.transparent),
         ),
-      ),
-    ),);
+        child:
+        SizedBox(
+          height: 60.0, // Set your desired height here
+          child: DrawerHeader(
+            decoration: BoxDecoration(color: Colors.black,),
+            margin: EdgeInsets.zero,
+            //padding: EdgeInsets.all(10.0),
+            child: Row(
+              children: [
+                Icon(Icons.arrow_back, color: AppColor.WHITE),
+                SizedBox(width: 50.0),
+                Text(
+                  'Chef Level',
+                  style: GoogleFonts.playfairDisplay(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    fontStyle: FontStyle.normal,
+                    color: AppColor.btnBackground,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),);
   }
 }
+
+  
+

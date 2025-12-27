@@ -42,7 +42,7 @@ class AppRoutes {
 
          
         case homeScreen:
-          return MaterialPageRoute(builder: (_) => const HomeScreen());
+          return MaterialPageRoute(builder: (_) => HomeScreen());
 
       default:
                 return MaterialPageRoute(

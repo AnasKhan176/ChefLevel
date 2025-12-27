@@ -59,14 +59,9 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       BottomSnackBar.show(
         context,
-        message: 'Please register your account.!!',
+        message: 'No account found with this number/email, please register.!!',
         backgroundColor: AppColor.btnBackground,
         icon: Icons.error,
-      );
-      // User not exist, please open registration screen
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => RegisterScreen()),
       );
     } else if (api_response.responseCode == 5120) {
       setState(() {

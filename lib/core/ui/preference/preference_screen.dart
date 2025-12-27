@@ -152,8 +152,35 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: SingleChildScrollView(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
+                    Positioned(
+                      top: 40,
+                      right: 20,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (_) => HomeScreen()),
+                          );
+                        },
+                        child: Text(
+                          AppString.skip,
+                          style:
+                          // TextStyle(
+                          //   fontSize: 16,
+                          //   fontWeight: FontWeight.w400,
+                          //   color: AppColor.WHITE,
+                          // ),
+                          GoogleFonts.montserrat(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            fontStyle: FontStyle.normal,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
                     Text(
                       AppString.selectYourPrefs,
                       style: GoogleFonts.playfairDisplay(
