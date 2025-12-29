@@ -98,6 +98,7 @@ flutter:
     - assets/settings.png
     - assets/privacy_center.png
     - assets/logout.png
+    - assets/filter.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 

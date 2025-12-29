@@ -273,12 +273,28 @@ class _LoginScreenState extends State<LoginScreen> {
                       alignment: Alignment.centerRight,
                       child: TextButton(
                         onPressed: () {
+                          if (!isEmail(
+                              _emailMobileController.text.toString().trim(),
+                            ) &&
+                            !isPhone(
+                              _emailMobileController.text.toString().trim(),
+                            )) {
                           BottomSnackBar.show(
                             context,
-                            message: AppString.forgotPassword,
+                            message:
+                                'Please enter correct email or phone number.!!',
+                            backgroundColor: AppColor.btnBackground,
+                            icon: Icons.error,
+                          );
+                        } else {
+BottomSnackBar.show(
+                            context,
+                            message: 'Link has been sent on your register email/mobile. Please reset Pin!!',
                             backgroundColor: Colors.green,
                             icon: Icons.check_circle,
                           );
+                        }
+                          
                         },
                         child: Text(
                           AppString.forgotPassword,

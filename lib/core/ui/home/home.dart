@@ -109,18 +109,23 @@ class _HomeScreenState extends State<HomeScreen> {
             child: TextField(
               autofocus: false,
               style: GoogleFonts.montserrat(
-                fontSize: 14,
+                fontSize: 12,
                 fontWeight: FontWeight.w400,
                 fontStyle: FontStyle.normal,
                 color: AppColor.WHITE,
               ),
               decoration: InputDecoration.collapsed(
                 hintText: "Search by chef, recipes...",
+                hintStyle: TextStyle(color: AppColor.WHITE,fontSize: 12.0),
                 border: InputBorder.none,
               ),
             ),
           ),
-          Icon(Icons.tune, color: AppColor.WHITE),
+          SizedBox(
+                      width: 16.0,
+                      height: 16.0,
+                      child: Image.asset('assets/filter.png'), // Use AssetImage
+                    )
         ],
       ),
     );
