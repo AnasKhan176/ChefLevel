@@ -379,7 +379,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Padding(
                 padding: EdgeInsets.all(5),
                 child: Text(
-                  'Cuisine',
+                  index==0? 'Italian': index == 1?'Japanese':index==2?'Mexican':index==3?'Vegetarian':index==4?'BBQ':'Desserts',
                   style: GoogleFonts.playfairDisplay(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
