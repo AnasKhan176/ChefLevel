@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:food_chef/core/controller/favourite_receipe_controller.dart';
+import 'package:food_chef/core/ui/auth/login_screen.dart';
 import 'package:food_chef/core/ui/snackbar/bottom_snackbar.dart';
+import 'package:food_chef/core/utils/shared_pref_service.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -627,15 +629,26 @@ class _HomeScreenState extends State<HomeScreen> {
     return DecoratedBox(
       decoration: BoxDecoration(color: Colors.black),
       child: ListTile(
+        onTap: () async{
+          await SharedPrefService.clearOnLogout();
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (_) => LoginScreen()),
+                (route) => false,
+          );
+        },
         title: Row(
           children: <Widget>[
-            Icon(
-              Icons.logout, // This is an IconData constant
-              size: 16.0,
-              color: Colors.white,
+            Padding(
+                padding: EdgeInsets.only(bottom: 30.0),
+                child: Icon(
+                  Icons.logout, // This is an IconData constant
+                  size: 16.0,
+                  color: Colors.white,
+                ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 8.0),
+              padding: EdgeInsets.only(left: 8.0, bottom: 30.0),
               child: Text(
                 'Logout',
                 style: GoogleFonts.montserrat(

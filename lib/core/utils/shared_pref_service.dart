@@ -128,4 +128,17 @@ class SharedPrefService {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(pinKey) ?? "";
   }
+
+  static Future<void> clearOnLogout() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+
+    // OR clear only user/session related data
+    // await prefs.remove(loggedInKey);
+    // await prefs.remove(sessionId);
+    // await prefs.remove(uid);
+    // await prefs.remove(userIdKey);
+    // await prefs.remove(pinKey);
+    // await prefs.remove(prefLevelKey);
+  }
 }
