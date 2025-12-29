@@ -88,6 +88,16 @@ flutter:
     - assets/safe_marco.png
     - assets/sea_food_salad.jpg
     - assets/vegeterian.png
+    - assets/your_orders.png
+    - assets/save_recipes.png
+    - assets/coupans.png
+    - assets/earn_rewards.png
+    - assets/address_book.png
+    - assets/share.png
+    - assets/about_us.png
+    - assets/settings.png
+    - assets/privacy_center.png
+    - assets/logout.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 

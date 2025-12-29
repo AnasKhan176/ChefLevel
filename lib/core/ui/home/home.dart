@@ -8,14 +8,14 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../theme/app_color.dart';
 
-class HomeScreen extends StatefulWidget{
+class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
-
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   late FavouriteReceipeController _favouriteReceipeController;
+  final GlobalKey<ScaffoldState> _key= GlobalKey();
 
   @override
   void initState() {
@@ -23,9 +23,11 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _favouriteReceipeController = Get.put(FavouriteReceipeController());
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key:_key,
       drawer: _buildDrawer(context),
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -195,7 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   right: 8,
                   child: InkWell(
                     onTap: () {
-                        _favouriteReceipeController.toggleFavorite(id);
+                      _favouriteReceipeController.toggleFavorite(id);
                     },
                     borderRadius: BorderRadius.circular(20),
                     child: Container(
@@ -205,15 +207,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         shape: BoxShape.circle,
                       ),
                       child: Obx(
-                          () => Icon(
-                            _favouriteReceipeController.isFavorite(id)
-                                ? Icons.favorite
-                                : Icons.favorite_border,
-                            size: 14,
-                            color: _favouriteReceipeController.isFavorite(id)
-                                ? Colors.red
-                                : Colors.white,
-                          )
+                        () => Icon(
+                          _favouriteReceipeController.isFavorite(id)
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          size: 14,
+                          color: _favouriteReceipeController.isFavorite(id)
+                              ? Colors.red
+                              : Colors.white,
+                        ),
                       ),
                     ),
                   ),
@@ -276,7 +278,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
 
   Widget _chefHorizontalList() {
     return SizedBox(
@@ -353,7 +354,7 @@ class _HomeScreenState extends State<HomeScreen> {
       mainAxisSpacing: 12,
       children: List.generate(
         6,
-            (index) => Container(
+        (index) => Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
             image: const DecorationImage(
@@ -446,7 +447,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   ListTile(
-                    leading: Icon(Icons.home, color: AppColor.WHITE),
+                    leading: Icon(
+                      Icons.card_giftcard, // This is an IconData constant
+                      size: 16.0,
+                      color: Colors.white,
+                    ),
                     title: Text(
                       'Your Orders',
                       style: GoogleFonts.montserrat(
@@ -458,7 +463,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   ListTile(
-                    leading: Icon(Icons.favorite, color: AppColor.WHITE),
+                    leading: Icon(
+                      Icons.food_bank, // This is an IconData constant
+                      size: 16.0,
+                      color: Colors.white,
+                    ),
                     title: Text(
                       'Save Recipes',
                       style: GoogleFonts.montserrat(
@@ -470,7 +479,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   ListTile(
-                    leading: Icon(Icons.emoji_emotions, color: AppColor.WHITE),
+                    leading: Icon(
+                      Icons.card_giftcard_sharp, // This is an IconData constant
+                      size: 16.0,
+                      color: Colors.white,
+                    ),
                     title: Text(
                       'Coupons',
                       style: GoogleFonts.montserrat(
@@ -482,7 +495,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   ListTile(
-                    leading: Icon(Icons.money, color: AppColor.WHITE),
+                    leading: Icon(
+                      Icons.money, // This is an IconData constant
+                      size: 16.0,
+                      color: Colors.white,
+                    ),
                     title: Text(
                       'Earn & Redeem',
                       style: GoogleFonts.montserrat(
@@ -494,7 +511,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   ListTile(
-                    leading: Icon(Icons.email, color: AppColor.WHITE),
+                    leading: Icon(
+                      Icons.location_city, // This is an IconData constant
+                      size: 16.0,
+                      color: Colors.white,
+                    ),
                     title: Text(
                       'Address Book',
                       style: GoogleFonts.montserrat(
@@ -522,7 +543,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
 
                   ListTile(
-                    leading: Icon(Icons.logout, color: AppColor.WHITE),
+                    leading: SizedBox(
+                      width: 16.0,
+                      height: 16.0,
+                      child: Image.asset('assets/share.png'), // Use AssetImage
+                    ),
                     title: Text(
                       'Share App',
                       style: GoogleFonts.montserrat(
@@ -534,7 +559,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   ListTile(
-                    leading: Icon(Icons.abc, color: AppColor.WHITE),
+                    leading: Icon(
+                      Icons.man, // This is an IconData constant
+                      size: 16.0,
+                      color: Colors.white,
+                    ),
                     title: Text(
                       'About Us',
                       style: GoogleFonts.montserrat(
@@ -546,7 +575,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   ListTile(
-                    leading: Icon(Icons.settings, color: AppColor.WHITE),
+                    leading: Icon(
+                      Icons.settings, // This is an IconData constant
+                      size: 16.0,
+                      color: Colors.white,
+                    ),
                     title: Text(
                       'Settings',
                       style: GoogleFonts.montserrat(
@@ -558,7 +591,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   ListTile(
-                    leading: Icon(Icons.privacy_tip, color: AppColor.WHITE),
+                    leading: SizedBox(
+                      width: 16.0,
+                      height: 16.0,
+                      child: Image.asset(
+                        'assets/privacy_center.png',
+                      ), // Use AssetImage
+                    ),
                     title: Text(
                       'Privacy Center',
                       style: GoogleFonts.montserrat(
@@ -577,25 +616,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
-
-    // //         ),
-    // Container(
-    //       height: 60, // Set your desired height
-    //       decoration: BoxDecoration(
-    //         color: Colors.transparent, // Optional: set a background color
-    //         // No default border here
-    //       ),
-    //       child: Center(
-    //                    child: Text(
-    //             'Chef Level',
-    //             style:  GoogleFonts.playfairDisplay(
-    // fontSize: 14,
-    // fontWeight: FontWeight.w600,
-    // fontStyle: FontStyle.normal,
-    // color: AppColor.btnBackground,
-    // ),
-    //       ),
-    //     ),),
   }
 
   Widget _createFooterItem() {
@@ -604,7 +624,11 @@ class _HomeScreenState extends State<HomeScreen> {
       child: ListTile(
         title: Row(
           children: <Widget>[
-            Icon(Icons.logout, color: AppColor.WHITE),
+            Icon(
+              Icons.logout, // This is an IconData constant
+              size: 16.0,
+              color: Colors.white,
+            ),
             Padding(
               padding: EdgeInsets.only(left: 8.0),
               child: Text(
@@ -624,37 +648,37 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _createHeader(BuildContext context) {
-    return
-      Theme(
-        data: Theme.of(context).copyWith(
-          dividerTheme: const DividerThemeData(color: Colors.transparent),
-        ),
-        child:
-        SizedBox(
-          height: 60.0, // Set your desired height here
-          child: DrawerHeader(
-            decoration: BoxDecoration(color: Colors.black,),
-            margin: EdgeInsets.zero,
-            //padding: EdgeInsets.all(10.0),
-            child: Row(
-              children: [
-                Icon(Icons.arrow_back, color: AppColor.WHITE),
-                SizedBox(width: 50.0),
-                Text(
-                  'Chef Level',
-                  style: GoogleFonts.playfairDisplay(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    fontStyle: FontStyle.normal,
-                    color: AppColor.btnBackground,
-                  ),
+    return Theme(
+      data: Theme.of(context).copyWith(
+        dividerTheme: const DividerThemeData(color: Colors.transparent),
+      ),
+      child: SizedBox(
+        height: 60.0, // Set your desired height here
+        child: DrawerHeader(
+          decoration: BoxDecoration(color: Colors.black),
+          margin: EdgeInsets.zero,
+          //padding: EdgeInsets.all(10.0),
+          child: Row(
+            children: [
+              InkWell(onTap:(){
+                _key.currentState?.openEndDrawer();
+              },
+              child:  
+              Icon(Icons.arrow_back, color: AppColor.WHITE, size: 16.0,),),
+              SizedBox(width: 50.0),
+              Text(
+                'Chef Level',
+                style: GoogleFonts.playfairDisplay(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  fontStyle: FontStyle.normal,
+                  color: AppColor.btnBackground,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ),);
+        ),
+      ),
+    );
   }
 }
-
-  
-
