@@ -17,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late FavouriteReceipeController _favouriteReceipeController;
-  final GlobalKey<ScaffoldState> _key= GlobalKey();
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
 
   @override
   void initState() {
@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key:_key,
+      key: _key,
       drawer: _buildDrawer(context),
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -105,7 +105,11 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       child: Row(
         children: [
-          Icon(Icons.search, color: AppColor.WHITE),
+          SizedBox(
+            width: 14.0,
+            height: 14.0,
+            child: Image.asset('assets/search.png'), // Use AssetImage
+          ),
           SizedBox(width: 10),
           Expanded(
             child: TextField(
@@ -118,16 +122,16 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               decoration: InputDecoration.collapsed(
                 hintText: "Search by chef, recipes...",
-                hintStyle: TextStyle(color: AppColor.WHITE,fontSize: 12.0),
+                hintStyle: TextStyle(color: AppColor.WHITE, fontSize: 12.0),
                 border: InputBorder.none,
               ),
             ),
           ),
           SizedBox(
-                      width: 16.0,
-                      height: 16.0,
-                      child: Image.asset('assets/filter.png'), // Use AssetImage
-                    )
+            width: 14.0,
+            height: 14.0,
+            child: Image.asset('assets/filter.png'), // Use AssetImage
+          ),
         ],
       ),
     );
@@ -381,7 +385,17 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Padding(
                 padding: EdgeInsets.all(5),
                 child: Text(
-                  index==0? 'Italian': index == 1?'Japanese':index==2?'Mexican':index==3?'Vegetarian':index==4?'BBQ':'Desserts',
+                  index == 0
+                      ? 'Italian'
+                      : index == 1
+                      ? 'Japanese'
+                      : index == 2
+                      ? 'Mexican'
+                      : index == 3
+                      ? 'Vegetarian'
+                      : index == 4
+                      ? 'BBQ'
+                      : 'Desserts',
                   style: GoogleFonts.playfairDisplay(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
@@ -454,10 +468,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   ListTile(
-                    leading: Icon(
-                      Icons.card_giftcard, // This is an IconData constant
-                      size: 16.0,
-                      color: Colors.white,
+                    leading: SizedBox(
+                      width: 14.0,
+                      height: 14.0,
+                      child: Image.asset(
+                        'assets/your_orders.png',
+                      ), // Use AssetImage
                     ),
                     title: Text(
                       'Your Orders',
@@ -470,10 +486,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   ListTile(
-                    leading: Icon(
-                      Icons.food_bank, // This is an IconData constant
-                      size: 16.0,
-                      color: Colors.white,
+                    leading: SizedBox(
+                      width: 14.0,
+                      height: 14.0,
+                      child: Image.asset(
+                        'assets/save_recipes.png',
+                      ), // Use AssetImage
                     ),
                     title: Text(
                       'Save Recipes',
@@ -486,10 +504,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   ListTile(
-                    leading: Icon(
-                      Icons.card_giftcard_sharp, // This is an IconData constant
-                      size: 16.0,
-                      color: Colors.white,
+                    leading: SizedBox(
+                      width: 14.0,
+                      height: 14.0,
+                      child: Image.asset(
+                        'assets/coupans.png',
+                      ), // Use AssetImage
                     ),
                     title: Text(
                       'Coupons',
@@ -502,10 +522,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   ListTile(
-                    leading: Icon(
-                      Icons.money, // This is an IconData constant
-                      size: 16.0,
-                      color: Colors.white,
+                    leading: SizedBox(
+                      width: 14.0,
+                      height: 14.0,
+                      child: Image.asset(
+                        'assets/earn_rewards.png',
+                      ), // Use AssetImage
                     ),
                     title: Text(
                       'Earn & Redeem',
@@ -518,10 +540,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   ListTile(
-                    leading: Icon(
-                      Icons.location_city, // This is an IconData constant
-                      size: 16.0,
-                      color: Colors.white,
+                    leading: SizedBox(
+                      width: 14.0,
+                      height: 14.0,
+                      child: Image.asset(
+                        'assets/address_book.png',
+                      ), // Use AssetImage
                     ),
                     title: Text(
                       'Address Book',
@@ -551,8 +575,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   ListTile(
                     leading: SizedBox(
-                      width: 16.0,
-                      height: 16.0,
+                      width: 14.0,
+                      height: 14.0,
                       child: Image.asset('assets/share.png'), // Use AssetImage
                     ),
                     title: Text(
@@ -566,10 +590,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   ListTile(
-                    leading: Icon(
-                      Icons.man, // This is an IconData constant
-                      size: 16.0,
-                      color: Colors.white,
+                    leading: SizedBox(
+                      width: 14.0,
+                      height: 14.0,
+                      child: Image.asset(
+                        'assets/about_us.png',
+                      ), // Use AssetImage
                     ),
                     title: Text(
                       'About Us',
@@ -582,10 +608,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   ListTile(
-                    leading: Icon(
-                      Icons.settings, // This is an IconData constant
-                      size: 16.0,
-                      color: Colors.white,
+                    leading: SizedBox(
+                      width: 14.0,
+                      height: 14.0,
+                      child: Image.asset(
+                        'assets/settings.png',
+                      ), // Use AssetImage
                     ),
                     title: Text(
                       'Settings',
@@ -599,8 +627,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   ListTile(
                     leading: SizedBox(
-                      width: 16.0,
-                      height: 16.0,
+                      width: 14.0,
+                      height: 14.0,
                       child: Image.asset(
                         'assets/privacy_center.png',
                       ), // Use AssetImage
@@ -629,37 +657,27 @@ class _HomeScreenState extends State<HomeScreen> {
     return DecoratedBox(
       decoration: BoxDecoration(color: Colors.black),
       child: ListTile(
-        onTap: () async{
-          await SharedPrefService.clearOnLogout();
+        onTap: () async {
+          // await SharedPrefService.clearOnLogout();
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (_) => LoginScreen()),
-                (route) => false,
+            (route) => false,
           );
         },
-        title: Row(
-          children: <Widget>[
-            Padding(
-                padding: EdgeInsets.only(bottom: 30.0),
-                child: Icon(
-                  Icons.logout, // This is an IconData constant
-                  size: 16.0,
-                  color: Colors.white,
-                ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 8.0, bottom: 30.0),
-              child: Text(
-                'Logout',
-                style: GoogleFonts.montserrat(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                  fontStyle: FontStyle.normal,
-                  color: AppColor.WHITE,
-                ),
-              ),
-            ),
-          ],
+        leading: SizedBox(
+          width: 14.0,
+          height: 14.0,
+          child: Image.asset('assets/logout.png'), // Use AssetImage
+        ),
+        title: Text(
+          'Logout',
+          style: GoogleFonts.montserrat(
+            fontSize: 12,
+            fontWeight: FontWeight.w400,
+            fontStyle: FontStyle.normal,
+            color: AppColor.WHITE,
+          ),
         ),
       ),
     );
@@ -671,18 +689,23 @@ class _HomeScreenState extends State<HomeScreen> {
         dividerTheme: const DividerThemeData(color: Colors.transparent),
       ),
       child: SizedBox(
-        height: 60.0, // Set your desired height here
+        height: 100.0, // Set your desired height here
         child: DrawerHeader(
           decoration: BoxDecoration(color: Colors.black),
           margin: EdgeInsets.zero,
           //padding: EdgeInsets.all(10.0),
           child: Row(
             children: [
-              InkWell(onTap:(){
-                _key.currentState?.openEndDrawer();
-              },
-              child:  
-              Icon(Icons.arrow_back, color: AppColor.WHITE, size: 16.0,),),
+              InkWell(
+                onTap: () {
+                  _key.currentState?.openEndDrawer();
+                },
+                child: Icon(
+                  Icons.arrow_back,
+                  color: AppColor.WHITE,
+                  size: 22.0,
+                ),
+              ),
               SizedBox(width: 50.0),
               Text(
                 'Chef Level',
