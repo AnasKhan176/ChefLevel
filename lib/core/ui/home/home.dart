@@ -100,8 +100,10 @@ class _HomeScreenState extends State<HomeScreen> {
       height: 50,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
+                border: Border.all(width: 1, color: AppColor.ligtestGray),
+
         color: Colors.white.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
         children: [
@@ -181,8 +183,10 @@ class _HomeScreenState extends State<HomeScreen> {
       width: 160,
       margin: const EdgeInsets.only(right: 16),
       decoration: BoxDecoration(
+        border: Border.all(width: 1, color: AppColor.ligtestGray),
+
         color: Colors.white.withOpacity(0.08),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -193,7 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 ClipRRect(
                   borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(16),
+                    top: Radius.circular(8),
                   ),
                   child: Image.asset(
                     'assets/sea_food_salad.jpg',
@@ -295,13 +299,15 @@ class _HomeScreenState extends State<HomeScreen> {
       height: 150,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: 2,
+        itemCount: 3,
         itemBuilder: (context, index) {
           return Container(
             width: 220,
             margin: const EdgeInsets.only(right: 16),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
+              border: Border.all(width: 1, color: AppColor.ligtestGray),
+
+              borderRadius: BorderRadius.circular(8),
               image: const DecorationImage(
                 image: AssetImage('assets/safe_marco.png'),
                 fit: BoxFit.cover,
@@ -310,44 +316,74 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(8),
                 gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   colors: [Colors.black.withOpacity(0.8), Colors.transparent],
                 ),
               ),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Text(
-                        'Chef Marco',
-                        style: GoogleFonts.playfairDisplay(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          fontStyle: FontStyle.normal,
-                          color: AppColor.WHITE,
+              child: Row(
+                children: [
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          index == 0
+                              ? 'Chef Marco'
+                              : index == 1
+                              ? 'Chef Alex'
+                              : 'Chef Taylor',
+                          style: GoogleFonts.playfairDisplay(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            fontStyle: FontStyle.normal,
+                            color: AppColor.WHITE,
+                          ),
                         ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Text(
-                        '⭐ 4.9',
-                        style: GoogleFonts.montserrat(
-                          fontSize: 8,
-                          fontWeight: FontWeight.w400,
-                          fontStyle: FontStyle.normal,
-                          color: AppColor.lightgray,
+                        Text(
+                          '⭐ 4.9',
+                          style: GoogleFonts.montserrat(
+                            fontSize: 8,
+                            fontWeight: FontWeight.w400,
+                            fontStyle: FontStyle.normal,
+                            color: AppColor.lightgray,
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  Spacer(),
+
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          'Top-Rated',
+                          style: GoogleFonts.montserrat(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w400,
+                            color: AppColor.lightgray,
+                          ),
+                        ),
+                        Text(
+                          '40 Recipies',
+                          style: GoogleFonts.montserrat(
+                            fontSize: 8,
+                            fontWeight: FontWeight.w400,
+                            color: AppColor.lightgray,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           );
@@ -377,7 +413,9 @@ class _HomeScreenState extends State<HomeScreen> {
             alignment: Alignment.bottomCenter,
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
+              border: Border.all(width: 1, color: AppColor.ligtestGray),
+
+              borderRadius: BorderRadius.circular(8),
               color: Colors.black.withOpacity(0.4),
             ),
             child: Align(
@@ -416,24 +454,161 @@ class _HomeScreenState extends State<HomeScreen> {
       height: 160,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: 2,
+        itemCount: 3,
         itemBuilder: (context, index) {
           return Container(
             width: 240,
             margin: const EdgeInsets.only(right: 16),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
+              border: Border.all(width: 1, color: AppColor.ligtestGray),
+              borderRadius: BorderRadius.circular(8),
               image: const DecorationImage(
                 image: AssetImage('assets/wth_3.jpg'),
                 fit: BoxFit.cover,
               ),
             ),
-            child: const Center(
-              child: Icon(
-                Icons.play_circle_fill,
-                color: AppColor.WHITE,
-                size: 50,
+
+            child: Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [Colors.black.withOpacity(0.8), Colors.transparent],
+                ),
               ),
+              child: Stack(
+                children: <Widget>[
+                  Positioned.fill(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        width: 28.0,
+                        height: 28.0,
+                        child: Image.asset('assets/play.png'), // Use AssetImage
+                      ),
+                    ),
+                  ),
+                  Positioned.fill(
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Row(
+                        children: [
+                          Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  index == 0
+                                      ? 'Master Class: Knife Skills'
+                                      : index == 1
+                                      ? 'Master Class: BBQ'
+                                      : 'Master Class: Barbie',
+                                  style: GoogleFonts.playfairDisplay(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    fontStyle: FontStyle.normal,
+                                    color: AppColor.WHITE,
+                                  ),
+                                ),
+                                Text(
+                                  'Chef marco',
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 8,
+                                    fontWeight: FontWeight.w400,
+                                    fontStyle: FontStyle.normal,
+                                    color: AppColor.lightgray,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Spacer(),
+                          Align(
+                            alignment: Alignment.bottomRight,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  '35 Min',
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 8,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColor.lightgray,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              // Center(
+              //   child: SizedBox(
+              //           width: 24.0,
+              //           height: 24.0,
+              //           child: Image.asset(
+              //             'assets/play.png',
+              //           ), // Use AssetImage
+              //         ),
+              // ),
+              // Row(
+              //     children: [
+              //       Align(
+              //         alignment: Alignment.bottomLeft,
+              //         child: Column(
+              //           mainAxisAlignment: MainAxisAlignment.end,
+              //           crossAxisAlignment: CrossAxisAlignment.start,
+              //           children: [
+              //             Text(
+              //               index==0?'Master Class: Knife Skills':index==1?'Master Class: BBQ':'Master Class: Barbie',
+              //               style: GoogleFonts.playfairDisplay(
+              //                 fontSize: 12,
+              //                 fontWeight: FontWeight.w600,
+              //                 fontStyle: FontStyle.normal,
+              //                 color: AppColor.WHITE,
+              //               ),
+              //             ),
+              //             Text(
+              //               'Chef marco',
+              //               style: GoogleFonts.montserrat(
+              //                 fontSize: 8,
+              //                 fontWeight: FontWeight.w400,
+              //                 fontStyle: FontStyle.normal,
+              //                 color: AppColor.lightgray,
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //       Spacer(),
+              //       Align(
+              //         alignment: Alignment.bottomRight,
+              //         child: Column(
+              //           mainAxisAlignment: MainAxisAlignment.end,
+              //           crossAxisAlignment: CrossAxisAlignment.end,
+              //           children: [
+              //             Text(
+              //               '35 Min',
+              //               style: GoogleFonts.montserrat(
+              //                 fontSize: 8,
+              //                 fontWeight: FontWeight.w400,
+              //                 color: AppColor.lightgray,
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     ],
+              //   ),
             ),
           );
         },
