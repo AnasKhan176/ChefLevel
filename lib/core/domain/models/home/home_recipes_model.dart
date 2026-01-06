@@ -86,21 +86,21 @@ class Data {
   }
 }
 
-class HomeDataModel {
+class HomeRecipesDataModel {
   final Data? data;
   final String? message;
   final int? responseCode;
   final String? status;
 
-  HomeDataModel({
+  HomeRecipesDataModel({
     this.data,
     this.message,
     this.responseCode,
     this.status,
   });
 
-  factory HomeDataModel.fromJson(Map<String, dynamic> json) {
-    return HomeDataModel(
+  factory HomeRecipesDataModel.fromJson(Map<String, dynamic> json) {
+    return HomeRecipesDataModel(
       data: json['data'] != null ? Data.fromJson(json['data']) : null,
       message: json['message'],
       responseCode: json['responseCode'],
