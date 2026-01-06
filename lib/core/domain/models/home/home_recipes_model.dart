@@ -182,6 +182,30 @@ class ImageResponseDTO {
   }
 }
 
+class IngredientDetail {
+  final String? name;
+  final String? quantity;
+
+  IngredientDetail({
+    this.name,
+    this.quantity,
+  });
+
+  factory IngredientDetail.fromJson(Map<String, dynamic> json) {
+    return IngredientDetail(
+      name: json['name'],
+      quantity: json['quantity'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'quantity': quantity,
+    };
+  }
+}
+
 class PopularTechnique {
   final dynamic? category;
   final String? chefName;
@@ -253,6 +277,7 @@ class TailoredRecipe {
   final int? id;
   final List<Image>? image;
   final dynamic? imageId;
+  final List<IngredientDetail>? ingredientDetails;
   final String? instructions;
   final bool? isActive;
   final int? prepTime;
@@ -280,6 +305,7 @@ class TailoredRecipe {
     this.id,
     this.image,
     this.imageId,
+    this.ingredientDetails,
     this.instructions,
     this.isActive,
     this.prepTime,
@@ -309,6 +335,7 @@ class TailoredRecipe {
       id: json['id'],
       image: json['image'] != null ? List<Image>.from(json['image'].map((x) => Image.fromJson(x))) : null,
       imageId: json['imageId'],
+      ingredientDetails: json['ingredientDetails'] != null ? List<IngredientDetail>.from(json['ingredientDetails'].map((x) => IngredientDetail.fromJson(x))) : null,
       instructions: json['instructions'],
       isActive: json['isActive'],
       prepTime: json['prepTime'],
@@ -339,6 +366,7 @@ class TailoredRecipe {
       'id': id,
       'image': image?.map((x) => x.toJson()).toList(),
       'imageId': imageId,
+      'ingredientDetails': ingredientDetails?.map((x) => x.toJson()).toList(),
       'instructions': instructions,
       'isActive': isActive,
       'prepTime': prepTime,

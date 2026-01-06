@@ -4,7 +4,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:food_chef/core/controller/user_controller.dart';
 import 'package:food_chef/core/domain/di/service_locator.dart';
-import 'package:food_chef/core/domain/models/check_profile_model.dart';
+import 'package:food_chef/core/domain/models/user/check_profile_model.dart';
 import 'package:food_chef/core/ui/auth/login_screen.dart';
 import 'package:food_chef/core/ui/widgets/loader/app_loader.dart';
 import 'package:food_chef/core/utils/constant/colors/app_color.dart';

@@ -5,7 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:food_chef/core/domain/di/service_locator.dart';
 import 'package:food_chef/core/controller/user_controller.dart';
-import 'package:food_chef/core/domain/models/check_profile_model.dart';
+import 'package:food_chef/core/domain/models/user/check_profile_model.dart';
 import 'package:food_chef/core/ui/auth/otp_verification_screen.dart';
 import 'package:food_chef/core/ui/auth/register_screen.dart';
 import 'package:food_chef/core/ui/home/home_screen.dart';

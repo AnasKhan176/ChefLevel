@@ -1,5 +1,5 @@
 import 'package:food_chef/core/domain/di/service_locator.dart';
-import 'package:food_chef/core/domain/models/check_profile_model.dart';
+import 'package:food_chef/core/domain/models/user/check_profile_model.dart';
 import 'package:food_chef/core/domain/models/preference_level/get_all_pref_data_model.dart';
 import 'package:food_chef/core/domain/models/preference_level/get_saved_pref_data_model.dart';
 import 'package:food_chef/core/domain/repository/user_repository.dart';
