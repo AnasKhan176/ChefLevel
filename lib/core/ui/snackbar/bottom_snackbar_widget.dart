@@ -1,6 +1,4 @@
-import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -13,7 +11,7 @@ class BottomSnackBarWidget extends StatefulWidget {
   final int duration;
   final VoidCallback onDismissed;
 
-  const BottomSnackBarWidget({
+  const BottomSnackBarWidget({super.key, 
     required this.message,
     required this.backgroundColor,
     required this.icon,

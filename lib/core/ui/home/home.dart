@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:food_chef/core/controller/favourite_receipe_controller.dart';
 import 'package:food_chef/core/ui/auth/login_screen.dart';
-import 'package:food_chef/core/ui/snackbar/bottom_snackbar.dart';
-import 'package:food_chef/core/utils/shared_pref_service.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../theme/app_color.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }

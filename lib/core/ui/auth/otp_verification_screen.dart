@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, library_private_types_in_public_api
 
 import 'dart:async';
 
@@ -6,13 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:food_chef/core/controller/user_controller.dart';
 import 'package:food_chef/core/domain/di/service_locator.dart';
 import 'package:food_chef/core/domain/models/check_profile_model.dart';
-import 'package:food_chef/core/ui/auth/login_screen.dart';
 import 'package:food_chef/core/ui/home/home.dart';
 import 'package:food_chef/core/ui/preference/preference_screen.dart';
 import 'package:food_chef/core/ui/snackbar/app_loader.dart';
 import 'package:food_chef/core/utils/app_string.dart';
 import 'package:food_chef/core/utils/shared_pref_service.dart';
-import 'package:food_chef/core/utils/snackbar.dart';
 import 'package:food_chef/theme/app_color.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -61,7 +59,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   Future<void> _verifyOtp() async {
     // Usage example:
     final Map<String, dynamic> data = {
-      'contact': widget.contact,
+      'contact': widget.contact.replaceAll(' ', ''),
       'otpCode':
           txtController1.text.toString() +
           txtController2.text.toString() +
@@ -73,12 +71,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       'loginMode': widget.loginMode,
     };
 
-    DataModel api_response = await userController.verifyOtp(data);
-    print(api_response.responseCode);
-    print(api_response.message);
+    DataModel apiResponse = await userController.verifyOtp(data);
     AppLoader.show(context);
 
-    if (api_response.responseCode == 20000) {
+    if (apiResponse.responseCode == 20000) {
       AppLoader.hide();
       final bool isPrefLevel = await SharedPrefService.isPrefLevel();
       await SharedPrefService.setLoggedIn(true);
@@ -108,7 +104,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       AppLoader.hide();
       BottomSnackBar.show(
           context,
-          message: api_response.message!,
+          message: apiResponse.message!,
           backgroundColor: AppColor.btnBackground,
           icon: Icons.check_circle
       );
@@ -118,30 +114,28 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   Future<void> _resendOtp() async {
     // Usage example:
     final Map<String, dynamic> data = {
-      'loginId': widget.contact,
+      'loginId': widget.contact.replaceAll(' ', ''),
       'loginMode': widget.loginMode,
       'password': widget.password,
     };
 
-    DataModel api_response = await userController.login(data);
-    print(api_response.responseCode);
-    print(api_response.message);
+    DataModel apiResponse = await userController.login(data);
     AppLoader.show(context);
 
-    if (api_response.responseCode == 20019) {
+    if (apiResponse.responseCode == 20019) {
       AppLoader.hide();
       BottomSnackBar.show(
           context,
-          message: 'Otp Resend : ${api_response.data!.check}',
+          message: 'Otp Resend : ${apiResponse.data!.check}',
           backgroundColor: AppColor.btnBackground,
           icon: Icons.check_circle
       );
-      setOtp(api_response.data!.check);
+      setOtp(apiResponse.data!.check);
     } else {
       AppLoader.hide();
       BottomSnackBar.show(
           context,
-          message: api_response.message!,
+          message: apiResponse.message!,
           backgroundColor: AppColor.btnBackground,
           icon: Icons.check_circle
       );

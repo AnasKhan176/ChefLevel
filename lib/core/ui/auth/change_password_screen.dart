@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../theme/app_color.dart';
 
 class ChangePasswordScreen extends StatelessWidget {
-  const ChangePasswordScreen({Key? key}) : super(key: key);
+  const ChangePasswordScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

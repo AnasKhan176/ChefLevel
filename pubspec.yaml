@@ -51,6 +51,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
 
+  path: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -102,6 +103,12 @@ flutter:
     - assets/filter.png
     - assets/search.png
     - assets/play.png
+    - assets/person.png
+    - assets/address.png
+    - assets/password.png
+    - assets/email.png
+    - assets/phone.png
+
 
 
 

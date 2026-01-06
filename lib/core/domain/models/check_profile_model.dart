@@ -1,6 +1,6 @@
 class Data {
   final String? check;
-  final dynamic? uid;
+  final dynamic uid;
 
   Data({
     this.check,

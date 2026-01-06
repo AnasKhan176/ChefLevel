@@ -3,8 +3,6 @@ import 'package:food_chef/core/domain/network/dio_client.dart';
 import 'package:food_chef/core/controller/user_controller.dart';
 import 'package:food_chef/core/domain/repository/user_repository.dart';
 import 'package:food_chef/core/domain/services/user_service.dart';
-import 'package:food_chef/core/utils/shared_pref_service.dart';
-import 'package:food_chef/core/utils/utility.dart';
 import 'package:get_it/get_it.dart';
 
  

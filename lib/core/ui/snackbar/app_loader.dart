@@ -12,8 +12,7 @@ class AppLoader {
     if (_overlayEntry != null) return;
 
     final overlay = Overlay.of(context);
-    if (overlay == null) return;
-
+    
     _overlayEntry = OverlayEntry(
       builder: (_) => Positioned.fill(
         child: IgnorePointer(
@@ -23,9 +22,9 @@ class AppLoader {
               color: Colors.transparent,
               child: Container(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
                 decoration: BoxDecoration(
-                  color: AppColor.btnBackground,
+                  color: AppColor.lightBlack,
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Row(

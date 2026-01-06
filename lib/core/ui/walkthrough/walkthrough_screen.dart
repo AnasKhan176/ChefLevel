@@ -3,7 +3,6 @@ import 'package:food_chef/core/ui/auth/login_screen.dart';
 import 'package:food_chef/core/utils/app_string.dart';
 import 'package:food_chef/core/utils/shared_pref_service.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../theme/app_color.dart';

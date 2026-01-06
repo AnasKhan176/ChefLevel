@@ -1,21 +1,23 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:food_chef/core/controller/user_controller.dart';
 import 'package:food_chef/core/domain/di/service_locator.dart';
-import 'package:food_chef/core/domain/models/pref_data_model.dart';
+import 'package:food_chef/core/domain/models/preference_level/get_all_pref_data_model.dart';
+import 'package:food_chef/core/domain/models/preference_level/get_saved_pref_data_model.dart';
+import 'package:food_chef/core/domain/models/preference_level/save_pref_data_model%20.dart';
 import 'package:food_chef/core/ui/home/home.dart';
 import 'package:food_chef/core/ui/snackbar/app_loader.dart';
+import 'package:food_chef/core/ui/snackbar/bottom_snackbar.dart';
 import 'package:food_chef/core/utils/app_string.dart';
 import 'package:food_chef/core/utils/shared_pref_service.dart';
-import 'package:food_chef/core/utils/snackbar.dart';
 import 'package:food_chef/theme/app_color.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../snackbar/bottom_snackbar.dart';
-
 class PreferencesScreen extends StatefulWidget {
-  const PreferencesScreen({Key? key}) : super(key: key);
+  const PreferencesScreen({super.key});
 
   @override
   State<PreferencesScreen> createState() => _PreferencesScreenState();
@@ -49,71 +51,21 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
 
   Future<void> getData() async {
     await Future.wait([
-      fetchSpiceApi('SPICE_LEVEL'),
-      fetchFavouriteApi('FAVOURITE_CUISINE'),
       fetchDietaryApi('DIETARY_PREFERENCE'),
+      fetchFavouriteApi('FAVOURITE_CUISINE'),
+      fetchSpiceApi('SPICE_LEVEL'),
     ]);
   }
 
-  Future<List<Data>> fetchSpiceApi(String test) async {
-    // Usage example:
-    // AppLoader.show(context);
-    final Map<String, dynamic> data = {'check': test};
-    var api_response = await userController.dataDefination(data);
-
-    if (api_response?.responseCode == 20000) {
-      //  AppLoader.hide();
-      spice_data_list = api_response?.data;
-      print(spice_data_list!.length.toString());
-    } else {
-      // AppLoader.hide();
-      BottomSnackBar.show(
-        context,
-        message: api_response!.message!,
-        backgroundColor: AppColor.btnBackground,
-        icon: Icons.check_circle,
-      );
-    }
-    return spice_data_list ?? [];
-  }
-
-  Future<List<Data>> fetchFavouriteApi(String test) async {
-    // Usage example:
-    final Map<String, dynamic> data = {'check': test};
-    var api_response = await userController.dataDefination(data);
-    // AppLoader.show(context);
-
-    if (api_response?.responseCode == 20000) {
-      // AppLoader.hide();
-      favorite_data_list = api_response?.data;
-    } else {
-      //  AppLoader.hide();
-      BottomSnackBar.show(
-        context,
-        message: api_response!.message!,
-        backgroundColor: AppColor.btnBackground,
-        icon: Icons.check_circle,
-      );
-    }
-    return favorite_data_list ?? [];
-  }
-
   Future<List<Data>> fetchDietaryApi(String test) async {
-    // Usage example:
     final Map<String, dynamic> data = {'check': test};
-    var api_response = await userController.dataDefination(data);
-    // AppLoader.show(context);
-
-    if (api_response?.responseCode == 20000) {
-      // AppLoader.hide();
-      dietary_data_list = api_response?.data;
-      print(dietary_data_list!.length.toString());
+    var response = await userController.dataDefination(data);
+    if (response?.responseCode == 20000) {
+      dietary_data_list = response?.data;
     } else {
-      // AppLoader.hide();
-
       BottomSnackBar.show(
         context,
-        message: api_response!.message!,
+        message: response!.message!,
         backgroundColor: AppColor.btnBackground,
         icon: Icons.check_circle,
       );
@@ -121,16 +73,82 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
     return dietary_data_list ?? [];
   }
 
-  Future<List<Data>> getSpice() async {
+  Future<List<Data>> fetchFavouriteApi(String test) async {
+    final Map<String, dynamic> data = {'check': test};
+    var response = await userController.dataDefination(data);
+    if (response?.responseCode == 20000) {
+      favorite_data_list = response?.data;
+    } else {
+      BottomSnackBar.show(
+        context,
+        message: response!.message!,
+        backgroundColor: AppColor.btnBackground,
+        icon: Icons.check_circle,
+      );
+    }
+    return favorite_data_list ?? [];
+  }
+
+  Future<List<Data>> fetchSpiceApi(String test) async {
+    final Map<String, dynamic> data = {'check': test};
+    var response = await userController.dataDefination(data);
+    if (response?.responseCode == 20000) {
+      spice_data_list = response?.data;
+      fetchFavouriteApi('FAVOURITE_CUISINE');
+    } else {
+      BottomSnackBar.show(
+        context,
+        message: response!.message!,
+        backgroundColor: AppColor.btnBackground,
+        icon: Icons.check_circle,
+      );
+    }
     return spice_data_list ?? [];
+  }
+
+  Future<List<Data>> getDietary() async {
+    return dietary_data_list ?? [];
   }
 
   Future<List<Data>> getFavorite() async {
     return favorite_data_list ?? [];
   }
 
-  Future<List<Data>> getDietary() async {
-    return dietary_data_list ?? [];
+  Future<List<Data>> getSpice() async {
+    return spice_data_list ?? [];
+  }
+
+  Future<void> _savePrefLevelData(String jsonBodyData) async {
+    AppLoader.show(context);
+    GetPrefSavedData apiResponse = await userController.savePrefLevelData(
+      jsonBodyData,
+    );
+
+//     {"status":"SUCCESS","message":"SUCCESS","responseCode":20000,"data":{"uid":"CU1767636564849","dietaryPreferences":["Keto","Veg"],"favouriteCuisines":["Indian","
+// Italian"],"spiceLevelPreference":"Medium"}}
+
+    if (apiResponse.responseCode == 20000) {
+      AppLoader.hide();
+      await SharedPrefService.setPrefLevel(true);
+      BottomSnackBar.show(
+        context,
+        message: 'Preference saved.!!',
+        backgroundColor: Colors.green,
+        icon: Icons.check_circle,
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => HomeScreen()),
+      );
+    } else {
+      AppLoader.hide();
+      BottomSnackBar.show(
+        context,
+        message: apiResponse.message!,
+        backgroundColor: AppColor.btnBackground,
+        icon: Icons.check_circle,
+      );
+    }
   }
 
   @override
@@ -138,7 +156,6 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // Background
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
@@ -165,13 +182,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                         },
                         child: Text(
                           AppString.skip,
-                          style:
-                          // TextStyle(
-                          //   fontSize: 16,
-                          //   fontWeight: FontWeight.w400,
-                          //   color: AppColor.WHITE,
-                          // ),
-                          GoogleFonts.montserrat(
+                          style: GoogleFonts.montserrat(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                             fontStyle: FontStyle.normal,
@@ -180,7 +191,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                         ),
                       ),
                     ),
-                    
+
                     Text(
                       AppString.selectYourPrefs,
                       style: GoogleFonts.playfairDisplay(
@@ -390,7 +401,6 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
 
                     const SizedBox(height: 30),
 
-                    // Save Button
                     SizedBox(
                       width: double.infinity,
                       height: 50,
@@ -403,26 +413,26 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                           ),
                         ),
                         onPressed: () async {
-                          // first check user select all the fields then save
-
-                          print(_filters_favorite.toString());
-                          print(_filters_dietary.toString());
-                          print(_selectedSpice);
-
                           if (_filters_dietary.isNotEmpty &&
                               _filters_favorite.isNotEmpty &&
                               _selectedSpice!.isNotEmpty) {
-                            await SharedPrefService.setPrefLevel(true);
-                            BottomSnackBar.show(
-                              context,
-                              message: 'Preference saved.!!',
-                              backgroundColor: Colors.green,
-                              icon: Icons.check_circle,
+                            final List<String> dietaryList = _filters_dietary
+                                .map((dietary) => dietary.value ?? '')
+                                .toList();
+                            final List<String> favouriteList = _filters_favorite
+                                .map((favorite) => favorite.value ?? '')
+                                .toList();
+
+                            final payload = PrefSaveDataModel(
+                              dietaryPreferences: dietaryList,
+                              favouriteCuisines: favouriteList,
+                              spiceLevelPreference: _selectedSpice!,
                             );
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(builder: (_) => HomeScreen()),
-                            );
+
+                            final jsonPayload = jsonEncode(payload.toJson());
+                            print(jsonPayload);
+
+                            await _savePrefLevelData(jsonPayload);
                           } else {
                             BottomSnackBar.show(
                               context,
@@ -462,7 +472,6 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Header with black background
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
@@ -486,18 +495,13 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                   expanded ? Icons.expand_less : Icons.expand_more,
                   color: AppColor.WHITE,
                 ),
-                onPressed: onToggle, // use the callback
+                onPressed: onToggle,
               ),
             ],
           ),
         ),
-
-        // Expandable content
         if (expanded)
-          Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: child, // use the child parameter
-          ),
+          Padding(padding: const EdgeInsets.only(top: 8.0), child: child),
       ],
     );
   }

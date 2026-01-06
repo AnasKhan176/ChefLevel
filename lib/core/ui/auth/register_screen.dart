@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, deprecated_member_use
 
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +7,6 @@ import 'package:food_chef/core/domain/di/service_locator.dart';
 import 'package:food_chef/core/domain/models/check_profile_model.dart';
 import 'package:food_chef/core/ui/auth/login_screen.dart';
 import 'package:food_chef/core/ui/snackbar/app_loader.dart';
-import 'package:food_chef/core/utils/shared_pref_service.dart';
-import 'package:food_chef/core/utils/snackbar.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../theme/app_color.dart';
@@ -22,8 +20,9 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final _firstNameontroller = TextEditingController();
+  final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
+  final _usernameController = TextEditingController();
 
   final _emailController = TextEditingController();
   final _mobileController = TextEditingController();
@@ -31,33 +30,80 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _passwordController = TextEditingController();
   final _confirmController = TextEditingController();
 
+  final _cityController = TextEditingController();
+  final _streetController = TextEditingController();
+  final _unitController = TextEditingController();
+
   bool isEmail(String input) => EmailValidator.validate(input);
   bool isPhone(String input) => RegExp(
     r'^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$',
   ).hasMatch(input);
 
   final userController = getIt.get<UserController>();
+  String? selectedValue = "+966";
+  var textFontStyle = GoogleFonts.montserrat(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColor.WHITE,
+  );
+
+  List<DropdownMenuItem<String>> get dropdownCountryEntries {
+    return [
+      DropdownMenuItem(
+        value: '+966',
+        child: Text('Saudi Arabia',style: textFontStyle)
+      ),
+      DropdownMenuItem(
+        value: '+971',
+        child: Text('Emairates',style: textFontStyle
+      )),
+      DropdownMenuItem(
+        value: '+973',
+        child: Text('Bahrain',style: textFontStyle)
+      ),
+      DropdownMenuItem(
+        value: '+964',
+        child: Text('Iraq',style: textFontStyle)
+      ),
+      DropdownMenuItem(
+        value: '+965',
+        child: Text('Kuwait',style: textFontStyle ))
+      ,
+      DropdownMenuItem(
+        value: '+968',
+        child: Text('Oman',style: textFontStyle)
+      ),
+      DropdownMenuItem(
+        value: '+974',
+        child: Text('Qatar',style: textFontStyle)
+      ),
+    ];
+  }
 
   Future<void> _userRegistrationt() async {
     // Usage example:
     final Map<String, dynamic> data = {
-      'mobileNumber': _mobileController.text.toString(),
+      'username': _usernameController.text.toString(),
+      'mobileNumber':selectedValue!+_mobileController.text.toString(),
       'email': _emailController.text.toString(),
-      'firstName': _firstNameontroller.text.toString(),
+      'firstName': _firstNameController.text.toString(),
       'lastName': _lastNameController.text.toString(),
       'pin': _passwordController.text.toString(),
+      'city': _cityController.text.toString(),
+      'street': _streetController.text.toString(),
+      'unit': _unitController.text.toString(),
       'accountType': 'CUSTOMER',
     };
     AppLoader.show(context);
-    DataModel api_response = await userController.createAccount(data);
+    DataModel apiResponse = await userController.createAccount(data);
 
-    if (api_response.responseCode == 20000) {
+    if (apiResponse.responseCode == 20000) {
       AppLoader.hide();
       BottomSnackBar.show(
-          context,
-          message: api_response.message!,
-          backgroundColor:Colors.green,
-          icon: Icons.check_circle
+        context,
+        message: apiResponse.message!,
+        backgroundColor: Colors.green,
+        icon: Icons.check_circle,
       );
       // Redirect to login screen
       Navigator.pushReplacement(
@@ -67,10 +113,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     } else {
       AppLoader.hide();
       BottomSnackBar.show(
-          context,
-          message: api_response.message!,
-          backgroundColor: AppColor.btnBackground,
-          icon: Icons.check_circle
+        context,
+        message: apiResponse.message!,
+        backgroundColor: AppColor.btnBackground,
+        icon: Icons.check_circle,
       );
     }
   }
@@ -123,65 +169,68 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                   // First Name
                   _nameInputField(
+                    'Username',
+                    nameController: _usernameController,
+                  ),
+                  const SizedBox(height: 16),
+
+                  // First Name
+                  _nameInputField(
                     'First name',
-                    Icons.person,
-                    nameController: _firstNameontroller,
+                    nameController: _firstNameController,
                   ),
                   const SizedBox(height: 16),
 
                   // Last Name
                   _nameInputField(
                     'Last name',
-                    Icons.person_outline,
                     nameController: _lastNameController,
                   ),
                   const SizedBox(height: 16),
 
                   // Email
-                  _emailInputField(
-                    'Email',
-                    Icons.email,
-                    emailController: _emailController,
-                  ),
+                  _emailInputField('Email', emailController: _emailController),
                   const SizedBox(height: 16),
 
-                  // Phone with country code
+                  //Phone with country code
                   Row(
                     children: [
                       Container(
-                        width: 120,
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        width: 160,
+                        padding: EdgeInsets.only(left: 10.0, right: 5.0),
                         decoration: BoxDecoration(
                           color: Colors.black.withOpacity(0.6),
                           borderRadius: BorderRadius.circular(30),
                         ),
-                        child: DropdownMenu<String>(
-                          initialSelection: '+91',
-                          textStyle:
-                              // TextStyle(color: AppColor.WHITE),
-                              GoogleFonts.montserrat(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: AppColor.WHITE,
-                              ),
-                          menuStyle: MenuStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                              AppColor.WHITE,
+                        child: 
+    //                     Row(
+    // children: <Widget>[
+    //   Icon(
+    //     Icons.code,
+    //     color: Colors.white,
+    //     size: 20.0,
+    //  ),
+    //  Expanded(
+                        
+                       DropdownButtonHideUnderline(
+                          child:DropdownButton(
+                            value: selectedValue,
+                            items: dropdownCountryEntries,
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                selectedValue = newValue!;
+                              });
+                            },
+                            style:textFontStyle,
+                            dropdownColor: Colors.black,
+                            icon: Icon(
+                              Icons.arrow_drop_down_sharp,
+                              color: Colors.white,
                             ),
                           ),
-                          inputDecorationTheme: const InputDecorationTheme(
-                            border: InputBorder.none,
-                          ),
-                          onSelected: (value) {},
-                          dropdownMenuEntries: const [
-                            DropdownMenuEntry(value: '+91', label: '+91'),
-                            DropdownMenuEntry(value: '+1', label: '+1'),
-                            DropdownMenuEntry(value: '+44', label: '+44'),
-                            DropdownMenuEntry(value: '+61', label: '+61'),
-                          ],
                         ),
                       ),
-                      const SizedBox(width: 10),
+                      const SizedBox(width: 4),
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
@@ -192,24 +241,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             controller: _mobileController,
                             maxLength: 15,
                             keyboardType: TextInputType.phone,
-                            style: GoogleFonts.montserrat(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: AppColor.WHITE,
-                            ),
+                            style: textFontStyle,
                             decoration: InputDecoration(
-                              prefixIcon: const Icon(
-                                Icons.phone,
-                                color: AppColor.WHITE,
-                              ),
+                              counterText: '',
+                              prefixIcon: Padding(
+            padding: const EdgeInsets.all(10.0), // Adjust padding as needed
+            child: Image.asset(
+              'assets/phone.png',
+              width: 16,
+              height: 16,
+              fit: BoxFit.contain,
+            ),
+          ),
                               hintText: 'Phone number',
-                              hintStyle:
-                                  //TextStyle(color: AppColor.WHITE),
-                                  GoogleFonts.montserrat(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: AppColor.WHITE,
-                                  ),
+                              hintStyle:textFontStyle,
                               border: InputBorder.none,
                               contentPadding: const EdgeInsets.all(16),
                             ),
@@ -220,10 +265,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   const SizedBox(height: 16),
 
-                  // Password
+                  // Address
+                  _addressInputField(
+                    'City',
+                    addressInputField: _cityController,
+                  ),
+                  const SizedBox(height: 16),
+
+                  _addressInputField(
+                    'Street',
+                    addressInputField: _streetController,
+                  ),
+                  const SizedBox(height: 16),
+
+                  _addressInputField(
+                    'Unit',
+                    addressInputField: _unitController,
+                  ),
+                  const SizedBox(height: 16),
+
                   _passwordInputField(
                     'Pin',
-                    Icons.lock,
                     obscure: true,
                     passwordController: _passwordController,
                   ),
@@ -232,7 +294,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   // Confirm Password
                   _passwordInputField(
                     'Confirm pin',
-                    Icons.lock_outline,
                     obscure: true,
                     passwordController: _confirmController,
                   ),
@@ -253,10 +314,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       onPressed: () async {
                         // Handle registration logic
-                        if (_firstNameontroller.text.isNotEmpty &&
+                        if (_usernameController.text.isNotEmpty &&
+                            _firstNameController.text.isNotEmpty &&
                             _lastNameController.text.isNotEmpty &&
                             _emailController.text.isNotEmpty &&
                             _mobileController.text.isNotEmpty &&
+                            _cityController.text.isNotEmpty &&
+                            _streetController.text.isNotEmpty &&
+                            _unitController.text.isNotEmpty &&
                             _passwordController.text.isNotEmpty &&
                             _confirmController.text.isNotEmpty) {
                           if (isEmail(
@@ -265,63 +330,64 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             if (isPhone(
                               _mobileController.text.toString().trim(),
                             )) {
-                              if(_passwordController.text.length>=4){
-                              if (_passwordController.text.toString().trim() ==
-                                  _confirmController.text.toString().trim()) {
-                                await _userRegistrationt();
+                              if (_passwordController.text.length >= 4) {
+                                if (_passwordController.text
+                                        .toString()
+                                        .trim() ==
+                                    _confirmController.text.toString().trim()) {
+                                  await _userRegistrationt();
+                                } else {
+                                  BottomSnackBar.show(
+                                    context,
+                                    message:
+                                        'Pin & confirm pin should be same.!!',
+                                    backgroundColor: AppColor.btnBackground,
+                                    icon: Icons.error,
+                                  );
+                                }
                               } else {
                                 BottomSnackBar.show(
-                                    context,
-                                    message: 'Pin & confirm pin should be same.!!',
-                                    backgroundColor: AppColor.btnBackground,
-                                    icon: Icons.error
-                                );
-                              }
-                              }else{
-                                BottomSnackBar.show(
-                                    context,
-                                    message: 'Pin should be 4 to 8 character long.!!',
-                                    backgroundColor: AppColor.btnBackground,
-                                    icon: Icons.error
+                                  context,
+                                  message:
+                                      'Pin should be 4 to 8 character long.!!',
+                                  backgroundColor: AppColor.btnBackground,
+                                  icon: Icons.error,
                                 );
                               }
                             } else {
                               BottomSnackBar.show(
-                                  context,
-                                  message: 'Please enter correct mobile number.!!',
-                                  backgroundColor: AppColor.btnBackground,
-                                  icon: Icons.error
+                                context,
+                                message:
+                                    'Please enter correct mobile number.!!',
+                                backgroundColor: AppColor.btnBackground,
+                                icon: Icons.error,
                               );
                             }
                           } else {
                             BottomSnackBar.show(
-                                context,
-                                message: 'Please enter correct email id.!!',
-                                backgroundColor: AppColor.btnBackground,
-                                icon: Icons.error
+                              context,
+                              message: 'Please enter correct email id.!!',
+                              backgroundColor: AppColor.btnBackground,
+                              icon: Icons.error,
                             );
-
                           }
                         } else {
                           BottomSnackBar.show(
-                              context,
-                              message: 'Please enter all fields.!!',
-                              backgroundColor: AppColor.btnBackground,
-                              icon: Icons.error
+                            context,
+                            message: 'Please enter all fields.!!',
+                            backgroundColor: AppColor.btnBackground,
+                            icon: Icons.error,
                           );
-
                         }
                       },
                       child: Text(
                         'Register',
-                        style:
-                            //TextStyle(fontSize: 18, color: AppColor.WHITE),
-                            GoogleFonts.montserrat(
-                              fontSize: 14,
-  fontWeight: FontWeight.w700,
-  fontStyle: FontStyle.normal,
-  color: Colors.white
-                            ),
+                        style: GoogleFonts.montserrat(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          fontStyle: FontStyle.normal,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
@@ -348,16 +414,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         },
                         child: Text(
                           'Login',
-                          style:
-                              // TextStyle(
-                              //   color: AppColor.btnBackground,
-                              //   fontWeight: FontWeight.bold,
-                              // ),
-                              GoogleFonts.montserrat(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: AppColor.btnBackground,
-                              ),
+                          style: GoogleFonts.montserrat(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: AppColor.btnBackground,
+                          ),
                         ),
                       ),
                     ],
@@ -371,11 +432,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  // name 
-
   Widget _nameInputField(
-    String hint,
-    IconData icon, {
+    String hint, {
     required TextEditingController nameController,
   }) {
     return Container(
@@ -383,17 +441,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
         color: Colors.black.withOpacity(0.6),
         borderRadius: BorderRadius.circular(30),
       ),
+
+      alignment: Alignment.center,
+
       child: TextField(
         controller: nameController,
         keyboardType: TextInputType.text,
-        maxLength: 50,
+        maxLength: 30,
         style: GoogleFonts.montserrat(
           fontSize: 14,
           fontWeight: FontWeight.w400,
           color: AppColor.WHITE,
         ),
+        textAlignVertical: TextAlignVertical.center,
         decoration: InputDecoration(
-          prefixIcon: Icon(icon, color: AppColor.WHITE),
+          counterText: '',
+          prefixIcon: Padding(
+            padding: const EdgeInsets.all(10.0), // Adjust padding as needed
+            child: Image.asset(
+              'assets/person.png',
+              width: 16,
+              height: 16,
+              fit: BoxFit.contain,
+            ),
+          ),
           hintText: hint,
           hintStyle: GoogleFonts.montserrat(
             fontSize: 14,
@@ -408,8 +479,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _emailInputField(
-    String hint,
-    IconData icon, {
+    String hint, {
     required TextEditingController emailController,
   }) {
     return Container(
@@ -419,14 +489,70 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
       child: TextField(
         controller: emailController,
-        maxLength: 255,
+        maxLength: 60,
+        style: GoogleFonts.montserrat(
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          color: AppColor.WHITE,
+        ),
+        textAlignVertical: TextAlignVertical.center,
+
+        decoration: InputDecoration(
+          counterText: '',
+
+          prefixIcon: Padding(
+            padding: const EdgeInsets.all(10.0), // Adjust padding as needed
+            child: Image.asset(
+              'assets/email.png',
+              width: 16,
+              height: 16,
+              fit: BoxFit.contain,
+            ),
+          ),
+          hintText: hint,
+          hintStyle: GoogleFonts.montserrat(
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+            color: AppColor.WHITE,
+          ),
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.all(16),
+        ),
+      ),
+    );
+  }
+
+  Widget _addressInputField(
+    String hint, {
+    required TextEditingController addressInputField,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.6),
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: TextField(
+        controller: addressInputField,
+        textAlignVertical: TextAlignVertical.center,
+
+        keyboardType: TextInputType.text,
+        maxLength: 40,
         style: GoogleFonts.montserrat(
           fontSize: 14,
           fontWeight: FontWeight.w400,
           color: AppColor.WHITE,
         ),
         decoration: InputDecoration(
-          prefixIcon: Icon(icon, color: AppColor.WHITE),
+          counterText: '',
+          prefixIcon: Padding(
+            padding: const EdgeInsets.all(10.0), // Adjust padding as needed
+            child: Image.asset(
+              'assets/address.png',
+              width: 16,
+              height: 16,
+              fit: BoxFit.contain,
+            ),
+          ),
           hintText: hint,
           hintStyle: GoogleFonts.montserrat(
             fontSize: 14,
@@ -441,8 +567,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _passwordInputField(
-    String hint,
-    IconData icon, {
+    String hint, {
     bool obscure = false,
     required TextEditingController passwordController,
   }) {
@@ -453,6 +578,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
       child: TextField(
         controller: passwordController,
+        textAlignVertical: TextAlignVertical.center,
+
         obscureText: obscure,
         maxLength: 8,
         keyboardType: TextInputType.number,
@@ -462,7 +589,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
           color: AppColor.WHITE,
         ),
         decoration: InputDecoration(
-          prefixIcon: Icon(icon, color: AppColor.WHITE),
+          counterText: '',
+          prefixIcon: Padding(
+            padding: const EdgeInsets.all(10.0), // Adjust padding as needed
+            child: Image.asset(
+              'assets/password.png',
+              width: 16,
+              height: 16,
+              fit: BoxFit.contain,
+            ),
+          ),
           hintText: hint,
           hintStyle: GoogleFonts.montserrat(
             fontSize: 14,
@@ -476,3 +612,5 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 }
+
+

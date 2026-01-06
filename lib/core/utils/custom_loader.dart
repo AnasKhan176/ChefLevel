@@ -9,7 +9,7 @@ class CustomLoader{
       builder: (BuildContext context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-          backgroundColor: AppColor.loightBlack,
+          backgroundColor: AppColor.lightBlack,
           title: Text("Loading",style: TextStyle(color: AppColor.WHITE),),
           content: Row(
             mainAxisSize: MainAxisSize.min,

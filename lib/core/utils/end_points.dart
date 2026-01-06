@@ -7,5 +7,6 @@ class EndPoints {
   static final login = "/api/chef-level-app-bff/v1/user-engagement/v1/login";
   static final verify_otp = "/api/chef-level-app-bff/v1/user-engagement/v1/authenticate-otp";
   static final data_defination = "/api/cms/v1/get-data-definition";
+  static final save_prefs_data = "/api/chef-level-app-bff/v1/user-engagement/v1/save-user-preferences";
 
 }

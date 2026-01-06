@@ -11,7 +11,6 @@ class BottomSnackBar {
         int duration = 3,
       }) {
     final overlay = Overlay.of(context);
-    if (overlay == null) return;
 
     late OverlayEntry overlayEntry;
 

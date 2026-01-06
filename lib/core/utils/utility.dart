@@ -13,6 +13,7 @@ class Utility {
       final iosInfo = await deviceInfo.iosInfo;
       return iosInfo.identifierForVendor;
     }
+    return null;
   }
 
     static Future<String> getDeviceType() async{
@@ -39,6 +40,7 @@ class Utility {
     } catch (e) {
       print("Error fetching device ID: $e");
     }
+    return null;
   }
 
 }
