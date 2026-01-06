@@ -8,14 +8,14 @@ import 'package:food_chef/core/controller/user_controller.dart';
 import 'package:food_chef/core/domain/models/check_profile_model.dart';
 import 'package:food_chef/core/ui/auth/otp_verification_screen.dart';
 import 'package:food_chef/core/ui/auth/register_screen.dart';
-import 'package:food_chef/core/ui/home/home.dart';
-import 'package:food_chef/core/ui/preference/preference_screen.dart';
-import 'package:food_chef/core/ui/snackbar/app_loader.dart';
-import 'package:food_chef/core/ui/snackbar/bottom_snackbar.dart';
-import 'package:food_chef/core/ui/widgets/toggle_button.dart';
-import 'package:food_chef/core/utils/app_string.dart';
-import 'package:food_chef/core/utils/shared_pref_service.dart';
-import 'package:food_chef/theme/app_color.dart';
+import 'package:food_chef/core/ui/home/home_screen.dart';
+import 'package:food_chef/core/ui/preference_level/preference_level_screen.dart';
+import 'package:food_chef/core/ui/widgets/loader/app_loader.dart';
+import 'package:food_chef/core/ui/widgets/snackbar/bottom_snackbar.dart';
+import 'package:food_chef/core/ui/widgets/custom_buttons/toggle_button.dart';
+import 'package:food_chef/core/utils/constant/colors/app_color.dart';
+import 'package:food_chef/core/utils/constant/string/app_string.dart';
+import 'package:food_chef/core/utils/constant/prefs/shared_pref.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
   var textFontStyle = GoogleFonts.montserrat(
     fontSize: 14,
     fontWeight: FontWeight.w400,
-    color: AppColor.WHITE,
+    color: AppColor.white,
   );
 
   List<DropdownMenuItem<String>> get dropdownCountryEntries {
@@ -167,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
         AppLoader.hide();
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => PreferencesScreen()),
+          MaterialPageRoute(builder: (_) => PreferenceLevelScreen()),
         );
       }
     } else if (apiResponse.responseCode == 20019) {
@@ -253,7 +253,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Back Button
                   IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.arrow_back, color: AppColor.WHITE),
+                    icon: const Icon(Icons.arrow_back, color: AppColor.white),
                   ),
 
                   const SizedBox(height: 20),
@@ -454,7 +454,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: GoogleFonts.montserrat(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
-                          color: AppColor.WHITE,
+                          color: AppColor.white,
                         ),
                         children: [
                           TextSpan(

@@ -1,8 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:food_chef/core/utils/constant/colors/app_color.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../../../theme/app_color.dart';
 
 class BottomSnackBarWidget extends StatefulWidget {
   final String message;
@@ -99,7 +98,7 @@ class BottomSnackBarWidgetState extends State<BottomSnackBarWidget>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     if (widget.icon != null) ...[
-                      Icon(widget.icon, color: AppColor.WHITE),
+                      Icon(widget.icon, color: AppColor.white),
                       const SizedBox(width: 10),
                     ],
                     Expanded(
@@ -109,7 +108,7 @@ class BottomSnackBarWidgetState extends State<BottomSnackBarWidget>
                         style: GoogleFonts.montserrat(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
-                          color: AppColor.WHITE,
+                          color: AppColor.white,
                         ),
                       ),
                     ),

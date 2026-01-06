@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'bottom_snackbar_widget.dart';
 
 class BottomSnackBar {

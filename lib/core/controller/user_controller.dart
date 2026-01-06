@@ -3,12 +3,10 @@ import 'package:food_chef/core/domain/models/check_profile_model.dart';
 import 'package:food_chef/core/domain/models/preference_level/get_all_pref_data_model.dart';
 import 'package:food_chef/core/domain/models/preference_level/get_saved_pref_data_model.dart';
 import 'package:food_chef/core/domain/repository/user_repository.dart';
-import 'package:food_chef/core/utils/shared_pref_service.dart';
+import 'package:food_chef/core/utils/constant/prefs/shared_pref.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserController {
-  // controller
-
   final userRepository = getIt.get<UserRepository>();
 
   Future<DataModel> checkUserProfileExist(Map<String, dynamic> data) async {

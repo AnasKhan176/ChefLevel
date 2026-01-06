@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:food_chef/core/controller/favourite_receipe_controller.dart';
 import 'package:food_chef/core/ui/auth/login_screen.dart';
+import 'package:food_chef/core/utils/constant/colors/app_color.dart';
+import 'package:food_chef/core/utils/constant/fonts/font_style.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../../../theme/app_color.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0,
         leading: Builder(
           builder: (context) => IconButton(
-            icon: const Icon(Icons.menu, color: AppColor.WHITE),
+            icon: const Icon(Icons.menu, color: AppColor.white),
             onPressed: () => Scaffold.of(context).openDrawer(),
           ),
         ),
@@ -55,8 +55,8 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _headerText(),
-            const SizedBox(height: 16),
-            _searchBar(),
+            // const SizedBox(height: 16),
+            // _searchBar(),
             const SizedBox(height: 24),
             _sectionTitle('Tailored Recipes for You'),
             const SizedBox(height: 12),
@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
         fontSize: 16,
         fontWeight: FontWeight.w400,
         fontStyle: FontStyle.normal,
-        color: AppColor.WHITE,
+        color: AppColor.white,
       ),
     );
   }
@@ -98,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
       height: 50,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-                border: Border.all(width: 1, color: AppColor.ligtestGray),
+        border: Border.all(width: 1, color: AppColor.ligtestGray),
 
         color: Colors.white.withOpacity(0.1),
         borderRadius: BorderRadius.circular(8),
@@ -118,11 +118,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
                 fontStyle: FontStyle.normal,
-                color: AppColor.WHITE,
+                color: AppColor.white,
               ),
               decoration: InputDecoration.collapsed(
                 hintText: "Search by chef, recipes...",
-                hintStyle: TextStyle(color: AppColor.WHITE, fontSize: 12.0),
+                hintStyle: TextStyle(color: AppColor.white, fontSize: 12.0),
                 border: InputBorder.none,
               ),
             ),
@@ -143,21 +143,11 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         Text(
           title,
-          style: GoogleFonts.playfairDisplay(
-            fontSize: 14,
-            fontWeight: FontWeight.w700,
-            fontStyle: FontStyle.normal,
-            color: AppColor.WHITE,
-          ),
+          style: AppFontStyle.whiteText14Bold,
         ),
         Text(
           'See All',
-          style: GoogleFonts.montserrat(
-            fontSize: 12,
-            fontWeight: FontWeight.w400,
-            fontStyle: FontStyle.normal,
-            color: AppColor.btnBackground,
-          ),
+          style:AppFontStyle.redText12NormalMont,
         ),
       ],
     );
@@ -241,14 +231,14 @@ class _HomeScreenState extends State<HomeScreen> {
           Padding(
             padding: const EdgeInsets.all(10),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   'Seafood Salad',
                   style: GoogleFonts.playfairDisplay(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
-                    color: AppColor.WHITE,
+                    color: AppColor.white,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -263,6 +253,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 4),
 
                 // STAR + TIME ROW
+                Padding(padding: const EdgeInsets.all(6),child:
                 Row(
                   children: [
                     Text(
@@ -283,7 +274,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ],
-                ),
+                )),
               ],
             ),
           ),
@@ -339,7 +330,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
                             fontStyle: FontStyle.normal,
-                            color: AppColor.WHITE,
+                            color: AppColor.white,
                           ),
                         ),
                         Text(
@@ -436,7 +427,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
                     fontStyle: FontStyle.normal,
-                    color: AppColor.WHITE,
+                    color: AppColor.white,
                   ),
                 ),
               ),
@@ -509,7 +500,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     fontSize: 12,
                                     fontWeight: FontWeight.w600,
                                     fontStyle: FontStyle.normal,
-                                    color: AppColor.WHITE,
+                                    color: AppColor.white,
                                   ),
                                 ),
                                 Text(
@@ -572,7 +563,7 @@ class _HomeScreenState extends State<HomeScreen> {
               //                 fontSize: 12,
               //                 fontWeight: FontWeight.w600,
               //                 fontStyle: FontStyle.normal,
-              //                 color: AppColor.WHITE,
+              //                 color: AppColor.white,
               //               ),
               //             ),
               //             Text(
@@ -635,7 +626,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
                           fontStyle: FontStyle.normal,
-                          color: AppColor.WHITE,
+                          color: AppColor.white,
                         ),
                       ),
                     ),
@@ -654,7 +645,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
                         fontStyle: FontStyle.normal,
-                        color: AppColor.WHITE,
+                        color: AppColor.white,
                       ),
                     ),
                   ),
@@ -672,7 +663,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
                         fontStyle: FontStyle.normal,
-                        color: AppColor.WHITE,
+                        color: AppColor.white,
                       ),
                     ),
                   ),
@@ -690,7 +681,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
                         fontStyle: FontStyle.normal,
-                        color: AppColor.WHITE,
+                        color: AppColor.white,
                       ),
                     ),
                   ),
@@ -708,7 +699,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
                         fontStyle: FontStyle.normal,
-                        color: AppColor.WHITE,
+                        color: AppColor.white,
                       ),
                     ),
                   ),
@@ -726,7 +717,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
                         fontStyle: FontStyle.normal,
-                        color: AppColor.WHITE,
+                        color: AppColor.white,
                       ),
                     ),
                   ),
@@ -740,7 +731,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
                           fontStyle: FontStyle.normal,
-                          color: AppColor.WHITE,
+                          color: AppColor.white,
                         ),
                       ),
                     ),
@@ -758,7 +749,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
                         fontStyle: FontStyle.normal,
-                        color: AppColor.WHITE,
+                        color: AppColor.white,
                       ),
                     ),
                   ),
@@ -776,7 +767,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
                         fontStyle: FontStyle.normal,
-                        color: AppColor.WHITE,
+                        color: AppColor.white,
                       ),
                     ),
                   ),
@@ -794,7 +785,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
                         fontStyle: FontStyle.normal,
-                        color: AppColor.WHITE,
+                        color: AppColor.white,
                       ),
                     ),
                   ),
@@ -812,7 +803,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
                         fontStyle: FontStyle.normal,
-                        color: AppColor.WHITE,
+                        color: AppColor.white,
                       ),
                     ),
                   ),
@@ -849,7 +840,7 @@ class _HomeScreenState extends State<HomeScreen> {
             fontSize: 12,
             fontWeight: FontWeight.w400,
             fontStyle: FontStyle.normal,
-            color: AppColor.WHITE,
+            color: AppColor.white,
           ),
         ),
       ),
@@ -875,7 +866,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 child: Icon(
                   Icons.arrow_back,
-                  color: AppColor.WHITE,
+                  color: AppColor.white,
                   size: 22.0,
                 ),
               ),

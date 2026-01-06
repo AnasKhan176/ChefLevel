@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:food_chef/core/ui/auth/login_screen.dart';
-import 'package:food_chef/core/utils/app_string.dart';
-import 'package:food_chef/core/utils/shared_pref_service.dart';
+import 'package:food_chef/core/utils/constant/colors/app_color.dart';
+import 'package:food_chef/core/utils/constant/fonts/font_style.dart';
+import 'package:food_chef/core/utils/constant/string/app_string.dart';
+import 'package:food_chef/core/utils/constant/prefs/shared_pref.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-import '../../../theme/app_color.dart';
 
 class WalkthroughScreen extends StatefulWidget {
   const WalkthroughScreen({super.key});
@@ -71,18 +71,7 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                         },
                         child: Text(
                           AppString.skip,
-                          style:
-                              // TextStyle(
-                              //   fontSize: 16,
-                              //   fontWeight: FontWeight.w400,
-                              //   color: AppColor.WHITE,
-                              // ),
-                              GoogleFonts.montserrat(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                fontStyle: FontStyle.normal,
-                                color: Colors.white,
-                              ),
+                          style: AppFontStyle.whiteText14NormalMont,
                         ),
                       ),
                     ),
@@ -101,31 +90,13 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                             Text(
                               pages[index]["title"]!,
                               textAlign: TextAlign.center,
-                              style:
-                                  // const TextStyle(
-                                  //   fontSize: 22,
-                                  //   fontWeight: FontWeight.bold,
-                                  //   color: AppColor.WHITE,
-                                  // ),
-                                  GoogleFonts.playfairDisplay(
-                                    fontSize: 30,
-  fontWeight: FontWeight.w600,
-  fontStyle: FontStyle.normal,
-                                    color: AppColor.WHITE,
-                                  ),
+                              style: AppFontStyle.whiteText30Bold,
                             ),
                             const SizedBox(height: 8),
                             Text(
                               pages[index]["subtitle"]!,
                               textAlign: TextAlign.center,
-                              style:
-                                  
-                                  GoogleFonts.montserrat(
-                                    fontSize: 14,
-  fontWeight: FontWeight.w400,
-  fontStyle: FontStyle.normal,
-  color: AppColor.WHITE
-                                  ),
+                              style: AppFontStyle.whiteText14NormalMont,
                             ),
                             const SizedBox(height: 20),
 
@@ -135,7 +106,7 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                               count: pages.length,
                               effect: const WormEffect(
                                 activeDotColor: AppColor.btnBackground,
-                                dotColor: AppColor.WHITE,
+                                dotColor: AppColor.white,
                                 dotHeight: 10,
                                 dotWidth: 10,
                               ),
@@ -147,7 +118,9 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                               width: double.infinity,
                               child: ElevatedButton(
                                 onPressed: () async {
-                                  await SharedPrefService.setWalkthroughSeen(true);
+                                  await SharedPrefService.setWalkthroughSeen(
+                                    true,
+                                  );
                                   if (currentPage == pages.length - 1) {
                                     Navigator.pushReplacement(
                                       context,
@@ -177,18 +150,12 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                                   currentPage == pages.length - 1
                                       ? AppString.getStarted
                                       : AppString.next,
-                                  style:
-                                      // const TextStyle(
-                                      //   fontSize: 18,
-                                      //   fontWeight: FontWeight.bold,
-                                      //   color: AppColor.WHITE,
-                                      // ),
-                                      GoogleFonts.montserrat(
-                                        fontSize: 14,
-  fontWeight: FontWeight.w700,
-  fontStyle: FontStyle.normal,
-  color: Colors.white
-                                      ),
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                    fontStyle: FontStyle.normal,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ),

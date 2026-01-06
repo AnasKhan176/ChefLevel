@@ -6,11 +6,10 @@ import 'package:food_chef/core/controller/user_controller.dart';
 import 'package:food_chef/core/domain/di/service_locator.dart';
 import 'package:food_chef/core/domain/models/check_profile_model.dart';
 import 'package:food_chef/core/ui/auth/login_screen.dart';
-import 'package:food_chef/core/ui/snackbar/app_loader.dart';
+import 'package:food_chef/core/ui/widgets/loader/app_loader.dart';
+import 'package:food_chef/core/utils/constant/colors/app_color.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../../../theme/app_color.dart';
-import '../snackbar/bottom_snackbar.dart';
+import '../widgets/snackbar/bottom_snackbar.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -44,7 +43,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   var textFontStyle = GoogleFonts.montserrat(
     fontSize: 14,
     fontWeight: FontWeight.w400,
-    color: AppColor.WHITE,
+    color: AppColor.white,
   );
 
   List<DropdownMenuItem<String>> get dropdownCountryEntries {
@@ -402,7 +401,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         style: GoogleFonts.montserrat(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
-                          color: AppColor.WHITE,
+                          color: AppColor.white,
                         ),
                       ),
                       GestureDetector(
@@ -451,7 +450,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         style: GoogleFonts.montserrat(
           fontSize: 14,
           fontWeight: FontWeight.w400,
-          color: AppColor.WHITE,
+          color: AppColor.white,
         ),
         textAlignVertical: TextAlignVertical.center,
         decoration: InputDecoration(
@@ -469,7 +468,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           hintStyle: GoogleFonts.montserrat(
             fontSize: 14,
             fontWeight: FontWeight.w400,
-            color: AppColor.WHITE,
+            color: AppColor.white,
           ),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.all(16),
@@ -493,7 +492,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         style: GoogleFonts.montserrat(
           fontSize: 14,
           fontWeight: FontWeight.w400,
-          color: AppColor.WHITE,
+          color: AppColor.white,
         ),
         textAlignVertical: TextAlignVertical.center,
 
@@ -513,7 +512,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           hintStyle: GoogleFonts.montserrat(
             fontSize: 14,
             fontWeight: FontWeight.w400,
-            color: AppColor.WHITE,
+            color: AppColor.white,
           ),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.all(16),
@@ -540,7 +539,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         style: GoogleFonts.montserrat(
           fontSize: 14,
           fontWeight: FontWeight.w400,
-          color: AppColor.WHITE,
+          color: AppColor.white,
         ),
         decoration: InputDecoration(
           counterText: '',
@@ -557,7 +556,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           hintStyle: GoogleFonts.montserrat(
             fontSize: 14,
             fontWeight: FontWeight.w400,
-            color: AppColor.WHITE,
+            color: AppColor.white,
           ),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.all(16),
@@ -586,7 +585,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         style: GoogleFonts.montserrat(
           fontSize: 14,
           fontWeight: FontWeight.w400,
-          color: AppColor.WHITE,
+          color: AppColor.white,
         ),
         decoration: InputDecoration(
           counterText: '',
@@ -603,7 +602,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           hintStyle: GoogleFonts.montserrat(
             fontSize: 14,
             fontWeight: FontWeight.w400,
-            color: AppColor.WHITE,
+            color: AppColor.white,
           ),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.all(16),

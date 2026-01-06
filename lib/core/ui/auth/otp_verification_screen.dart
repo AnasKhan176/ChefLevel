@@ -6,15 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:food_chef/core/controller/user_controller.dart';
 import 'package:food_chef/core/domain/di/service_locator.dart';
 import 'package:food_chef/core/domain/models/check_profile_model.dart';
-import 'package:food_chef/core/ui/home/home.dart';
-import 'package:food_chef/core/ui/preference/preference_screen.dart';
-import 'package:food_chef/core/ui/snackbar/app_loader.dart';
-import 'package:food_chef/core/utils/app_string.dart';
-import 'package:food_chef/core/utils/shared_pref_service.dart';
-import 'package:food_chef/theme/app_color.dart';
+import 'package:food_chef/core/ui/home/home_screen.dart';
+import 'package:food_chef/core/ui/preference_level/preference_level_screen.dart';
+import 'package:food_chef/core/ui/widgets/loader/app_loader.dart';
+import 'package:food_chef/core/utils/constant/colors/app_color.dart';
+import 'package:food_chef/core/utils/constant/string/app_string.dart';
+import 'package:food_chef/core/utils/constant/prefs/shared_pref.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../snackbar/bottom_snackbar.dart';
+import '../widgets/snackbar/bottom_snackbar.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
   final String contact;
@@ -97,7 +97,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
         AppLoader.hide();
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => PreferencesScreen()),
+          MaterialPageRoute(builder: (_) => PreferenceLevelScreen()),
         );
       }
     } else {
@@ -272,7 +272,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               borderRadius: BorderRadius.circular(6),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 1, color: AppColor.WHITE),
+              borderSide: BorderSide(width: 1, color: AppColor.white),
               borderRadius: BorderRadius.circular(6),
             ),
           ),
@@ -312,14 +312,14 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(Icons.arrow_back, color: AppColor.WHITE),
+                  Icon(Icons.arrow_back, color: AppColor.white),
                   SizedBox(height: 40),
                   Text(
                     AppString.otpVerification,
                     style: GoogleFonts.playfairDisplay(
                       fontSize: 30,
                       fontWeight: FontWeight.w600,
-                      color: AppColor.WHITE,
+                      color: AppColor.white,
                     ),
                   ),
                   SizedBox(height: 16),
@@ -328,7 +328,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     style: GoogleFonts.montserrat(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
-                      color: AppColor.WHITE,
+                      color: AppColor.white,
                     ),
                   ),
                   SizedBox(height: 32),
@@ -360,7 +360,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       style: GoogleFonts.montserrat(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
-                        color: AppColor.WHITE,
+                        color: AppColor.white,
                       ),
                     ),
                   ),
@@ -378,7 +378,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         style: GoogleFonts.montserrat(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
-                          color: AppColor.WHITE,
+                          color: AppColor.white,
                         ),
                       ),
                     ],
@@ -402,7 +402,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           style: GoogleFonts.montserrat(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
-                            color: AppColor.WHITE,
+                            color: AppColor.white,
                           ),
                         ),
                         Text(

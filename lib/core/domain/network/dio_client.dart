@@ -1,7 +1,7 @@
 // Get:-----------------------------------------------------------------------
 
 import 'package:dio/dio.dart';
-import 'package:food_chef/core/utils/end_points.dart';
+import 'package:food_chef/core/utils/constant/environment/end_points.dart';
 
 
  

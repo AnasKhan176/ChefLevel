@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class LoginProvider extends ChangeNotifier 
+class UserProvider extends ChangeNotifier 
 {
   
 }

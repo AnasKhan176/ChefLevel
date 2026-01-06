@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../theme/app_color.dart';
+import 'package:food_chef/core/utils/constant/colors/app_color.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   const ForgotPasswordScreen({super.key});
@@ -28,7 +27,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                 children: [
                   // Back arrow
                   IconButton(
-                    icon: const Icon(Icons.arrow_back, color: AppColor.WHITE),
+                    icon: const Icon(Icons.arrow_back, color: AppColor.white),
                     onPressed: () => Navigator.pop(context),
                   ),
                   const SizedBox(height: 40),
@@ -36,7 +35,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                   const Text(
                     'Forgot Password',
                     style: TextStyle(
-                      color: AppColor.WHITE,
+                      color: AppColor.white,
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
                     ),
@@ -46,7 +45,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                   const Text(
                     "Don't worry. It happens! Please enter registered email.",
                     style: TextStyle(
-                      color: AppColor.WHITE,
+                      color: AppColor.white,
                       fontSize: 16,
                     ),
                   ),
@@ -58,11 +57,11 @@ class ForgotPasswordScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: TextField(
-                      style: const TextStyle(color: AppColor.WHITE),
+                      style: const TextStyle(color: AppColor.white),
                       decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.email, color: AppColor.WHITE),
+                        prefixIcon: Icon(Icons.email, color: AppColor.white),
                         hintText: 'Email',
-                        hintStyle: TextStyle(color: AppColor.WHITE),
+                        hintStyle: TextStyle(color: AppColor.white),
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.all(16),
                       ),

@@ -8,22 +8,22 @@ import 'package:food_chef/core/domain/di/service_locator.dart';
 import 'package:food_chef/core/domain/models/preference_level/get_all_pref_data_model.dart';
 import 'package:food_chef/core/domain/models/preference_level/get_saved_pref_data_model.dart';
 import 'package:food_chef/core/domain/models/preference_level/save_pref_data_model%20.dart';
-import 'package:food_chef/core/ui/home/home.dart';
-import 'package:food_chef/core/ui/snackbar/app_loader.dart';
-import 'package:food_chef/core/ui/snackbar/bottom_snackbar.dart';
-import 'package:food_chef/core/utils/app_string.dart';
-import 'package:food_chef/core/utils/shared_pref_service.dart';
-import 'package:food_chef/theme/app_color.dart';
+import 'package:food_chef/core/ui/home/home_screen.dart';
+import 'package:food_chef/core/ui/widgets/loader/app_loader.dart';
+import 'package:food_chef/core/ui/widgets/snackbar/bottom_snackbar.dart';
+import 'package:food_chef/core/utils/constant/colors/app_color.dart';
+import 'package:food_chef/core/utils/constant/string/app_string.dart';
+import 'package:food_chef/core/utils/constant/prefs/shared_pref.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class PreferencesScreen extends StatefulWidget {
-  const PreferencesScreen({super.key});
+class PreferenceLevelScreen extends StatefulWidget {
+  const PreferenceLevelScreen({super.key});
 
   @override
-  State<PreferencesScreen> createState() => _PreferencesScreenState();
+  State<PreferenceLevelScreen> createState() => _PreferencesScreenState();
 }
 
-class _PreferencesScreenState extends State<PreferencesScreen> {
+class _PreferencesScreenState extends State<PreferenceLevelScreen> {
   // Expand/collapse state
   bool dietaryExpanded = false;
   bool cuisineExpanded = false;
@@ -198,7 +198,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                         fontSize: 30,
                         fontWeight: FontWeight.w600,
                         fontStyle: FontStyle.normal,
-                        color: AppColor.WHITE,
+                        color: AppColor.white,
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -259,8 +259,8 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                                                 fontWeight: FontWeight.w400,
                                                 fontStyle: FontStyle.normal,
                                                 color: isSelected
-                                                    ? AppColor.WHITE
-                                                    : AppColor.WHITE,
+                                                    ? AppColor.white
+                                                    : AppColor.white,
                                               ),
                                             ),
                                           ),
@@ -339,8 +339,8 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                                                 fontWeight: FontWeight.w400,
                                                 fontStyle: FontStyle.normal,
                                                 color: isSelected
-                                                    ? AppColor.WHITE
-                                                    : AppColor.WHITE,
+                                                    ? AppColor.white
+                                                    : AppColor.white,
                                               ),
                                             ),
                                           ),
@@ -448,7 +448,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                             fontSize: 14,
                             fontWeight: FontWeight.w700,
                             fontStyle: FontStyle.normal,
-                            color: AppColor.WHITE,
+                            color: AppColor.white,
                           ),
                         ),
                       ),
@@ -487,13 +487,13 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                   fontStyle: FontStyle.normal,
-                  color: AppColor.WHITE,
+                  color: AppColor.white,
                 ),
               ),
               IconButton(
                 icon: Icon(
                   expanded ? Icons.expand_less : Icons.expand_more,
-                  color: AppColor.WHITE,
+                  color: AppColor.white,
                 ),
                 onPressed: onToggle,
               ),
@@ -515,7 +515,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
           fontSize: 14,
           fontWeight: FontWeight.w400,
           fontStyle: FontStyle.normal,
-          color: AppColor.WHITE,
+          color: AppColor.white,
         ),
       ),
       value: data.id,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../theme/app_color.dart';
+import 'package:food_chef/core/utils/constant/colors/app_color.dart';
 
 class ChangePasswordScreen extends StatelessWidget {
   const ChangePasswordScreen({super.key});
@@ -31,7 +30,7 @@ class ChangePasswordScreen extends StatelessWidget {
                   const Text(
                     'Change Password',
                     style: TextStyle(
-                      color: AppColor.WHITE,
+                      color: AppColor.white,
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
                     ),
@@ -41,7 +40,7 @@ class ChangePasswordScreen extends StatelessWidget {
                   const Text(
                     'Set your new password',
                     style: TextStyle(
-                      color: AppColor.WHITE,
+                      color: AppColor.white,
                       fontSize: 16,
                     ),
                   ),
@@ -92,11 +91,11 @@ class ChangePasswordScreen extends StatelessWidget {
       ),
       child: TextField(
         obscureText: true,
-        style: const TextStyle(color: AppColor.WHITE),
+        style: const TextStyle(color: AppColor.white),
         decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.lock, color: AppColor.WHITE),
+          prefixIcon: const Icon(Icons.lock, color: AppColor.white),
           hintText: hint,
-          hintStyle: const TextStyle(color: AppColor.WHITE),
+          hintStyle: const TextStyle(color: AppColor.white),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.all(16),
         ),

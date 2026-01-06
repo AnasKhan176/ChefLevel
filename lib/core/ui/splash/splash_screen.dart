@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:food_chef/core/ui/auth/login_screen.dart';
-import 'package:food_chef/core/ui/home/home.dart';
-import 'package:food_chef/core/ui/preference/preference_screen.dart';
-import 'package:food_chef/core/utils/app_string.dart';
-import 'package:food_chef/core/utils/shared_pref_service.dart';
+import 'package:food_chef/core/ui/home/home_screen.dart';
+import 'package:food_chef/core/ui/preference_level/preference_level_screen.dart';
+import 'package:food_chef/core/utils/constant/fonts/font_style.dart';
+import 'package:food_chef/core/utils/constant/string/app_string.dart';
+import 'package:food_chef/core/utils/constant/prefs/shared_pref.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../walkthrough/walkthrough_screen.dart';
 
@@ -44,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 )
               : Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (_) => PreferencesScreen()),
+                  MaterialPageRoute(builder: (_) => PreferenceLevelScreen()),
                 );
         }
       } else {
@@ -77,12 +78,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 padding: const EdgeInsets.only(bottom: 20),
                 child: Text(
                   "Version ${AppString.appVersion}",
-                  style: GoogleFonts.montserrat(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    fontStyle: FontStyle.normal,
-                    color: Colors.white,
-                  ),
+                  style: AppFontStyle.whiteText16NormalMont,
                 ),
               ),
             ),

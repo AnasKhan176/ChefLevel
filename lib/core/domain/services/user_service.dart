@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:food_chef/core/domain/network/dio_client.dart';
-import 'package:food_chef/core/utils/end_points.dart';
+import 'package:food_chef/core/utils/constant/environment/end_points.dart';
 
 class UserService {
   UserService({required this.dioClient});

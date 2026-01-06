@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-
-import '../../../theme/app_color.dart';
+import 'package:food_chef/core/utils/constant/colors/app_color.dart';
 
 class AppLoader {
   static OverlayEntry? _overlayEntry;
 
-  static void show(
-      BuildContext context, {
-        String message = 'Please wait.',
-      }) {
+  static void show(BuildContext context, {String message = 'Please wait.'}) {
     if (_overlayEntry != null) return;
 
     final overlay = Overlay.of(context);
-    
+
     _overlayEntry = OverlayEntry(
       builder: (_) => Positioned.fill(
         child: IgnorePointer(
@@ -21,8 +17,10 @@ class AppLoader {
             child: Material(
               color: Colors.transparent,
               child: Container(
-                padding:
-                const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 40,
+                  vertical: 30,
+                ),
                 decoration: BoxDecoration(
                   color: AppColor.lightBlack,
                   borderRadius: BorderRadius.circular(14),
@@ -35,15 +33,16 @@ class AppLoader {
                       width: 22,
                       child: CircularProgressIndicator(
                         strokeWidth: 2.5,
-                        valueColor:
-                        AlwaysStoppedAnimation<Color>(AppColor.WHITE),
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          AppColor.white,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 14),
                     Text(
                       message,
                       style: const TextStyle(
-                        color: AppColor.WHITE,
+                        color: AppColor.white,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                       ),

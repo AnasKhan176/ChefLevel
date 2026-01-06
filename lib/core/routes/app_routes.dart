@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:food_chef/core/ui/auth/login_screen.dart';
 import 'package:food_chef/core/ui/auth/otp_verification_screen.dart';
 import 'package:food_chef/core/ui/auth/register_screen.dart';
-import 'package:food_chef/core/ui/home/home.dart';
-import 'package:food_chef/core/ui/preference/preference_screen.dart';
+import 'package:food_chef/core/ui/home/home_screen.dart';
+import 'package:food_chef/core/ui/preference_level/preference_level_screen.dart';
 import 'package:food_chef/core/ui/walkthrough/walkthrough_screen.dart';
-import '../core/ui/splash/splash_screen.dart';
+import '../ui/splash/splash_screen.dart';
 
 class AppRoutes {
   AppRoutes._();
@@ -14,7 +14,7 @@ class AppRoutes {
   static const String loginScreen = '/login_screen';
   static const String otpLoginScreen = '/otp_login_screen';
   static const String registrationScreen = '/registration_screen';
-  static const String prefsLevelScreen = '/prefs_level_screen';
+  static const String prefsLevelScreen = '/preference_level_screen';
   static const String homeScreen = '/home_screen';
 
 
@@ -38,7 +38,7 @@ class AppRoutes {
          return MaterialPageRoute(builder: (_) =>  RegisterScreen());
 
          case prefsLevelScreen:
-         return MaterialPageRoute(builder: (_) =>  PreferencesScreen());
+         return MaterialPageRoute(builder: (_) =>  PreferenceLevelScreen());
 
          
         case homeScreen:

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:food_chef/core/domain/di/service_locator.dart';
-import 'package:food_chef/core/providers/login_provider.dart';
-import 'package:food_chef/core/providers/preference_level_provider.dart';
+import 'package:food_chef/core/providers/user_provider.dart';
 import 'package:food_chef/core/ui/splash/splash_screen.dart';
-import 'package:food_chef/core/utils/shared_pref_service.dart';
-import 'package:food_chef/core/utils/utility.dart';
+import 'package:food_chef/core/utils/constant/prefs/shared_pref.dart';
+import 'package:food_chef/core/utils/function/utility.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -29,8 +28,7 @@ Future<void> main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => LoginProvider()),
-        ChangeNotifierProvider(create: (_) => PreferenceLevelProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
       child: MyApp(
         isSeenWalkthrough: isSeenWalkthrough,
