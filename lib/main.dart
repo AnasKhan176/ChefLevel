@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:food_chef/core/domain/di/service_locator.dart';
 import 'package:food_chef/core/providers/user_provider.dart';
+import 'package:food_chef/core/ui/home/home_screen.dart';
 import 'package:food_chef/core/ui/splash/splash_screen.dart';
 import 'package:food_chef/core/utils/constant/prefs/shared_pref.dart';
 import 'package:food_chef/core/utils/function/utility.dart';
 import 'package:provider/provider.dart';
+
+import 'core/ui/home/tailored_recipes/receipe_home_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,10 +53,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(
-        isSeenWalkthrough: isSeenWalkthrough,
-        isLoggedIn: isLoggedIn,
-      ),
+      // home: RecipeHomeScreen(),
+      home: HomeScreen(),
+      // home: SplashScreen(
+      //   isSeenWalkthrough: isSeenWalkthrough,
+      //   isLoggedIn: isLoggedIn,
+      // ),
       // home: OtpVerificationScreen(contact: "23524278947", password: "password", loginMode: "loginMode", otpCode: "123456"),
     );
   }

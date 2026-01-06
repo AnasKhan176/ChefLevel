@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:food_chef/core/controller/favourite_receipe_controller.dart';
 import 'package:food_chef/core/ui/auth/login_screen.dart';
+import 'package:food_chef/core/ui/home/food_banner.dart';
+import 'package:food_chef/core/ui/home/tailored_recipes/receipe_home_screen.dart';
 import 'package:food_chef/core/utils/constant/colors/app_color.dart';
 import 'package:food_chef/core/utils/constant/fonts/font_style.dart';
 import 'package:get/get.dart';
@@ -57,20 +59,30 @@ class _HomeScreenState extends State<HomeScreen> {
             _headerText(),
             // const SizedBox(height: 16),
             // _searchBar(),
+            const SizedBox(height: 24,),
+            FoodBanner(),
             const SizedBox(height: 24),
-            _sectionTitle('Tailored Recipes for You'),
+            _sectionTitle(
+                title: 'Tailored Recipes for You',
+                onSeeAllTap:(){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => RecipeHomeScreen())
+                  );
+                }
+            ),
             const SizedBox(height: 12),
             _recipeHorizontalList(),
             const SizedBox(height: 24),
-            _sectionTitle('Master Chefs'),
+            _sectionTitle(title: 'Master Chefs', onSeeAllTap: (){}),
             const SizedBox(height: 12),
             _chefHorizontalList(),
             const SizedBox(height: 24),
-            _sectionTitle('Popular Cuisine'),
+            _sectionTitle(title: 'Popular Cuisine', onSeeAllTap: (){}),
             const SizedBox(height: 12),
             _cuisineGrid(),
             const SizedBox(height: 24),
-            _sectionTitle('Popular Techniques'),
+            _sectionTitle(title: 'Popular Techniques', onSeeAllTap: (){}),
             const SizedBox(height: 12),
             _techniqueHorizontalList(),
           ],
@@ -137,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _sectionTitle(String title) {
+  Widget _sectionTitle({required String title, VoidCallback? onSeeAllTap}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -145,9 +157,12 @@ class _HomeScreenState extends State<HomeScreen> {
           title,
           style: AppFontStyle.whiteText14Bold,
         ),
-        Text(
-          'See All',
-          style:AppFontStyle.redText12NormalMont,
+        InkWell(
+          onTap: onSeeAllTap,
+          child: Text(
+            'See All',
+            style:AppFontStyle.redText12NormalMont,
+          ),
         ),
       ],
     );
