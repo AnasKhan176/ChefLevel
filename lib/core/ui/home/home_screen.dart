@@ -1,6 +1,12 @@
+// ignore_for_file: use_build_context_synchronously, non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:food_chef/core/controller/favourite_receipe_controller.dart';
+import 'package:food_chef/core/controller/home_recipes_controller.dart';
+import 'package:food_chef/core/domain/di/service_locator.dart';
+import 'package:food_chef/core/domain/models/home/home_recipes_model.dart';
 import 'package:food_chef/core/ui/auth/login_screen.dart';
+import 'package:food_chef/core/ui/widgets/snackbar/bottom_snackbar.dart';
 import 'package:food_chef/core/utils/constant/colors/app_color.dart';
 import 'package:food_chef/core/utils/constant/fonts/font_style.dart';
 import 'package:get/get.dart';
@@ -15,13 +21,45 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late FavouriteReceipeController _favouriteReceipeController;
+  final homeRecipesController = getIt.get<HomeRecipesController>();
   final GlobalKey<ScaffoldState> _key = GlobalKey();
+
+  List<TailoredRecipe>? tailored_recipes_list = <TailoredRecipe>[];
+  List<Chef>? master_chef_list = <Chef>[];
+  List<PopularTechnique>? popular_techniques_list = <PopularTechnique>[];
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    getData();
+
     _favouriteReceipeController = Get.put(FavouriteReceipeController());
+  }
+
+  Future<void> getData() async {
+    await Future.wait([getHomeRecipesData()]);
+  }
+
+  Future<void> getHomeRecipesData() async {
+    final Map<String, dynamic> data = {'pageNo': '0', 'pageSize': '1'};
+    var response = await homeRecipesController.getHomeData(data);
+    if (response.responseCode == 20000) {
+      tailored_recipes_list = response.data?.tailoredRecipes ?? [];
+      master_chef_list = response.data?.chefs ?? [];
+      popular_techniques_list = response.data?.popularTechniques ?? [];
+
+      print(tailored_recipes_list!.length);
+      print(master_chef_list!.length);
+      print(popular_techniques_list!.length);
+
+    } else {
+      BottomSnackBar.show(
+        context,
+        message: response!.message!,
+        backgroundColor: AppColor.btnBackground,
+        icon: Icons.check_circle,
+      );
+    }
   }
 
   @override
@@ -141,14 +179,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          title,
-          style: AppFontStyle.whiteText14Bold,
-        ),
-        Text(
-          'See All',
-          style:AppFontStyle.redText12NormalMont,
-        ),
+        Text(title, style: AppFontStyle.whiteText14Bold),
+        Text('See All', style: AppFontStyle.redText12NormalMont),
       ],
     );
   }
@@ -253,28 +285,30 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 4),
 
                 // STAR + TIME ROW
-                Padding(padding: const EdgeInsets.all(6),child:
-                Row(
-                  children: [
-                    Text(
-                      '⭐ 4.8 (120)',
-                      style: GoogleFonts.montserrat(
-                        fontSize: 8,
-                        fontWeight: FontWeight.w400,
-                        color: AppColor.lightgray,
+                Padding(
+                  padding: const EdgeInsets.all(6),
+                  child: Row(
+                    children: [
+                      Text(
+                        '⭐ 4.8 (120)',
+                        style: GoogleFonts.montserrat(
+                          fontSize: 8,
+                          fontWeight: FontWeight.w400,
+                          color: AppColor.lightgray,
+                        ),
                       ),
-                    ),
-                    const Spacer(),
-                    Text(
-                      '25 min',
-                      style: GoogleFonts.montserrat(
-                        fontSize: 8,
-                        fontWeight: FontWeight.w400,
-                        color: AppColor.lightgray,
+                      const Spacer(),
+                      Text(
+                        '25 min',
+                        style: GoogleFonts.montserrat(
+                          fontSize: 8,
+                          fontWeight: FontWeight.w400,
+                          color: AppColor.lightgray,
+                        ),
                       ),
-                    ),
-                  ],
-                )),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),

@@ -118,21 +118,21 @@ class HomeRecipesDataModel {
   }
 }
 
-class Image {
+class ImageData {
   final String? fileName;
   final String? filePath;
   final String? fileType;
   final int? id;
 
-  Image({
+  ImageData({
     this.fileName,
     this.filePath,
     this.fileType,
     this.id,
   });
 
-  factory Image.fromJson(Map<String, dynamic> json) {
-    return Image(
+  factory ImageData.fromJson(Map<String, dynamic> json) {
+    return ImageData(
       fileName: json['fileName'],
       filePath: json['filePath'],
       fileType: json['fileType'],
@@ -275,7 +275,7 @@ class TailoredRecipe {
   final int? fats;
   final int? fiber;
   final int? id;
-  final List<Image>? image;
+  final List<ImageData>? image;
   final dynamic? imageId;
   final List<IngredientDetail>? ingredientDetails;
   final String? instructions;
@@ -333,7 +333,7 @@ class TailoredRecipe {
       fats: json['fats'],
       fiber: json['fiber'],
       id: json['id'],
-      image: json['image'] != null ? List<Image>.from(json['image'].map((x) => Image.fromJson(x))) : null,
+      image: json['image'] != null ? List<ImageData>.from(json['image'].map((x) => ImageData.fromJson(x))) : null,
       imageId: json['imageId'],
       ingredientDetails: json['ingredientDetails'] != null ? List<IngredientDetail>.from(json['ingredientDetails'].map((x) => IngredientDetail.fromJson(x))) : null,
       instructions: json['instructions'],
