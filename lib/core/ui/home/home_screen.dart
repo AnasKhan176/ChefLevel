@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 12),
             _recipeHorizontalList(),
-            const SizedBox(height: 24),
+            const SizedBox(height: 12),
             _sectionTitle(title: 'Master Chefs', onSeeAllTap: (){
               Navigator.push(
                   context,
@@ -84,11 +84,11 @@ class _HomeScreenState extends State<HomeScreen> {
             }),
             const SizedBox(height: 12),
             _chefHorizontalList(),
-            const SizedBox(height: 24),
+            const SizedBox(height: 12),
             _sectionTitle(title: 'Popular Cuisine', onSeeAllTap: (){}),
             const SizedBox(height: 12),
             _cuisineGrid(),
-            const SizedBox(height: 24),
+            // const SizedBox(height: 12),
             _sectionTitle(title: 'Popular Techniques', onSeeAllTap: (){
               Navigator.push(
                   context,
@@ -97,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
             }),
             const SizedBox(height: 12),
             _techniqueHorizontalList(),
-            const SizedBox(height: 12),
+            const SizedBox(height: 50),
           ],
         ),
       ),
