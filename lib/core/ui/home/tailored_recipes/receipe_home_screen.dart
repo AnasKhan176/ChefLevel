@@ -30,6 +30,64 @@ class _RecipeHomeScreenState extends State<RecipeHomeScreen> {
               _categoryChips(),
               const SizedBox(height: 20),
               Expanded(child: _recipeGrid()),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [
+                        Color(0xFFFF6A6A),
+                        Color(0xFFE53935),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.15),
+                        blurRadius: 6,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(20),
+                      onTap: () {
+                        // Load more action
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 18,
+                          vertical: 8,
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: const [
+                            Text(
+                              'Load More',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 0.3,
+                              ),
+                            ),
+                            SizedBox(width: 6),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 12,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -201,20 +259,26 @@ class _RecipeHomeScreenState extends State<RecipeHomeScreen> {
             ),
           ),
           const SizedBox(height: 12),
-          Text(
-            index.isOdd ? 'Spicy noodles' : 'Seafood salad',
-            style: GoogleFonts.playfairDisplay(
-              color: Colors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
+          Center(
+            child: Text(
+              index.isOdd ? 'Spicy noodles' : 'Seafood salad',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.playfairDisplay(
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
           const SizedBox(height: 4),
-          Text(
-            'Chef Marco Italian',
-            style: GoogleFonts.montserrat(
-              fontSize: 11,
-              color: Colors.white54,
+          Center(
+            child: Text(
+              'Chef Marco Italian',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.montserrat(
+                fontSize: 11,
+                color: Colors.white54,
+              ),
             ),
           ),
           const Spacer(),
@@ -243,7 +307,7 @@ class _RecipeHomeScreenState extends State<RecipeHomeScreen> {
               ),
             ],
           ),
-        ],
+      ],
       ),
     );
   }
