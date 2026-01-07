@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:food_chef/core/controller/favourite_receipe_controller.dart';
 import 'package:food_chef/core/ui/auth/login_screen.dart';
 import 'package:food_chef/core/ui/home/food_banner.dart';
+import 'package:food_chef/core/ui/home/master_chefs/master_chef_screen.dart';
+import 'package:food_chef/core/ui/home/popular_techniques/popular_techniques_screen.dart';
 import 'package:food_chef/core/ui/home/tailored_recipes/receipe_home_screen.dart';
 import 'package:food_chef/core/utils/constant/colors/app_color.dart';
 import 'package:food_chef/core/utils/constant/fonts/font_style.dart';
@@ -74,7 +76,12 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 12),
             _recipeHorizontalList(),
             const SizedBox(height: 24),
-            _sectionTitle(title: 'Master Chefs', onSeeAllTap: (){}),
+            _sectionTitle(title: 'Master Chefs', onSeeAllTap: (){
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => MasterChefScreen())
+              );
+            }),
             const SizedBox(height: 12),
             _chefHorizontalList(),
             const SizedBox(height: 24),
@@ -82,9 +89,15 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 12),
             _cuisineGrid(),
             const SizedBox(height: 24),
-            _sectionTitle(title: 'Popular Techniques', onSeeAllTap: (){}),
+            _sectionTitle(title: 'Popular Techniques', onSeeAllTap: (){
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => PopularTechniquesScreen())
+              );
+            }),
             const SizedBox(height: 12),
             _techniqueHorizontalList(),
+            const SizedBox(height: 12),
           ],
         ),
       ),
