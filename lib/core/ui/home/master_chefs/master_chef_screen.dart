@@ -97,38 +97,33 @@ class _MasterChefScreenState extends State<MasterChefScreen> {
 
   /// ---------------- TOP BAR ----------------
   Widget _topBar(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+     return Stack(
       children: [
-        InkWell(
-          onTap: () => Navigator.pop(context),
-          borderRadius: BorderRadius.circular(24),
-          child: const Icon(Icons.arrow_back, color: Colors.white),
-        ),
-        Text(
-          'Master Chefs',
-          style: GoogleFonts.playfairDisplay(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
-          ),
-        ),
-        InkWell(
-          onTap: () {
-            debugPrint('Filter clicked');
-          },
-          borderRadius: BorderRadius.circular(12),
-          child: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white24),
-              borderRadius: BorderRadius.circular(10),
+        Row(
+          children: [
+            InkWell(
+              onTap: () => Navigator.pop(context),
+              borderRadius: BorderRadius.circular(24),
+              child: const Icon(Icons.arrow_back, color: Colors.white),
             ),
-            child: const Icon(Icons.tune, color: Colors.white, size: 18),
-          ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Master Chefs',
+              style: GoogleFonts.playfairDisplay(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
+          ],
         ),
       ],
     );
+
   }
 
   /// ---------------- SEARCH BAR ----------------

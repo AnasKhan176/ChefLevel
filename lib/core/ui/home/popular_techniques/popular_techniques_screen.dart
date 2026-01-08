@@ -5,7 +5,8 @@ class PopularTechniquesScreen extends StatefulWidget {
   const PopularTechniquesScreen({super.key});
 
   @override
-  State<PopularTechniquesScreen> createState() => _PopularTechniquesScreenState();
+  State<PopularTechniquesScreen> createState() =>
+      _PopularTechniquesScreenState();
 }
 
 class _PopularTechniquesScreenState extends State<PopularTechniquesScreen> {
@@ -35,10 +36,7 @@ class _PopularTechniquesScreenState extends State<PopularTechniquesScreen> {
                 child: Container(
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFFFF6A6A),
-                        Color(0xFFE53935),
-                      ],
+                      colors: [Color(0xFFFF6A6A), Color(0xFFE53935)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
@@ -97,35 +95,29 @@ class _PopularTechniquesScreenState extends State<PopularTechniquesScreen> {
 
   /// ---------------- TOP BAR ----------------
   Widget _topBar(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Stack(
       children: [
-        InkWell(
-          onTap: () => Navigator.pop(context),
-          borderRadius: BorderRadius.circular(24),
-          child: const Icon(Icons.arrow_back, color: Colors.white),
-        ),
-        Text(
-          'Popular Techniques',
-          style: GoogleFonts.playfairDisplay(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
-          ),
-        ),
-        InkWell(
-          onTap: () {
-            debugPrint('Filter clicked');
-          },
-          borderRadius: BorderRadius.circular(12),
-          child: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white24),
-              borderRadius: BorderRadius.circular(10),
+        Row(
+          children: [
+            InkWell(
+              onTap: () => Navigator.pop(context),
+              borderRadius: BorderRadius.circular(24),
+              child: const Icon(Icons.arrow_back, color: Colors.white),
             ),
-            child: const Icon(Icons.tune, color: Colors.white, size: 18),
-          ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Popular Techniques',
+              style: GoogleFonts.playfairDisplay(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -265,9 +257,7 @@ class _PopularTechniquesScreenState extends State<PopularTechniquesScreen> {
                     });
                   },
                   child: Icon(
-                    favorites[index]
-                        ? Icons.favorite
-                        : Icons.favorite_border,
+                    favorites[index] ? Icons.favorite : Icons.favorite_border,
                     color: favorites[index] ? Colors.red : Colors.white54,
                     size: 18,
                   ),

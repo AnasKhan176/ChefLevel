@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_chef/core/domain/di/service_locator.dart';
+import 'package:food_chef/core/providers/home_provider.dart';
 import 'package:food_chef/core/providers/user_provider.dart';
 import 'package:food_chef/core/ui/home/home_screen.dart';
 import 'package:food_chef/core/ui/splash/splash_screen.dart';
@@ -32,6 +33,7 @@ Future<void> main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => HomeScreenProvider()),
       ],
       child: MyApp(
         isSeenWalkthrough: isSeenWalkthrough,
@@ -53,13 +55,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // home: RecipeHomeScreen(),
-      home: HomeScreen(),
-      // home: SplashScreen(
-      //   isSeenWalkthrough: isSeenWalkthrough,
-      //   isLoggedIn: isLoggedIn,
-      // ),
-      // home: OtpVerificationScreen(contact: "23524278947", password: "password", loginMode: "loginMode", otpCode: "123456"),
+      home: SplashScreen(
+        isSeenWalkthrough: isSeenWalkthrough,
+        isLoggedIn: isLoggedIn,
+      ),
     );
   }
 }

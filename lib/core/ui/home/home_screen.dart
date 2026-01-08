@@ -73,13 +73,31 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         actions: [
+         Padding(
+            padding: const EdgeInsets.only(right: 10),child: SizedBox(
+                    width: 18.0,
+                    height: 18.0,
+                    child: Image.asset(
+                      'assets/images/search_rounded.png',
+                    ), // Use AssetImage
+                  ),),
+                  Padding(
+            padding: const EdgeInsets.only(right: 8),child:
+                  SizedBox(
+                    width: 18.0,
+                    height: 18.0,
+                    child: Image.asset(
+                      'assets/images/cart_rounded.png',
+                    ), // Use AssetImage
+                  ),),
           Padding(
-            padding: const EdgeInsets.only(right: 16),
+            padding: const EdgeInsets.only(right: 18),
             child: CircleAvatar(
-              radius: 18,
+              radius: 14,
               backgroundImage: AssetImage('assets/common.png'),
             ),
           ),
+           
         ],
       ),
       body: SingleChildScrollView(
@@ -93,6 +111,13 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 24),
             FoodBanner(),
             const SizedBox(height: 24),
+             Consumer<HomeScreenProvider>(
+      builder: (_, provider, _) {
+        return 
+            Visibility(
+              visible: provider.tailoredRecipesData!.isNotEmpty,
+              child: 
+            Column(children: [
             _sectionTitle(
               title: 'Tailored Recipes for You',
               onSeeAllTap: () {
@@ -104,6 +129,15 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 12),
             _recipeHorizontalList(),
+            ]),);}),
+            
+            Consumer<HomeScreenProvider>(
+      builder: (_, provider, _) {
+        return 
+            Visibility(
+              visible: provider.masterChefData!.isNotEmpty,
+              child: 
+            Column(children: [
             const SizedBox(height: 12),
             _sectionTitle(title: 'Master Chefs', onSeeAllTap: (){
               Navigator.push(
@@ -113,11 +147,20 @@ class _HomeScreenState extends State<HomeScreen> {
             }),
             const SizedBox(height: 12),
             _chefHorizontalList(),
+            ]));}),
+
             const SizedBox(height: 12),
             _sectionTitle(title: 'Popular Cuisine', onSeeAllTap: (){}),
             const SizedBox(height: 12),
             _cuisineGrid(),
-            // const SizedBox(height: 12),
+            Consumer<HomeScreenProvider>(
+      builder: (_, provider, _) {
+        return 
+            Visibility(
+              visible: provider.popularTechniquesData!.isNotEmpty,
+              child: 
+            Column(children: [
+             const SizedBox(height: 12),
             _sectionTitle(title: 'Popular Techniques', onSeeAllTap: (){
               Navigator.push(
                   context,
@@ -126,6 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
             }),
             const SizedBox(height: 12),
             _techniqueHorizontalList(),
+            ]));}),
             const SizedBox(height: 50),
           ],
         ),
@@ -243,9 +287,9 @@ Widget _recipeCard(int index, HomeScreenProvider provider) {
                   top: Radius.circular(8),
                 ),
                 child: FadeInImage(
-                  placeholder: AssetImage('assets/images/recipe_default.png'),
+                  placeholder: AssetImage('assets/images/cuisine_default.png'),
                   image: NetworkImage(
-                    getImageUrl(provider.tailoredRecipesData![index].image,'recipe','assets/images/recipe_default.png'),
+                    getImageUrl(provider.tailoredRecipesData![index].image,'recipe','assets/images/cuisine_default.png'),
                   ),
                   width: double.infinity,
                   fit: BoxFit.cover,
@@ -256,8 +300,14 @@ Widget _recipeCard(int index, HomeScreenProvider provider) {
               Positioned(
                 top: 8,
                 right: 8,
-                child: InkWell(
-                  onTap: () {},
+                child:
+   Consumer<HomeScreenProvider>(
+      builder: (_, provider, _) {
+        return 
+                InkWell(
+                  onTap: () {
+                  provider.isFavorite? provider.setIsFavorite(false):provider.setIsFavorite(true);
+                  },
                   borderRadius: BorderRadius.circular(20),
                   child: Container(
                     padding: const EdgeInsets.all(6),
@@ -266,13 +316,13 @@ Widget _recipeCard(int index, HomeScreenProvider provider) {
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
-                      Icons.favorite_border,
+                     provider.isFavorite?Icons.favorite : Icons.favorite_border,
                       size: 14,
-                      color:
+                      color: provider.isFavorite?Colors.red:
                           Colors.white,
                     ),
                   ),
-                ),
+                );}),
               ),
             ],
           ),

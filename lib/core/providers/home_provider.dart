@@ -4,6 +4,7 @@ import 'package:food_chef/core/domain/models/home/home_recipes_model.dart';
 class HomeScreenProvider extends ChangeNotifier {
   final int _pageSize = 10;
   int _currentPage = 1;
+  bool _isFavorite = true;
 
   List<TailoredRecipe>? _tailoredRecipeList = [];
   List<Chef>? _chefList = [];
@@ -11,6 +12,8 @@ class HomeScreenProvider extends ChangeNotifier {
 
   int get currentPage => _currentPage;
   int get pageSize => _pageSize;
+  bool get isFavorite => _isFavorite;
+
 
   List<TailoredRecipe>? get tailoredRecipesData => _tailoredRecipeList;
   List<Chef>? get masterChefData => _chefList;
@@ -26,6 +29,12 @@ class HomeScreenProvider extends ChangeNotifier {
     print(_chefList!.length);
     print(_popularRecipeList!.length);
 
+    notifyListeners();
+  }
+
+  void setIsFavorite(bool isClicked)
+  {
+    _isFavorite=isClicked;
     notifyListeners();
   }
 
