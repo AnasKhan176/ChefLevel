@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class RecipeHomeScreen extends StatefulWidget {
-  const RecipeHomeScreen({super.key});
+class MasterChefScreen extends StatefulWidget {
+  const MasterChefScreen({super.key});
 
   @override
-  State<RecipeHomeScreen> createState() => _RecipeHomeScreenState();
+  State<MasterChefScreen> createState() => _MasterChefScreenState();
 }
 
-class _RecipeHomeScreenState extends State<RecipeHomeScreen> {
+class _MasterChefScreenState extends State<MasterChefScreen> {
   final List<bool> favorites = List.generate(6, (_) => false);
   int selectedChipIndex = 0;
   final TextEditingController searchController = TextEditingController();
@@ -26,8 +26,8 @@ class _RecipeHomeScreenState extends State<RecipeHomeScreen> {
               _topBar(context),
               const SizedBox(height: 16),
               _searchBar(),
-              const SizedBox(height: 16),
-              _categoryChips(),
+              // const SizedBox(height: 16),
+              // _categoryChips(),
               const SizedBox(height: 20),
               Expanded(child: _recipeGrid()),
               Align(
@@ -106,7 +106,7 @@ class _RecipeHomeScreenState extends State<RecipeHomeScreen> {
           child: const Icon(Icons.arrow_back, color: Colors.white),
         ),
         Text(
-          'Tailored Recipes for You',
+          'Master Chefs',
           style: GoogleFonts.playfairDisplay(
             fontSize: 18,
             fontWeight: FontWeight.w600,
@@ -147,7 +147,7 @@ class _RecipeHomeScreenState extends State<RecipeHomeScreen> {
         decoration: const InputDecoration(
           border: InputBorder.none,
           icon: Icon(Icons.search, color: Colors.white54),
-          hintText: 'Search...',
+          hintText: 'Search by chef',
           hintStyle: TextStyle(color: Colors.white54),
         ),
         onTap: () {
@@ -158,53 +158,53 @@ class _RecipeHomeScreenState extends State<RecipeHomeScreen> {
   }
 
   /// ---------------- CATEGORY CHIPS ----------------
-  Widget _categoryChips() {
-    final categories = [
-      'All',
-      'Latest',
-      'Under 30 Min',
-      'High Flame',
-      'Italian',
-      'Low Fat',
-    ];
-
-    return SizedBox(
-      height: 36,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: categories.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 8),
-        itemBuilder: (context, index) {
-          final bool isSelected = selectedChipIndex == index;
-
-          return InkWell(
-            onTap: () {
-              setState(() {
-                selectedChipIndex = index;
-              });
-            },
-            borderRadius: BorderRadius.circular(20),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: isSelected ? Colors.red : const Color(0xFF1C1C1C),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Text(
-                categories[index],
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: isSelected ? Colors.white : Colors.white70,
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
+  // Widget _categoryChips() {
+  //   final categories = [
+  //     'All',
+  //     'Latest',
+  //     'Under 30 Min',
+  //     'High Flame',
+  //     'Italian',
+  //     'Low Fat',
+  //   ];
+  //
+  //   return SizedBox(
+  //     height: 36,
+  //     child: ListView.separated(
+  //       scrollDirection: Axis.horizontal,
+  //       itemCount: categories.length,
+  //       separatorBuilder: (_, __) => const SizedBox(width: 8),
+  //       itemBuilder: (context, index) {
+  //         final bool isSelected = selectedChipIndex == index;
+  //
+  //         return InkWell(
+  //           onTap: () {
+  //             setState(() {
+  //               selectedChipIndex = index;
+  //             });
+  //           },
+  //           borderRadius: BorderRadius.circular(20),
+  //           child: Container(
+  //             padding: const EdgeInsets.symmetric(horizontal: 14),
+  //             alignment: Alignment.center,
+  //             decoration: BoxDecoration(
+  //               color: isSelected ? Colors.red : const Color(0xFF1C1C1C),
+  //               borderRadius: BorderRadius.circular(20),
+  //             ),
+  //             child: Text(
+  //               categories[index],
+  //               style: TextStyle(
+  //                 fontSize: 12,
+  //                 fontWeight: FontWeight.w500,
+  //                 color: isSelected ? Colors.white : Colors.white70,
+  //               ),
+  //             ),
+  //           ),
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
 
   /// ---------------- GRID ----------------
   Widget _recipeGrid() {
@@ -217,15 +217,14 @@ class _RecipeHomeScreenState extends State<RecipeHomeScreen> {
         childAspectRatio: 0.72,
       ),
       itemBuilder: (context, index) {
-        return _recipeCard(index);
+        return _chefProfileCard(index);
       },
     );
   }
 
   /// ---------------- CARD ----------------
-  Widget _recipeCard(int index) {
+  Widget _chefProfileCard(int index) {
     return Container(
-      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: const Color(0xFF1A1A1A),
         borderRadius: BorderRadius.circular(18),
@@ -233,81 +232,84 @@ class _RecipeHomeScreenState extends State<RecipeHomeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Align(
-            alignment: Alignment.topRight,
-            child: InkWell(
-              onTap: () {
-                setState(() {
-                  favorites[index] = !favorites[index];
-                });
-              },
-              child: Icon(
-                favorites[index]
-                    ? Icons.favorite
-                    : Icons.favorite_border,
-                color: favorites[index] ? Colors.red : Colors.white54,
-                size: 18,
-              ),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Center(
-            child: CircleAvatar(
-              radius: 44,
-              backgroundImage:
-              const AssetImage('assets/vegeterian.png'),
+          // Chef image inside card
+          ClipRRect(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(18)),
+            child: Image.asset(
+              'assets/safe_marco.png',
+              height: 120,
+              width: double.infinity,
+              fit: BoxFit.cover,
             ),
           ),
           const SizedBox(height: 12),
-          Center(
-            child: Text(
-              index.isOdd ? 'Spicy noodles' : 'Seafood salad',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.playfairDisplay(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          const SizedBox(height: 4),
-          Center(
-            child: Text(
-              'Chef Marco Italian',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.montserrat(
-                fontSize: 11,
-                color: Colors.white54,
-              ),
-            ),
-          ),
-          const Spacer(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  const Icon(Icons.star, color: Colors.amber, size: 14),
-                  const SizedBox(width: 4),
-                  Text(
-                    '4.0 (1209)',
-                    style: GoogleFonts.montserrat(
-                      fontSize: 11,
-                      color: Colors.white54,
-                    ),
+
+          // Name and favorite icon
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Chef Marco',
+                  style: GoogleFonts.playfairDisplay(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
                   ),
-                ],
-              ),
-              Text(
-                '35 min',
-                style: GoogleFonts.montserrat(
-                  fontSize: 11,
-                  color: Colors.white54,
                 ),
-              ),
-            ],
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      favorites[index] = !favorites[index];
+                    });
+                  },
+                  child: Icon(
+                    favorites[index]
+                        ? Icons.favorite
+                        : Icons.favorite_border,
+                    color: favorites[index] ? Colors.red : Colors.white54,
+                    size: 18,
+                  ),
+                ),
+              ],
+            ),
           ),
-      ],
+
+          // Top-Rated label
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            child: Text(
+              'Top-Rated',
+              style: TextStyle(fontSize: 12, color: Colors.grey),
+            ),
+          ),
+
+          // const Spacer(),
+          // Rating and recipe count
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: const [
+                    Icon(Icons.star, color: Colors.amber, size: 14),
+                    SizedBox(width: 4),
+                    Text(
+                      '4.0 (1206)',
+                      style: TextStyle(fontSize: 11, color: Colors.white54),
+                    ),
+                  ],
+                ),
+                const Text(
+                  '40 Recipes',
+                  style: TextStyle(fontSize: 11, color: Colors.white54),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
