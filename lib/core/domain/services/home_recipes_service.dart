@@ -21,4 +21,53 @@ class HomeRecipesService {
       throw Exception('Failed to load data: $e');
     }
   }
+  Future<Response?> getChefList(
+    Map<String, dynamic> data,
+    Map<String, dynamic> headersData,
+  ) async {
+    try {
+      var options = Options(headers: headersData);
+      final response = await dioClient.post(
+        baseUrl + EndPoints.get_chef_list,
+        data,
+        options,
+      );
+      return response;
+    } catch (e) {
+      throw Exception('Failed to load data: $e');
+    }
+  }
+  Future<Response?> getTailoredRecipeList(
+    Map<String, dynamic> data,
+    Map<String, dynamic> headersData,
+  ) async {
+    try {
+      var options = Options(headers: headersData);
+      final response = await dioClient.post(
+        baseUrl + EndPoints.get_tailored_recipe_list,
+        data,
+        options,
+      );
+      return response;
+    } catch (e) {
+      throw Exception('Failed to load data: $e');
+    }
+  }
+  Future<Response?> getPopularTechniqueList(
+    Map<String, dynamic> data,
+    Map<String, dynamic> headersData,
+  ) async {
+    try {
+      var options = Options(headers: headersData);
+      final response = await dioClient.post(
+        baseUrl + EndPoints.get_popular_technique_list,
+        data,
+        options,
+      );
+      return response;
+    } catch (e) {
+      throw Exception('Failed to load data: $e');
+    }
+  }
+
 }

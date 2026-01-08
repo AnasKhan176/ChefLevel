@@ -27,19 +27,19 @@ class _PreferencesScreenState extends State<PreferenceLevelScreen> {
   // Expand/collapse state
   bool dietaryExpanded = false;
   bool cuisineExpanded = false;
-  bool spiceExpanded = false;
+  //bool spiceExpanded = false;
 
   //radio group value
-  int _selectedVal = 0;
-  String? _selectedSpice = '';
+  //int _selectedVal = 0;
+  //String? _selectedSpice = '';
   final userController = getIt.get<UserController>();
 
   // Api Data
-  List<Data>? spice_data_list;
+  //List<Data>? spice_data_list;
   List<Data>? favorite_data_list;
   List<Data>? dietary_data_list;
 
-  final List<Data> _filters_spice = <Data>[];
+  //final List<Data> _filters_spice = <Data>[];
   final List<Data> _filters_favorite = <Data>[];
   final List<Data> _filters_dietary = <Data>[];
 
@@ -53,7 +53,7 @@ class _PreferencesScreenState extends State<PreferenceLevelScreen> {
     await Future.wait([
       fetchDietaryApi('DIETARY_PREFERENCE'),
       fetchFavouriteApi('FAVOURITE_CUISINE'),
-      fetchSpiceApi('SPICE_LEVEL'),
+     // fetchSpiceApi('SPICE_LEVEL'),
     ]);
   }
 
@@ -89,22 +89,22 @@ class _PreferencesScreenState extends State<PreferenceLevelScreen> {
     return favorite_data_list ?? [];
   }
 
-  Future<List<Data>> fetchSpiceApi(String test) async {
-    final Map<String, dynamic> data = {'check': test};
-    var response = await userController.dataDefination(data);
-    if (response?.responseCode == 20000) {
-      spice_data_list = response?.data;
-      fetchFavouriteApi('FAVOURITE_CUISINE');
-    } else {
-      BottomSnackBar.show(
-        context,
-        message: response!.message!,
-        backgroundColor: AppColor.btnBackground,
-        icon: Icons.check_circle,
-      );
-    }
-    return spice_data_list ?? [];
-  }
+  // Future<List<Data>> fetchSpiceApi(String test) async {
+  //   final Map<String, dynamic> data = {'check': test};
+  //   var response = await userController.dataDefination(data);
+  //   if (response?.responseCode == 20000) {
+  //     spice_data_list = response?.data;
+  //     fetchFavouriteApi('FAVOURITE_CUISINE');
+  //   } else {
+  //     BottomSnackBar.show(
+  //       context,
+  //       message: response!.message!,
+  //       backgroundColor: AppColor.btnBackground,
+  //       icon: Icons.check_circle,
+  //     );
+  //   }
+  //   return spice_data_list ?? [];
+  // }
 
   Future<List<Data>> getDietary() async {
     return dietary_data_list ?? [];
@@ -114,9 +114,9 @@ class _PreferencesScreenState extends State<PreferenceLevelScreen> {
     return favorite_data_list ?? [];
   }
 
-  Future<List<Data>> getSpice() async {
-    return spice_data_list ?? [];
-  }
+  // Future<List<Data>> getSpice() async {
+  //   return spice_data_list ?? [];
+  // }
 
   Future<void> _savePrefLevelData(String jsonBodyData) async {
     AppLoader.show(context);
@@ -359,45 +359,45 @@ class _PreferencesScreenState extends State<PreferenceLevelScreen> {
                       ),
                     ),
 
-                    const SizedBox(height: 20),
-                    // Spice Level Section
-                    _buildExpandableSection(
-                      title: AppString.spiceLevelPref,
-                      expanded: spiceExpanded,
-                      onToggle: () =>
-                          setState(() => spiceExpanded = !spiceExpanded),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          FutureBuilder<List<Data>>(
-                            future: getSpice(),
-                            builder:
-                                (
-                                  BuildContext context,
-                                  AsyncSnapshot<List<Data>> snapshot,
-                                ) {
-                                  Widget result;
-                                  if (snapshot.hasData) {
-                                    result = Wrap(
-                                      spacing: 2,
-                                      runSpacing: 2,
-                                      children: snapshot.data!.map((
-                                        Data option,
-                                      ) {
-                                        return _buildRadio(option);
-                                      }).toList(),
-                                    );
-                                  } else if (snapshot.hasError) {
-                                    result = Text('Error: ${snapshot.error}');
-                                  } else {
-                                    result = const Text('Awaiting result...');
-                                  }
-                                  return result;
-                                },
-                          ),
-                        ],
-                      ),
-                    ),
+                    // const SizedBox(height: 20),
+                    // // Spice Level Section
+                    // _buildExpandableSection(
+                    //   title: AppString.spiceLevelPref,
+                    //   expanded: spiceExpanded,
+                    //   onToggle: () =>
+                    //       setState(() => spiceExpanded = !spiceExpanded),
+                    //   child: Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: <Widget>[
+                    //       FutureBuilder<List<Data>>(
+                    //         future: getSpice(),
+                    //         builder:
+                    //             (
+                    //               BuildContext context,
+                    //               AsyncSnapshot<List<Data>> snapshot,
+                    //             ) {
+                    //               Widget result;
+                    //               if (snapshot.hasData) {
+                    //                 result = Wrap(
+                    //                   spacing: 2,
+                    //                   runSpacing: 2,
+                    //                   children: snapshot.data!.map((
+                    //                     Data option,
+                    //                   ) {
+                    //                     return _buildRadio(option);
+                    //                   }).toList(),
+                    //                 );
+                    //               } else if (snapshot.hasError) {
+                    //                 result = Text('Error: ${snapshot.error}');
+                    //               } else {
+                    //                 result = const Text('Awaiting result...');
+                    //               }
+                    //               return result;
+                    //             },
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
 
                     const SizedBox(height: 30),
 
@@ -414,8 +414,9 @@ class _PreferencesScreenState extends State<PreferenceLevelScreen> {
                         ),
                         onPressed: () async {
                           if (_filters_dietary.isNotEmpty &&
-                              _filters_favorite.isNotEmpty &&
-                              _selectedSpice!.isNotEmpty) {
+                              _filters_favorite.isNotEmpty 
+                            // && _selectedSpice!.isNotEmpty
+                              ) {
                             final List<String> dietaryList = _filters_dietary
                                 .map((dietary) => dietary.value ?? '')
                                 .toList();
@@ -426,7 +427,8 @@ class _PreferencesScreenState extends State<PreferenceLevelScreen> {
                             final payload = PrefSaveDataModel(
                               dietaryPreferences: dietaryList,
                               favouriteCuisines: favouriteList,
-                              spiceLevelPreference: _selectedSpice!,
+                             // spiceLevelPreference: _selectedSpice!,
+                                spiceLevelPreference: '',
                             );
 
                             final jsonPayload = jsonEncode(payload.toJson());
@@ -506,28 +508,28 @@ class _PreferencesScreenState extends State<PreferenceLevelScreen> {
     );
   }
 
-  Widget _buildRadio(Data data) {
-    return RadioListTile(
-      contentPadding: EdgeInsets.zero,
-      title: Text(
-        data.value ?? '',
-        style: GoogleFonts.montserrat(
-          fontSize: 14,
-          fontWeight: FontWeight.w400,
-          fontStyle: FontStyle.normal,
-          color: AppColor.white,
-        ),
-      ),
-      value: data.id,
-      // ignore: deprecated_member_use
-      groupValue: _selectedVal,
-      activeColor: AppColor.btnBackground,
-      onChanged: (val) {
-        setState(() {
-          _selectedVal = data.id!;
-          _selectedSpice = data.value;
-        });
-      },
-    );
-  }
+  // Widget _buildRadio(Data data) {
+  //   return RadioListTile(
+  //     contentPadding: EdgeInsets.zero,
+  //     title: Text(
+  //       data.value ?? '',
+  //       style: GoogleFonts.montserrat(
+  //         fontSize: 14,
+  //         fontWeight: FontWeight.w400,
+  //         fontStyle: FontStyle.normal,
+  //         color: AppColor.white,
+  //       ),
+  //     ),
+  //     value: data.id,
+  //     // ignore: deprecated_member_use
+  //     groupValue: _selectedVal,
+  //     activeColor: AppColor.btnBackground,
+  //     onChanged: (val) {
+  //       setState(() {
+  //         _selectedVal = data.id!;
+  //         _selectedSpice = data.value;
+  //       });
+  //     },
+  //   );
+  // }
 }

@@ -108,6 +108,7 @@ flutter:
     - assets/password.png
     - assets/email.png
     - assets/phone.png
+    - 'assets/images/'
 
 
 

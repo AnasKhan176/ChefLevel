@@ -95,9 +95,8 @@ class UserService {
       var options = Options(headers: headersData);
 
       final response = await dioClient.post(
-        dataBaseUrl + EndPoints.data_defination,
+        cmsBaseUrl + EndPoints.data_defination,
         data,
-
         options,
       );
 
