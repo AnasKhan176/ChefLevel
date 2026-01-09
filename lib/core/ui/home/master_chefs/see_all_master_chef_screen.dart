@@ -248,18 +248,29 @@ class _MasterChefScreenState extends State<SeeAllMasterChefScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  provider.masterChefAllData![index].name ?? '',
-                  style: GoogleFonts.playfairDisplay(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                  ),
+                // Text(
+                //   provider.masterChefAllData![index].name ?? '',
+                //   style: GoogleFonts.playfairDisplay(
+                //     color: Colors.white,
+                //     fontSize: 14,
+                //     fontWeight: FontWeight.w600,
+                //   ),
+                // ),
+                Flexible(
+                    child: Text(
+                      provider.masterChefAllData![index].name ?? '',
+                      style: GoogleFonts.playfairDisplay(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      softWrap: true,
+                    )
                 ),
                 InkWell(onTap: () {
                 provider.isFavoriteMasterChefAll
                     ? provider.setIsFavoriteMasterChefdAll(false)
-                    : provider.setIsFavoriteMasterChefdAll(true);}, 
+                    : provider.setIsFavoriteMasterChefdAll(true);},
                     child: SizedBox(
                 width: 14.0,
                 height: 14.0,

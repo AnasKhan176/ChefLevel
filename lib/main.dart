@@ -16,16 +16,17 @@ Future<void> main() async {
   final bool isSeenWalkthrough = await SharedPrefService.isWalkthroughSeen();
   final bool isLoggedIn = await SharedPrefService.isLoggedIn();
 
-  final device = await Utility.getDeviceId(); //UDID
-  final deviceType = await Utility.getDeviceType();
-  if (device != null) {
-    await SharedPrefService.setUDID(device);
-  } else {
-    await SharedPrefService.setUDID('UNKNOWN_DEVICE');
-  }
-  await SharedPrefService.setDeviceType(deviceType);
-  // await SharedPrefService.setUDID('deviceuniqueid');
-  // await SharedPrefService.setDeviceType('android');
+  // final device = await Utility.getDeviceId(); //UDID
+  // final deviceType = await Utility.getDeviceType();
+  // if (device != null) {
+  //   await SharedPrefService.setUDID(device);
+  // } else {
+  //   await SharedPrefService.setUDID('UNKNOWN_DEVICE');
+  // }
+  // await SharedPrefService.setDeviceType(deviceType);
+
+  await SharedPrefService.setUDID('deviceuniqueid');
+  await SharedPrefService.setDeviceType('android');
   await SharedPrefService.setSessionID('sessionid');
   await SharedPrefService.setIdentifier('identifier');
 
