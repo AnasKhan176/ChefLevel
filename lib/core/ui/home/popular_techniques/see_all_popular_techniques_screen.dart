@@ -205,7 +205,7 @@ class _PopularTechniquesScreenState extends State<SeeAllPopularTechniquesScreen>
             crossAxisCount: 2,
             crossAxisSpacing: 12,
             mainAxisSpacing: 12,
-            childAspectRatio: 0.72,
+            childAspectRatio: 0.65,
           ),
           itemBuilder: (context, index) {
             return _chefProfileCard(index, provider);
@@ -249,13 +249,16 @@ class _PopularTechniquesScreenState extends State<SeeAllPopularTechniquesScreen>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  provider.popularTechniqueAllData![index].chefName ?? '',
-                  style: GoogleFonts.playfairDisplay(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                  ),
+                Flexible(
+                    child: Text(
+                      provider.popularTechniqueAllData![index].chefName ?? '',
+                      style: GoogleFonts.playfairDisplay(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      softWrap: true,
+                    )
                 ),
                 InkWell(
                   onTap: () {
@@ -295,17 +298,17 @@ class _PopularTechniquesScreenState extends State<SeeAllPopularTechniquesScreen>
               children: [
                 Row(
                   children: const [
-                    Icon(Icons.star, color: Colors.amber, size: 14),
+                    Icon(Icons.star, color: Colors.amber, size: 12),
                     SizedBox(width: 4),
                     Text(
                       '4.0 (1206).',
-                      style: TextStyle(fontSize: 11, color: Colors.white54),
+                      style: TextStyle(fontSize: 10, color: Colors.white54),
                     ),
                   ],
                 ),
                 const Text(
                   '40 Recipes.',
-                  style: TextStyle(fontSize: 11, color: Colors.white54),
+                  style: TextStyle(fontSize: 10, color: Colors.white54),
                 ),
               ],
             ),
