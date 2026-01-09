@@ -58,19 +58,19 @@ class Chef {
   }
 }
 
-class Data {
+class HomeData {
   final List<Chef>? chefs;
   final List<PopularTechnique>? popularTechniques;
   final List<TailoredRecipe>? tailoredRecipes;
 
-  Data({
+  HomeData({
     this.chefs,
     this.popularTechniques,
     this.tailoredRecipes,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) {
-    return Data(
+  factory HomeData.fromJson(Map<String, dynamic> json) {
+    return HomeData(
       chefs: json['chefs'] != null ? List<Chef>.from(json['chefs'].map((x) => Chef.fromJson(x))) : null,
       popularTechniques: json['popularTechniques'] != null ? List<PopularTechnique>.from(json['popularTechniques'].map((x) => PopularTechnique.fromJson(x))) : null,
       tailoredRecipes: json['tailoredRecipes'] != null ? List<TailoredRecipe>.from(json['tailoredRecipes'].map((x) => TailoredRecipe.fromJson(x))) : null,
@@ -87,7 +87,7 @@ class Data {
 }
 
 class HomeRecipesDataModel {
-  final Data? data;
+  final HomeData? data;
   final String? message;
   final int? responseCode;
   final String? status;
@@ -101,7 +101,7 @@ class HomeRecipesDataModel {
 
   factory HomeRecipesDataModel.fromJson(Map<String, dynamic> json) {
     return HomeRecipesDataModel(
-      data: json['data'] != null ? Data.fromJson(json['data']) : null,
+      data: json['data'] != null ? HomeData.fromJson(json['data']) : null,
       message: json['message'],
       responseCode: json['responseCode'],
       status: json['status'],

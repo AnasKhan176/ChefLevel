@@ -1,12 +1,12 @@
-class Data {
+class TailoredRecipesAllData {
   final bool? last;
   final int? pageNo;
   final int? pageSize;
-  final List<Result>? results;
+  final List<TailoredAllRecipiesResult>? results;
   final int? totalElement;
   final int? totalPage;
 
-  Data({
+  TailoredRecipesAllData({
     this.last,
     this.pageNo,
     this.pageSize,
@@ -15,12 +15,12 @@ class Data {
     this.totalPage,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) {
-    return Data(
+  factory TailoredRecipesAllData.fromJson(Map<String, dynamic> json) {
+    return TailoredRecipesAllData(
       last: json['last'],
       pageNo: json['pageNo'],
       pageSize: json['pageSize'],
-      results: json['results'] != null ? List<Result>.from(json['results'].map((x) => Result.fromJson(x))) : null,
+      results: json['results'] != null ? List<TailoredAllRecipiesResult>.from(json['results'].map((x) => TailoredAllRecipiesResult.fromJson(x))) : null,
       totalElement: json['totalElement'],
       totalPage: json['totalPage'],
     );
@@ -126,7 +126,7 @@ class IngredientDetail {
 //   }
 // }
 
-class Result {
+class TailoredAllRecipiesResult {
   final int? calories;
   final int? carbs;
   final String? chefName;
@@ -155,7 +155,7 @@ class Result {
   final List<String>? utensils;
   final dynamic? videoUrl;
 
-  Result({
+  TailoredAllRecipiesResult({
     this.calories,
     this.carbs,
     this.chefName,
@@ -185,8 +185,8 @@ class Result {
     this.videoUrl,
   });
 
-  factory Result.fromJson(Map<String, dynamic> json) {
-    return Result(
+  factory TailoredAllRecipiesResult.fromJson(Map<String, dynamic> json) {
+    return TailoredAllRecipiesResult(
       calories: json['calories'],
       carbs: json['carbs'],
       chefName: json['chefName'],
@@ -251,7 +251,7 @@ class Result {
 }
 
 class TailoredRecipeListDataModel {
-  final Data? data;
+  final TailoredRecipesAllData? data;
   final String? message;
   final int? responseCode;
   final String? status;
@@ -265,7 +265,7 @@ class TailoredRecipeListDataModel {
 
   factory TailoredRecipeListDataModel.fromJson(Map<String, dynamic> json) {
     return TailoredRecipeListDataModel(
-      data: json['data'] != null ? Data.fromJson(json['data']) : null,
+      data: json['data'] != null ? TailoredRecipesAllData.fromJson(json['data']) : null,
       message: json['message'],
       responseCode: json['responseCode'],
       status: json['status'],

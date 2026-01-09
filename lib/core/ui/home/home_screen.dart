@@ -3,14 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:food_chef/core/controller/home_recipes_controller.dart';
 import 'package:food_chef/core/domain/di/service_locator.dart';
-import 'package:food_chef/core/domain/models/home/home_recipes_model.dart';
 import 'package:food_chef/core/providers/home_provider.dart';
 import 'package:food_chef/core/ui/auth/login_screen.dart';
 import 'package:food_chef/core/ui/widgets/snackbar/bottom_snackbar.dart';
 import 'package:food_chef/core/ui/home/food_banner.dart';
-import 'package:food_chef/core/ui/home/master_chefs/master_chef_screen.dart';
-import 'package:food_chef/core/ui/home/popular_techniques/popular_techniques_screen.dart';
-import 'package:food_chef/core/ui/home/tailored_recipes/receipe_home_screen.dart';
+import 'package:food_chef/core/ui/home/master_chefs/see_all_master_chef_screen.dart';
+import 'package:food_chef/core/ui/home/popular_techniques/see_all_popular_techniques_screen.dart';
+import 'package:food_chef/core/ui/home/tailored_recipes/see_all_receipe_home_screen.dart';
 import 'package:food_chef/core/utils/constant/colors/app_color.dart';
 import 'package:food_chef/core/utils/constant/fonts/font_style.dart';
 import 'package:food_chef/core/utils/constant/prefs/shared_pref.dart';
@@ -26,7 +25,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final homeRecipesController = getIt.get<HomeRecipesController>();
-  final GlobalKey<ScaffoldState> _key = GlobalKey();
+  final GlobalKey<ScaffoldState> global_key = GlobalKey();
 
   @override
   void initState() {
@@ -43,14 +42,14 @@ class _HomeScreenState extends State<HomeScreen> {
       context,
       listen: false,
     );
-    final Map<String, dynamic> data = {'pageNo': '0', 'pageSize': '6'};
+    final Map<String, dynamic> data = {'pageNo': '0', 'pageSize': '10'};
     var response = await homeRecipesController.getHomeData(data);
     if (response.responseCode == 20000) {
       homeProvider.setHomeRecipesData(response.data);
     } else {
       BottomSnackBar.show(
         context,
-        message: response!.message!,
+        message: response.message!,
         backgroundColor: AppColor.btnBackground,
         icon: Icons.check_circle,
       );
@@ -60,44 +59,91 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _key,
-      drawer: _buildDrawer(context),
+      key: global_key,
+      drawer: _buildDrawer(context, global_key),
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
         elevation: 0,
         leading: Builder(
           builder: (context) => IconButton(
-            icon: const Icon(Icons.menu, color: AppColor.white),
+            padding: EdgeInsets.all(16.0),
+            icon: Image.asset('assets/images/drawer.png'),
             onPressed: () => Scaffold.of(context).openDrawer(),
           ),
         ),
         actions: [
-         Padding(
-            padding: const EdgeInsets.only(right: 10),child: SizedBox(
-                    width: 18.0,
-                    height: 18.0,
-                    child: Image.asset(
-                      'assets/images/search_rounded.png',
-                    ), // Use AssetImage
-                  ),),
-                  Padding(
-            padding: const EdgeInsets.only(right: 8),child:
-                  SizedBox(
-                    width: 18.0,
-                    height: 18.0,
-                    child: Image.asset(
-                      'assets/images/cart_rounded.png',
-                    ), // Use AssetImage
-                  ),),
           Padding(
-            padding: const EdgeInsets.only(right: 18),
-            child: CircleAvatar(
-              radius: 14,
-              backgroundImage: AssetImage('assets/common.png'),
+            padding: const EdgeInsets.only(right: 6),
+            child: IconButton(
+              padding: EdgeInsets.zero, // Remove padding first
+              constraints: BoxConstraints.tight(
+                Size(22, 22),
+              ), // Force 32x32 size
+              icon: Image.asset('assets/images/cart_rounded.png'),
+              onPressed: () {
+                // To do
+              },
             ),
           ),
-           
+          Padding(
+            padding: const EdgeInsets.only(right: 6),
+            child: IconButton(
+              padding: EdgeInsets.zero, // Remove padding first
+              constraints: BoxConstraints.tight(
+                Size(22, 22),
+              ), // Force 32x32 size
+              icon: Image.asset('assets/images/search_rounded.png'),
+
+              onPressed: () {
+                // To do
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: IconButton(
+              padding: const EdgeInsets.all(0),
+              constraints: BoxConstraints.tight(const Size.square(28)),
+              icon: CircleAvatar(
+                radius: 14,
+                backgroundImage: AssetImage(
+                  'assets/images/default_profile_pic.png',
+                ),
+              ),
+              onPressed: () {
+                // To do
+              },
+            ),
+          ),
+
+          // Padding(
+          //   padding: const EdgeInsets.only(right: 10),
+          //   child: SizedBox(
+          //     width: 18.0,
+          //     height: 18.0,
+          //     child: Image.asset(
+          //       'assets/images/search_rounded.png',
+          //     ), // Use AssetImage
+          //   ),
+          // ),
+          // Padding(
+          //   padding: const EdgeInsets.only(right: 8),
+          //   child: SizedBox(
+          //     width: 18.0,
+          //     height: 18.0,
+          //     child: Image.asset(
+          //       'assets/images/cart_rounded.png',
+          //     ), // Use AssetImage
+          //   ),
+          // ),
+          // Padding(
+          //   padding: const EdgeInsets.only(right: 18),
+          //   child: CircleAvatar(
+          //     radius: 14,
+          //     backgroundImage: AssetImage('assets/common.png'),
+          //   ),
+          // ),
         ],
       ),
       body: SingleChildScrollView(
@@ -106,70 +152,89 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _headerText(),
-            // const SizedBox(height: 16),
-            // _searchBar(),
             const SizedBox(height: 24),
             FoodBanner(),
             const SizedBox(height: 24),
-             Consumer<HomeScreenProvider>(
-      builder: (_, provider, _) {
-        return 
-            Visibility(
-              visible: provider.tailoredRecipesData!.isNotEmpty,
-              child: 
-            Column(children: [
-            _sectionTitle(
-              title: 'Tailored Recipes for You',
-              onSeeAllTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => RecipeHomeScreen()),
+            Consumer<HomeScreenProvider>(
+              builder: (_, provider, _) {
+                return Visibility(
+                  visible: provider.tailoredRecipesHomeData!.isNotEmpty,
+                  child: Column(
+                    children: [
+                      _sectionTitle(
+                        title: 'Tailored Recipes for You',
+                        onSeeAllTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => SeeAllTailoredRecipeHomeScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 12),
+                      _recipeHorizontalList(),
+                    ],
+                  ),
                 );
               },
             ),
-            const SizedBox(height: 12),
-            _recipeHorizontalList(),
-            ]),);}),
-            
+
             Consumer<HomeScreenProvider>(
-      builder: (_, provider, _) {
-        return 
-            Visibility(
-              visible: provider.masterChefData!.isNotEmpty,
-              child: 
-            Column(children: [
-            const SizedBox(height: 12),
-            _sectionTitle(title: 'Master Chefs', onSeeAllTap: (){
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => MasterChefScreen())
-              );
-            }),
-            const SizedBox(height: 12),
-            _chefHorizontalList(),
-            ]));}),
+              builder: (_, provider, _) {
+                return Visibility(
+                  visible: provider.masterChefHomeData!.isNotEmpty,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 12),
+                      _sectionTitle(
+                        title: 'Master Chefs',
+                        onSeeAllTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => SeeAllMasterChefScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 12),
+                      _chefHorizontalList(),
+                    ],
+                  ),
+                );
+              },
+            ),
 
             const SizedBox(height: 12),
-            _sectionTitle(title: 'Popular Cuisine', onSeeAllTap: (){}),
+            _sectionTitle(title: 'Popular Cuisine', onSeeAllTap: () {}),
             const SizedBox(height: 12),
             _cuisineGrid(),
             Consumer<HomeScreenProvider>(
-      builder: (_, provider, _) {
-        return 
-            Visibility(
-              visible: provider.popularTechniquesData!.isNotEmpty,
-              child: 
-            Column(children: [
-             const SizedBox(height: 12),
-            _sectionTitle(title: 'Popular Techniques', onSeeAllTap: (){
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => PopularTechniquesScreen())
-              );
-            }),
-            const SizedBox(height: 12),
-            _techniqueHorizontalList(),
-            ]));}),
+              builder: (_, provider, _) {
+                return Visibility(
+                  visible: provider.popularTechniquesHomeData!.isNotEmpty,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 12),
+                      _sectionTitle(
+                        title: 'Popular Techniques',
+                        onSeeAllTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => SeeAllPopularTechniquesScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 12),
+                      _techniqueHorizontalList(),
+                    ],
+                  ),
+                );
+              },
+            ),
             const SizedBox(height: 50),
           ],
         ),
@@ -191,49 +256,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Widget _searchBar() {
-  //   return Container(
-  //     height: 50,
-  //     padding: const EdgeInsets.symmetric(horizontal: 16),
-  //     decoration: BoxDecoration(
-  //       border: Border.all(width: 1, color: AppColor.ligtestGray),
-  //       color: Colors.white.withOpacity(0.1),
-  //       borderRadius: BorderRadius.circular(8),
-  //     ),
-  //     child: Row(
-  //       children: [
-  //         SizedBox(
-  //           width: 14.0,
-  //           height: 14.0,
-  //           child: Image.asset('assets/search.png'), // Use AssetImage
-  //         ),
-  //         SizedBox(width: 10),
-  //         Expanded(
-  //           child: TextField(
-  //             autofocus: false,
-  //             style: GoogleFonts.montserrat(
-  //               fontSize: 12,
-  //               fontWeight: FontWeight.w400,
-  //               fontStyle: FontStyle.normal,
-  //               color: AppColor.white,
-  //             ),
-  //             decoration: InputDecoration.collapsed(
-  //               hintText: "Search by chef, recipes...",
-  //               hintStyle: TextStyle(color: AppColor.white, fontSize: 12.0),
-  //               border: InputBorder.none,
-  //             ),
-  //           ),
-  //         ),
-  //         SizedBox(
-  //           width: 14.0,
-  //           height: 14.0,
-  //           child: Image.asset('assets/filter.png'), // Use AssetImage
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
   Widget _sectionTitle({required String title, VoidCallback? onSeeAllTap}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -254,7 +276,7 @@ class _HomeScreenState extends State<HomeScreen> {
           height: 210,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: provider.tailoredRecipesData!.length,
+            itemCount: provider.tailoredRecipesHomeData!.length,
             itemBuilder: (context, index) {
               return _recipeCard(index, provider);
             },
@@ -273,7 +295,7 @@ Widget _recipeCard(int index, HomeScreenProvider provider) {
       border: Border.all(width: 1, color: AppColor.ligtestGray),
 
       color: Colors.white.withOpacity(0.08),
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(16),
     ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -284,12 +306,16 @@ Widget _recipeCard(int index, HomeScreenProvider provider) {
             children: [
               ClipRRect(
                 borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(8),
+                  top: Radius.circular(16),
                 ),
                 child: FadeInImage(
                   placeholder: AssetImage('assets/images/cuisine_default.png'),
                   image: NetworkImage(
-                    getImageUrl(provider.tailoredRecipesData![index].image,'recipe','assets/images/cuisine_default.png'),
+                    getImageUrl(
+                      provider.tailoredRecipesHomeData![index].image,
+                      'recipe',
+                      'assets/images/cuisine_default.png',
+                    ),
                   ),
                   width: double.infinity,
                   fit: BoxFit.cover,
@@ -300,29 +326,34 @@ Widget _recipeCard(int index, HomeScreenProvider provider) {
               Positioned(
                 top: 8,
                 right: 8,
-                child:
-   Consumer<HomeScreenProvider>(
-      builder: (_, provider, _) {
-        return 
-                InkWell(
-                  onTap: () {
-                  provider.isFavorite? provider.setIsFavorite(false):provider.setIsFavorite(true);
+                child: Consumer<HomeScreenProvider>(
+                  builder: (_, provider, _) {
+                    return InkWell(
+                      onTap: () {
+                        provider.isFavoriteHome
+                            ? provider.setIsFavoriteTailoredHome(false)
+                            : provider.setIsFavoriteTailoredHome(true);
+                      },
+                      borderRadius: BorderRadius.circular(20),
+                      child: Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.4),
+                          shape: BoxShape.circle,
+                        ),
+                        child: SizedBox(
+                          width: 14.0,
+                          height: 14.0,
+                          child: Image.asset(
+                            provider.isFavoriteHome
+                                ? 'assets/images/favorite_select.png'
+                                : 'assets/images/favorite_unselect.png',
+                          ), // Use AssetImage
+                        ),
+                      ),
+                    );
                   },
-                  borderRadius: BorderRadius.circular(20),
-                  child: Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.4),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                     provider.isFavorite?Icons.favorite : Icons.favorite_border,
-                      size: 14,
-                      color: provider.isFavorite?Colors.red:
-                          Colors.white,
-                    ),
-                  ),
-                );}),
+                ),
               ),
             ],
           ),
@@ -335,7 +366,7 @@ Widget _recipeCard(int index, HomeScreenProvider provider) {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                provider.tailoredRecipesData![index].dishName ?? '',
+                provider.tailoredRecipesHomeData![index].dishName ?? '',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.playfairDisplay(
                   fontSize: 12,
@@ -345,7 +376,7 @@ Widget _recipeCard(int index, HomeScreenProvider provider) {
               ),
               const SizedBox(height: 2),
               Text(
-                provider.tailoredRecipesData![index].chefName ?? '',
+                provider.tailoredRecipesHomeData![index].chefName ?? '',
                 style: GoogleFonts.montserrat(
                   fontSize: 8,
                   fontWeight: FontWeight.w400,
@@ -369,7 +400,7 @@ Widget _recipeCard(int index, HomeScreenProvider provider) {
                     ),
                     const Spacer(),
                     Text(
-                      '${provider.tailoredRecipesData![index].prepTime} min',
+                      '${provider.tailoredRecipesHomeData![index].prepTime} min',
                       style: GoogleFonts.montserrat(
                         fontSize: 8,
                         fontWeight: FontWeight.w400,
@@ -387,9 +418,13 @@ Widget _recipeCard(int index, HomeScreenProvider provider) {
   );
 }
 
- //---------------- Methods ---------------
+//---------------- Methods ---------------
 
-String getImageUrl(List<dynamic>? image_list, String file_type, String default_image) {
+String getImageUrl(
+  List<dynamic>? image_list,
+  String file_type,
+  String default_image,
+) {
   int index = image_list!.indexWhere(
     (image_url) => image_url.fileType!.toLowerCase() == file_type,
   );
@@ -399,101 +434,107 @@ String getImageUrl(List<dynamic>? image_list, String file_type, String default_i
   return default_image;
 }
 
-
 Widget _chefHorizontalList() {
-
   return Consumer<HomeScreenProvider>(
-      builder: (_, provider, _) {
-        return  SizedBox(
-    height: 150,
-    child: ListView.builder(
-      scrollDirection: Axis.horizontal,
-      itemCount: provider.masterChefData!.length,
-      itemBuilder: (context, index) {
-        return Container(
-          width: 220,
-          margin: const EdgeInsets.only(right: 16),
-          decoration: BoxDecoration(
-            border: Border.all(width: 1, color: AppColor.ligtestGray),                    
-            borderRadius: BorderRadius.circular(8),
-            image:  DecorationImage(
-              image: NetworkImage(getImageUrl(provider.masterChefData![index].imageResponse,'chef_profile_photo','assets/images/chef_default.png')),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              gradient: LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                colors: [Colors.black.withOpacity(0.8), Colors.transparent],
+    builder: (_, provider, _) {
+      return SizedBox(
+        height: 150,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: provider.masterChefHomeData!.length,
+          itemBuilder: (context, index) {
+            return Container(
+              width: 220,
+              margin: const EdgeInsets.only(right: 16),
+              decoration: BoxDecoration(
+                border: Border.all(width: 1, color: AppColor.ligtestGray),
+                borderRadius: BorderRadius.circular(16),
+                image: DecorationImage(
+                  image: NetworkImage(
+                    getImageUrl(
+                      provider.masterChefHomeData![index].imageResponse,
+                      'chef_profile_photo',
+                      'assets/images/chef_default.png',
+                    ),
+                  ),
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-            child: Row(
-              children: [
-                Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        provider.masterChefData![index].name ?? '',
-                        style: GoogleFonts.playfairDisplay(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          fontStyle: FontStyle.normal,
-                          color: AppColor.white,
-                        ),
-                      ),
-                      Text(
-                        '⭐ 4.9.',
-                        style: GoogleFonts.montserrat(
-                          fontSize: 8,
-                          fontWeight: FontWeight.w400,
-                          fontStyle: FontStyle.normal,
-                          color: AppColor.lightgray,
-                        ),
-                      ),
-                    ],
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [Colors.black.withOpacity(0.8), Colors.transparent],
                   ),
                 ),
-                Spacer(),
+                child: Row(
+                  children: [
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            provider.masterChefHomeData![index].name ?? '',
+                            style: GoogleFonts.playfairDisplay(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              fontStyle: FontStyle.normal,
+                              color: AppColor.white,
+                            ),
+                          ),
+                          Text(
+                            '⭐ 4.9.',
+                            style: GoogleFonts.montserrat(
+                              fontSize: 8,
+                              fontWeight: FontWeight.w400,
+                              fontStyle: FontStyle.normal,
+                              color: AppColor.lightgray,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Spacer(),
 
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        'Top-Rated.',
-                        style: GoogleFonts.montserrat(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w400,
-                          color: AppColor.lightgray,
-                        ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            'Top-Rated.',
+                            style: GoogleFonts.montserrat(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w400,
+                              color: AppColor.lightgray,
+                            ),
+                          ),
+                          Text(
+                            '${provider.masterChefHomeData![index].recipeCount} Recipies',
+                            style: GoogleFonts.montserrat(
+                              fontSize: 8,
+                              fontWeight: FontWeight.w400,
+                              color: AppColor.lightgray,
+                            ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        '${provider.masterChefData![index].recipeCount} Recipies',
-                       style: GoogleFonts.montserrat(
-                          fontSize: 8,
-                          fontWeight: FontWeight.w400,
-                          color: AppColor.lightgray,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-        );
-      },
-    ),
-  );});
+              ),
+            );
+          },
+        ),
+      );
+    },
+  );
 }
 
 Widget _cuisineGrid() {
@@ -507,7 +548,7 @@ Widget _cuisineGrid() {
       6,
       (index) => Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(16),
           image: const DecorationImage(
             image: AssetImage('assets/italian.png'),
             fit: BoxFit.cover,
@@ -519,7 +560,7 @@ Widget _cuisineGrid() {
           decoration: BoxDecoration(
             border: Border.all(width: 1, color: AppColor.ligtestGray),
 
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(16),
             color: Colors.black.withOpacity(0.4),
           ),
           child: Align(
@@ -555,177 +596,194 @@ Widget _cuisineGrid() {
 
 Widget _techniqueHorizontalList() {
   return Consumer<HomeScreenProvider>(
-      builder: (_, provider, _) {
-        return SizedBox(
-    height: 160,
-    child: ListView.builder(
-      scrollDirection: Axis.horizontal,
-      itemCount: provider.popularTechniquesData!.length,
-      itemBuilder: (context, index) {
-        return Container(
-          width: 240,
-          margin: const EdgeInsets.only(right: 16),
-          decoration: BoxDecoration(
-            border: Border.all(width: 1, color: AppColor.ligtestGray),
-            borderRadius: BorderRadius.circular(8),
-            image:  DecorationImage(
-              image:NetworkImage(getImageUrl(provider.popularTechniquesData![index].imageResponseDTO,'video_thumbnail','assets/images/popular_technique_default.png'),
-) ,
-              fit: BoxFit.cover,
-            ),
-          ),
-
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              gradient: LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                colors: [Colors.black.withOpacity(0.8), Colors.transparent],
+    builder: (_, provider, _) {
+      return SizedBox(
+        height: 160,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: provider.popularTechniquesHomeData!.length,
+          itemBuilder: (context, index) {
+            return Container(
+              width: 240,
+              margin: const EdgeInsets.only(right: 16),
+              decoration: BoxDecoration(
+                border: Border.all(width: 1, color: AppColor.ligtestGray),
+                borderRadius: BorderRadius.circular(16),
+                image: DecorationImage(
+                  image: NetworkImage(
+                    getImageUrl(
+                      provider
+                          .popularTechniquesHomeData![index]
+                          .imageResponseDTO,
+                      'video_thumbnail',
+                      'assets/images/popular_technique_default.png',
+                    ),
+                  ),
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-            child: Stack(
-              children: <Widget>[
-                Positioned.fill(
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: SizedBox(
-                      width: 28.0,
-                      height: 28.0,
-                      child: Image.asset('assets/play.png'), // Use AssetImage
-                    ),
-                  ),
-                ),
-                Positioned.fill(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Row(
-                      children: [
-                        Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                            provider.popularTechniquesData![index].chefName??'',
-                                style: GoogleFonts.playfairDisplay(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                  fontStyle: FontStyle.normal,
-                                  color: AppColor.white,
-                                ),
-                              ),
-                              Text(
-                                provider.popularTechniquesData![index].title??'',
-                                style: GoogleFonts.montserrat(
-                                  fontSize: 8,
-                                  fontWeight: FontWeight.w400,
-                                  fontStyle: FontStyle.normal,
-                                  color: AppColor.lightgray,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Spacer(),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                '35 Min.',
-                                style: GoogleFonts.montserrat(
-                                  fontSize: 8,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColor.lightgray,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
 
-            // Center(
-            //   child: SizedBox(
-            //           width: 24.0,
-            //           height: 24.0,
-            //           child: Image.asset(
-            //             'assets/play.png',
-            //           ), // Use AssetImage
-            //         ),
-            // ),
-            // Row(
-            //     children: [
-            //       Align(
-            //         alignment: Alignment.bottomLeft,
-            //         child: Column(
-            //           mainAxisAlignment: MainAxisAlignment.end,
-            //           crossAxisAlignment: CrossAxisAlignment.start,
-            //           children: [
-            //             Text(
-            //               index==0?'Master Class: Knife Skills':index==1?'Master Class: BBQ':'Master Class: Barbie',
-            //               style: GoogleFonts.playfairDisplay(
-            //                 fontSize: 12,
-            //                 fontWeight: FontWeight.w600,
-            //                 fontStyle: FontStyle.normal,
-            //                 color: AppColor.white,
-            //               ),
-            //             ),
-            //             Text(
-            //               'Chef marco',
-            //               style: GoogleFonts.montserrat(
-            //                 fontSize: 8,
-            //                 fontWeight: FontWeight.w400,
-            //                 fontStyle: FontStyle.normal,
-            //                 color: AppColor.lightgray,
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //       ),
-            //       Spacer(),
-            //       Align(
-            //         alignment: Alignment.bottomRight,
-            //         child: Column(
-            //           mainAxisAlignment: MainAxisAlignment.end,
-            //           crossAxisAlignment: CrossAxisAlignment.end,
-            //           children: [
-            //             Text(
-            //               '35 Min',
-            //               style: GoogleFonts.montserrat(
-            //                 fontSize: 8,
-            //                 fontWeight: FontWeight.w400,
-            //                 color: AppColor.lightgray,
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-          ),
-        );
-      },
-    ),
-  );},);
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [Colors.black.withOpacity(0.8), Colors.transparent],
+                  ),
+                ),
+                child: Stack(
+                  children: <Widget>[
+                    Positioned.fill(
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          width: 28.0,
+                          height: 28.0,
+                          child: Image.asset(
+                            'assets/play.png',
+                          ), // Use AssetImage
+                        ),
+                      ),
+                    ),
+                    Positioned.fill(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Row(
+                          children: [
+                            Align(
+                              alignment: Alignment.bottomLeft,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    provider
+                                            .popularTechniquesHomeData![index]
+                                            .chefName ??
+                                        '',
+                                    style: GoogleFonts.playfairDisplay(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      fontStyle: FontStyle.normal,
+                                      color: AppColor.white,
+                                    ),
+                                  ),
+                                  Text(
+                                    provider
+                                            .popularTechniquesHomeData![index]
+                                            .title ??
+                                        '',
+                                    style: GoogleFonts.montserrat(
+                                      fontSize: 8,
+                                      fontWeight: FontWeight.w400,
+                                      fontStyle: FontStyle.normal,
+                                      color: AppColor.lightgray,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Spacer(),
+                            Align(
+                              alignment: Alignment.bottomRight,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    '35 Min.',
+                                    style: GoogleFonts.montserrat(
+                                      fontSize: 8,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColor.lightgray,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                // Center(
+                //   child: SizedBox(
+                //           width: 24.0,
+                //           height: 24.0,
+                //           child: Image.asset(
+                //             'assets/play.png',
+                //           ), // Use AssetImage
+                //         ),
+                // ),
+                // Row(
+                //     children: [
+                //       Align(
+                //         alignment: Alignment.bottomLeft,
+                //         child: Column(
+                //           mainAxisAlignment: MainAxisAlignment.end,
+                //           crossAxisAlignment: CrossAxisAlignment.start,
+                //           children: [
+                //             Text(
+                //               index==0?'Master Class: Knife Skills':index==1?'Master Class: BBQ':'Master Class: Barbie',
+                //               style: GoogleFonts.playfairDisplay(
+                //                 fontSize: 12,
+                //                 fontWeight: FontWeight.w600,
+                //                 fontStyle: FontStyle.normal,
+                //                 color: AppColor.white,
+                //               ),
+                //             ),
+                //             Text(
+                //               'Chef marco',
+                //               style: GoogleFonts.montserrat(
+                //                 fontSize: 8,
+                //                 fontWeight: FontWeight.w400,
+                //                 fontStyle: FontStyle.normal,
+                //                 color: AppColor.lightgray,
+                //               ),
+                //             ),
+                //           ],
+                //         ),
+                //       ),
+                //       Spacer(),
+                //       Align(
+                //         alignment: Alignment.bottomRight,
+                //         child: Column(
+                //           mainAxisAlignment: MainAxisAlignment.end,
+                //           crossAxisAlignment: CrossAxisAlignment.end,
+                //           children: [
+                //             Text(
+                //               '35 Min',
+                //               style: GoogleFonts.montserrat(
+                //                 fontSize: 8,
+                //                 fontWeight: FontWeight.w400,
+                //                 color: AppColor.lightgray,
+                //               ),
+                //             ),
+                //           ],
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+              ),
+            );
+          },
+        ),
+      );
+    },
+  );
 }
 
-Widget _buildDrawer(BuildContext context) {
+Widget _buildDrawer(BuildContext context, GlobalKey<ScaffoldState> global_key) {
   return Drawer(
     backgroundColor: Colors.black,
     child: Column(
       // Changed this to a Column from a ListView
       children: <Widget>[
-        _createHeader(context),
+        _createHeader(context, global_key),
         Expanded(
           child: SingleChildScrollView(
             child: Column(
@@ -750,7 +808,7 @@ Widget _buildDrawer(BuildContext context) {
                     width: 14.0,
                     height: 14.0,
                     child: Image.asset(
-                      'assets/your_orders.png',
+                      'assets/images/your_orders.png',
                     ), // Use AssetImage
                   ),
                   title: Text(
@@ -768,7 +826,7 @@ Widget _buildDrawer(BuildContext context) {
                     width: 14.0,
                     height: 14.0,
                     child: Image.asset(
-                      'assets/save_recipes.png',
+                      'assets/images/save_recipes.png',
                     ), // Use AssetImage
                   ),
                   title: Text(
@@ -785,7 +843,9 @@ Widget _buildDrawer(BuildContext context) {
                   leading: SizedBox(
                     width: 14.0,
                     height: 14.0,
-                    child: Image.asset('assets/coupans.png'), // Use AssetImage
+                    child: Image.asset(
+                      'assets/images/coupans.png',
+                    ), // Use AssetImage
                   ),
                   title: Text(
                     'Coupons',
@@ -802,7 +862,7 @@ Widget _buildDrawer(BuildContext context) {
                     width: 14.0,
                     height: 14.0,
                     child: Image.asset(
-                      'assets/earn_rewards.png',
+                      'assets/images/earn_rewards.png',
                     ), // Use AssetImage
                   ),
                   title: Text(
@@ -820,7 +880,7 @@ Widget _buildDrawer(BuildContext context) {
                     width: 14.0,
                     height: 14.0,
                     child: Image.asset(
-                      'assets/address_book.png',
+                      'assets/images/address_book.png',
                     ), // Use AssetImage
                   ),
                   title: Text(
@@ -853,7 +913,9 @@ Widget _buildDrawer(BuildContext context) {
                   leading: SizedBox(
                     width: 14.0,
                     height: 14.0,
-                    child: Image.asset('assets/share.png'), // Use AssetImage
+                    child: Image.asset(
+                      'assets/images/share.png',
+                    ), // Use AssetImage
                   ),
                   title: Text(
                     'Share App',
@@ -869,7 +931,9 @@ Widget _buildDrawer(BuildContext context) {
                   leading: SizedBox(
                     width: 14.0,
                     height: 14.0,
-                    child: Image.asset('assets/about_us.png'), // Use AssetImage
+                    child: Image.asset(
+                      'assets/images/about_us.png',
+                    ), // Use AssetImage
                   ),
                   title: Text(
                     'About Us',
@@ -885,7 +949,9 @@ Widget _buildDrawer(BuildContext context) {
                   leading: SizedBox(
                     width: 14.0,
                     height: 14.0,
-                    child: Image.asset('assets/settings.png'), // Use AssetImage
+                    child: Image.asset(
+                      'assets/images/settings.png',
+                    ), // Use AssetImage
                   ),
                   title: Text(
                     'Settings',
@@ -902,7 +968,7 @@ Widget _buildDrawer(BuildContext context) {
                     width: 14.0,
                     height: 14.0,
                     child: Image.asset(
-                      'assets/privacy_center.png',
+                      'assets/images/privacy_center.png',
                     ), // Use AssetImage
                   ),
                   title: Text(
@@ -940,7 +1006,7 @@ Widget _createFooterItem(BuildContext context) {
       leading: SizedBox(
         width: 14.0,
         height: 14.0,
-        child: Image.asset('assets/logout.png'), // Use AssetImage
+        child: Image.asset('assets/images/logout.png'), // Use AssetImage
       ),
       title: Text(
         'Logout',
@@ -955,7 +1021,10 @@ Widget _createFooterItem(BuildContext context) {
   );
 }
 
-Widget _createHeader(BuildContext context) {
+Widget _createHeader(
+  BuildContext context,
+  GlobalKey<ScaffoldState> global_key,
+) {
   return Theme(
     data: Theme.of(
       context,
@@ -965,12 +1034,11 @@ Widget _createHeader(BuildContext context) {
       child: DrawerHeader(
         decoration: BoxDecoration(color: Colors.black),
         margin: EdgeInsets.zero,
-        //padding: EdgeInsets.all(10.0),
         child: Row(
           children: [
             InkWell(
               onTap: () {
-                //_key.currentState?.openEndDrawer();
+                global_key.currentState?.openEndDrawer();
               },
               child: Icon(Icons.arrow_back, color: AppColor.white, size: 22.0),
             ),

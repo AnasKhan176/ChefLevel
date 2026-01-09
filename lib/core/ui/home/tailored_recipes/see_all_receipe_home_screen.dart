@@ -1,17 +1,54 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+// ignore_for_file: use_build_context_synchronously
 
-class RecipeHomeScreen extends StatefulWidget {
-  const RecipeHomeScreen({super.key});
+import 'package:flutter/material.dart';
+import 'package:food_chef/core/controller/home_recipes_controller.dart';
+import 'package:food_chef/core/domain/di/service_locator.dart';
+import 'package:food_chef/core/providers/home_provider.dart';
+import 'package:food_chef/core/ui/widgets/snackbar/bottom_snackbar.dart';
+import 'package:food_chef/core/utils/constant/colors/app_color.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+class SeeAllTailoredRecipeHomeScreen extends StatefulWidget {
+  const SeeAllTailoredRecipeHomeScreen({super.key});
 
   @override
-  State<RecipeHomeScreen> createState() => _RecipeHomeScreenState();
+  State<SeeAllTailoredRecipeHomeScreen> createState() => _RecipeHomeScreenState();
 }
 
-class _RecipeHomeScreenState extends State<RecipeHomeScreen> {
-  final List<bool> favorites = List.generate(6, (_) => false);
+class _RecipeHomeScreenState extends State<SeeAllTailoredRecipeHomeScreen> {
   int selectedChipIndex = 0;
   final TextEditingController searchController = TextEditingController();
+  final homeRecipesController = getIt.get<HomeRecipesController>();
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  Future<void> getData() async {
+    await Future.wait([getTailoredRecipesData()]);
+  }
+
+  Future<void> getTailoredRecipesData() async {
+    HomeScreenProvider tailoredprovider = Provider.of<HomeScreenProvider>(
+      context,
+      listen: false,
+    );
+    final Map<String, dynamic> data = {'pageNo': '0', 'pageSize': '10'};
+    var response = await homeRecipesController.getTailoerdRecipeList(data);
+    if (response.responseCode == 20000) {
+      tailoredprovider.setTailoredAllRecipiesData(response.data);
+    } else {
+      BottomSnackBar.show(
+        context,
+        message: response.message!,
+        backgroundColor: AppColor.btnBackground,
+        icon: Icons.check_circle,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +72,7 @@ class _RecipeHomeScreenState extends State<RecipeHomeScreen> {
                 child: Container(
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFFFF6A6A),
-                        Color(0xFFE53935),
-                      ],
+                      colors: [Color(0xFFFF6A6A), Color(0xFFE53935)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
@@ -97,7 +131,7 @@ class _RecipeHomeScreenState extends State<RecipeHomeScreen> {
 
   /// ---------------- TOP BAR ----------------
   Widget _topBar(BuildContext context) {
-      return Stack(
+    return Stack(
       children: [
         Row(
           children: [
@@ -123,31 +157,42 @@ class _RecipeHomeScreenState extends State<RecipeHomeScreen> {
         ),
       ],
     );
-
   }
 
   /// ---------------- SEARCH BAR ----------------
   Widget _searchBar() {
     return Container(
-      height: 46,
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      height: 42,
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
+        border: Border.all(width: 1, color: AppColor.ligtestGray),
         color: const Color(0xFF1C1C1C),
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(8),
       ),
-      child: TextField(
-        controller: searchController,
-        style: const TextStyle(color: Colors.white),
-        cursorColor: Colors.white,
-        decoration: const InputDecoration(
-          border: InputBorder.none,
-          icon: Icon(Icons.search, color: Colors.white54),
-          hintText: 'Search...',
-          hintStyle: TextStyle(color: Colors.white54),
-        ),
-        onTap: () {
-          // Keyboard opens automatically
-        },
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              autofocus: false,
+              style: GoogleFonts.montserrat(
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+                fontStyle: FontStyle.normal,
+                color: AppColor.white,
+              ),
+              decoration: InputDecoration.collapsed(
+                hintText: "Search by recipe name...",
+                hintStyle: TextStyle(color: AppColor.white, fontSize: 12.0),
+                border: InputBorder.none,
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 14.0,
+            height: 14.0,
+            child: Image.asset('assets/search.png'), // Use AssetImage
+          ),
+        ],
       ),
     );
   }
@@ -155,12 +200,12 @@ class _RecipeHomeScreenState extends State<RecipeHomeScreen> {
   /// ---------------- CATEGORY CHIPS ----------------
   Widget _categoryChips() {
     final categories = [
-      'All',
-      'Latest',
-      'Under 30 Min',
-      'High Flame',
       'Italian',
-      'Low Fat',
+      'Japanese',
+      'Mexican',
+      'BBQ',
+      'Vegetarian',
+      'Desserts',
     ];
 
     return SizedBox(
@@ -203,27 +248,32 @@ class _RecipeHomeScreenState extends State<RecipeHomeScreen> {
 
   /// ---------------- GRID ----------------
   Widget _recipeGrid() {
-    return GridView.builder(
-      itemCount: favorites.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
-        childAspectRatio: 0.72,
-      ),
-      itemBuilder: (context, index) {
-        return _recipeCard(index);
+    return Consumer<HomeScreenProvider>(
+      builder: (_, provider, _) {
+        return GridView.builder(
+          itemCount: provider.tailoredRecipiesAllData!.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+            childAspectRatio: 0.72,
+          ),
+          itemBuilder: (context, index) {
+            return _recipeCard(index, provider);
+          },
+        );
       },
     );
   }
 
   /// ---------------- CARD ----------------
-  Widget _recipeCard(int index) {
+  Widget _recipeCard(int index, HomeScreenProvider provider) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
+        border: Border.all(width: 1, color: AppColor.ligtestGray),
         color: const Color(0xFF1A1A1A),
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -232,31 +282,47 @@ class _RecipeHomeScreenState extends State<RecipeHomeScreen> {
             alignment: Alignment.topRight,
             child: InkWell(
               onTap: () {
-                setState(() {
-                  favorites[index] = !favorites[index];
-                });
+                provider.isFavoriteTailoredAll
+                    ? provider.setIsFavoriteTailoredAll(false)
+                    : provider.setIsFavoriteTailoredAll(true);
               },
-              child: Icon(
-                favorites[index]
-                    ? Icons.favorite
-                    : Icons.favorite_border,
-                color: favorites[index] ? Colors.red : Colors.white54,
-                size: 18,
+              child: SizedBox(
+                width: 14.0,
+                height: 14.0,
+                child: Image.asset(
+                  provider.isFavoriteTailoredAll
+                      ? 'assets/images/favorite_select.png'
+                      : 'assets/images/favorite_unselect.png',
+                ), // Use AssetImage
               ),
             ),
           ),
           const SizedBox(height: 8),
           Center(
-            child: CircleAvatar(
-              radius: 44,
-              backgroundImage:
-              const AssetImage('assets/vegeterian.png'),
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(width: 1, color: AppColor.ligtestGray),
+              ),
+              child: CircleAvatar(
+                radius: 44,
+                backgroundImage: 
+                NetworkImage(
+                  getImageUrl(
+                    provider.tailoredRecipiesAllData![index].image,
+                    'recipe',
+                    'assets/images/cuisine_default.png',
+                  ),
+                ),
+
+                
+              ),
             ),
           ),
           const SizedBox(height: 12),
           Center(
             child: Text(
-              index.isOdd ? 'Spicy noodles' : 'Seafood salad',
+              provider.tailoredRecipiesAllData![index].dishName ?? '',
               textAlign: TextAlign.center,
               style: GoogleFonts.playfairDisplay(
                 color: Colors.white,
@@ -268,7 +334,7 @@ class _RecipeHomeScreenState extends State<RecipeHomeScreen> {
           const SizedBox(height: 4),
           Center(
             child: Text(
-              'Chef Marco Italian',
+              provider.tailoredRecipiesAllData![index].chefName ?? '',
               textAlign: TextAlign.center,
               style: GoogleFonts.montserrat(
                 fontSize: 11,
@@ -285,7 +351,7 @@ class _RecipeHomeScreenState extends State<RecipeHomeScreen> {
                   const Icon(Icons.star, color: Colors.amber, size: 14),
                   const SizedBox(width: 4),
                   Text(
-                    '4.0 (1209)',
+                    '4.0 (1209).',
                     style: GoogleFonts.montserrat(
                       fontSize: 11,
                       color: Colors.white54,
@@ -294,7 +360,7 @@ class _RecipeHomeScreenState extends State<RecipeHomeScreen> {
                 ],
               ),
               Text(
-                '35 min',
+                '${provider.tailoredRecipiesAllData![index].prepTime} min',
                 style: GoogleFonts.montserrat(
                   fontSize: 11,
                   color: Colors.white54,
@@ -302,8 +368,24 @@ class _RecipeHomeScreenState extends State<RecipeHomeScreen> {
               ),
             ],
           ),
-      ],
+        ],
       ),
     );
+  }
+
+  //---------------- Methods ---------------
+
+  String getImageUrl(
+    List<dynamic>? image_list,
+    String file_type,
+    String default_image,
+  ) {
+    int index = image_list!.indexWhere(
+      (image_url) => image_url.fileType!.toLowerCase() == file_type,
+    );
+    if (index != -1) {
+      return image_list[index].filePath ?? default_image;
+    }
+    return default_image;
   }
 }

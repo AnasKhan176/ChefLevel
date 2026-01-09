@@ -8,7 +8,7 @@ import 'package:food_chef/core/utils/constant/prefs/shared_pref.dart';
 import 'package:food_chef/core/utils/function/utility.dart';
 import 'package:provider/provider.dart';
 
-import 'core/ui/home/tailored_recipes/receipe_home_screen.dart';
+import 'core/ui/home/tailored_recipes/see_all_receipe_home_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

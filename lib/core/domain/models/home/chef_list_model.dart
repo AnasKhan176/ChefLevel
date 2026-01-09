@@ -1,5 +1,5 @@
 class ChefListDataModel {
-  final Data? data;
+  final ChefAllData? data;
   final String? message;
   final int? responseCode;
   final String? status;
@@ -13,7 +13,7 @@ class ChefListDataModel {
 
   factory ChefListDataModel.fromJson(Map<String, dynamic> json) {
     return ChefListDataModel(
-      data: json['data'] != null ? Data.fromJson(json['data']) : null,
+      data: json['data'] != null ? ChefAllData.fromJson(json['data']) : null,
       message: json['message'],
       responseCode: json['responseCode'],
       status: json['status'],
@@ -30,15 +30,15 @@ class ChefListDataModel {
   }
 }
 
-class Data {
+class ChefAllData {
   final bool? last;
   final int? pageNo;
   final int? pageSize;
-  final List<Result>? results;
+  final List<ChefAllResult>? results;
   final int? totalElement;
   final int? totalPage;
 
-  Data({
+  ChefAllData({
     this.last,
     this.pageNo,
     this.pageSize,
@@ -47,12 +47,12 @@ class Data {
     this.totalPage,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) {
-    return Data(
+  factory ChefAllData.fromJson(Map<String, dynamic> json) {
+    return ChefAllData(
       last: json['last'],
       pageNo: json['pageNo'],
       pageSize: json['pageSize'],
-      results: json['results'] != null ? List<Result>.from(json['results'].map((x) => Result.fromJson(x))) : null,
+      results: json['results'] != null ? List<ChefAllResult>.from(json['results'].map((x) => ChefAllResult.fromJson(x))) : null,
       totalElement: json['totalElement'],
       totalPage: json['totalPage'],
     );
@@ -70,20 +70,52 @@ class Data {
   }
 }
 
-class Result {
+class ImageResponse {
+  final String? fileName;
+  final String? filePath;
+  final String? fileType;
+  final int? id;
+
+  ImageResponse({
+    this.fileName,
+    this.filePath,
+    this.fileType,
+    this.id,
+  });
+
+  factory ImageResponse.fromJson(Map<String, dynamic> json) {
+    return ImageResponse(
+      fileName: json['fileName'],
+      filePath: json['filePath'],
+      fileType: json['fileType'],
+      id: json['id'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'fileName': fileName,
+      'filePath': filePath,
+      'fileType': fileType,
+      'id': id,
+    };
+  }
+}
+
+class ChefAllResult {
   final String? address;
   final String? email;
   final int? id;
   final dynamic? imageId;
-  final List<dynamic>? imageResponse;
+  final List<ImageResponse>? imageResponse;
   final String? name;
   final String? phoneNumber;
   final dynamic? rating;
   final int? recipeCount;
-  final dynamic? thumbnailImageId;
+  final int? thumbnailImageId;
   final String? uuid;
 
-  Result({
+  ChefAllResult({
     this.address,
     this.email,
     this.id,
@@ -97,13 +129,13 @@ class Result {
     this.uuid,
   });
 
-  factory Result.fromJson(Map<String, dynamic> json) {
-    return Result(
+  factory ChefAllResult.fromJson(Map<String, dynamic> json) {
+    return ChefAllResult(
       address: json['address'],
       email: json['email'],
       id: json['id'],
       imageId: json['imageId'],
-      imageResponse: json['imageResponse'] != null ? List<dynamic>.from(json['imageResponse']) : null,
+      imageResponse: json['imageResponse'] != null ? List<ImageResponse>.from(json['imageResponse'].map((x) => ImageResponse.fromJson(x))) : null,
       name: json['name'],
       phoneNumber: json['phoneNumber'],
       rating: json['rating'],
@@ -119,7 +151,7 @@ class Result {
       'email': email,
       'id': id,
       'imageId': imageId,
-      'imageResponse': imageResponse,
+      'imageResponse': imageResponse?.map((x) => x.toJson()).toList(),
       'name': name,
       'phoneNumber': phoneNumber,
       'rating': rating,

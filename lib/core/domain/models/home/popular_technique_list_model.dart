@@ -1,12 +1,12 @@
-class Data {
+class PopuarTechniqueAllData {
   final bool? last;
   final int? pageNo;
   final int? pageSize;
-  final List<Result>? results;
+  final List<PopuarTechniqueAllResult>? results;
   final int? totalElement;
   final int? totalPage;
 
-  Data({
+  PopuarTechniqueAllData({
     this.last,
     this.pageNo,
     this.pageSize,
@@ -15,12 +15,12 @@ class Data {
     this.totalPage,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) {
-    return Data(
+  factory PopuarTechniqueAllData.fromJson(Map<String, dynamic> json) {
+    return PopuarTechniqueAllData(
       last: json['last'],
       pageNo: json['pageNo'],
       pageSize: json['pageSize'],
-      results: json['results'] != null ? List<Result>.from(json['results'].map((x) => Result.fromJson(x))) : null,
+      results: json['results'] != null ? List<PopuarTechniqueAllResult>.from(json['results'].map((x) => PopuarTechniqueAllResult.fromJson(x))) : null,
       totalElement: json['totalElement'],
       totalPage: json['totalPage'],
     );
@@ -71,7 +71,7 @@ class ImageResponseDTO {
 }
 
 class PopularTechniquesListDataModel {
-  final Data? data;
+  final PopuarTechniqueAllData? data;
   final String? message;
   final int? responseCode;
   final String? status;
@@ -85,7 +85,7 @@ class PopularTechniquesListDataModel {
 
   factory PopularTechniquesListDataModel.fromJson(Map<String, dynamic> json) {
     return PopularTechniquesListDataModel(
-      data: json['data'] != null ? Data.fromJson(json['data']) : null,
+      data: json['data'] != null ? PopuarTechniqueAllData.fromJson(json['data']) : null,
       message: json['message'],
       responseCode: json['responseCode'],
       status: json['status'],
@@ -102,7 +102,7 @@ class PopularTechniquesListDataModel {
   }
 }
 
-class Result {
+class PopuarTechniqueAllResult {
   final dynamic? category;
   final String? chefName;
   final String? chefUuid;
@@ -114,7 +114,7 @@ class Result {
   final String? title;
   final int? videoId;
 
-  Result({
+  PopuarTechniqueAllResult({
     this.category,
     this.chefName,
     this.chefUuid,
@@ -127,8 +127,8 @@ class Result {
     this.videoId,
   });
 
-  factory Result.fromJson(Map<String, dynamic> json) {
-    return Result(
+  factory PopuarTechniqueAllResult.fromJson(Map<String, dynamic> json) {
+    return PopuarTechniqueAllResult(
       category: json['category'],
       chefName: json['chefName'],
       chefUuid: json['chefUuid'],

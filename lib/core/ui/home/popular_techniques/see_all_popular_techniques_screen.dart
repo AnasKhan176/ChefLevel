@@ -1,17 +1,54 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+// ignore_for_file: use_build_context_synchronously
 
-class MasterChefScreen extends StatefulWidget {
-  const MasterChefScreen({super.key});
+import 'package:flutter/material.dart';
+import 'package:food_chef/core/controller/home_recipes_controller.dart';
+import 'package:food_chef/core/domain/di/service_locator.dart';
+import 'package:food_chef/core/providers/home_provider.dart';
+import 'package:food_chef/core/ui/widgets/snackbar/bottom_snackbar.dart';
+import 'package:food_chef/core/utils/constant/colors/app_color.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+class SeeAllPopularTechniquesScreen extends StatefulWidget {
+  const SeeAllPopularTechniquesScreen({super.key});
 
   @override
-  State<MasterChefScreen> createState() => _MasterChefScreenState();
+  State<SeeAllPopularTechniquesScreen> createState() =>
+      _PopularTechniquesScreenState();
 }
 
-class _MasterChefScreenState extends State<MasterChefScreen> {
-  final List<bool> favorites = List.generate(6, (_) => false);
-  int selectedChipIndex = 0;
+class _PopularTechniquesScreenState extends State<SeeAllPopularTechniquesScreen> {
   final TextEditingController searchController = TextEditingController();
+  final homeRecipesController = getIt.get<HomeRecipesController>();
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  Future<void> getData() async {
+    await Future.wait([getPopularTechniqueAllData()]);
+  }
+
+  Future<void> getPopularTechniqueAllData() async {
+    HomeScreenProvider chefprovider = Provider.of<HomeScreenProvider>(
+      context,
+      listen: false,
+    );
+    final Map<String, dynamic> data = {'pageNo': '0', 'pageSize': '10'};
+    var response = await homeRecipesController.getPopularTechniqueList(data);
+    if (response.responseCode == 20000) {
+      chefprovider.setPopularTechniqueAllData(response.data);
+    } else {
+      BottomSnackBar.show(
+        context,
+        message: response.message!,
+        backgroundColor: AppColor.btnBackground,
+        icon: Icons.check_circle,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +63,6 @@ class _MasterChefScreenState extends State<MasterChefScreen> {
               _topBar(context),
               const SizedBox(height: 16),
               _searchBar(),
-              // const SizedBox(height: 16),
-              // _categoryChips(),
               const SizedBox(height: 20),
               Expanded(child: _recipeGrid()),
               Align(
@@ -35,10 +70,7 @@ class _MasterChefScreenState extends State<MasterChefScreen> {
                 child: Container(
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFFFF6A6A),
-                        Color(0xFFE53935),
-                      ],
+                      colors: [Color(0xFFFF6A6A), Color(0xFFE53935)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
@@ -97,7 +129,7 @@ class _MasterChefScreenState extends State<MasterChefScreen> {
 
   /// ---------------- TOP BAR ----------------
   Widget _topBar(BuildContext context) {
-     return Stack(
+    return Stack(
       children: [
         Row(
           children: [
@@ -112,7 +144,7 @@ class _MasterChefScreenState extends State<MasterChefScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Master Chefs',
+              'Popular Techniques',
               style: GoogleFonts.playfairDisplay(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -123,118 +155,90 @@ class _MasterChefScreenState extends State<MasterChefScreen> {
         ),
       ],
     );
-
   }
 
   /// ---------------- SEARCH BAR ----------------
   Widget _searchBar() {
     return Container(
-      height: 46,
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      height: 42,
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
+        border: Border.all(width: 1, color: AppColor.ligtestGray),
         color: const Color(0xFF1C1C1C),
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(8),
       ),
-      child: TextField(
-        controller: searchController,
-        style: const TextStyle(color: Colors.white),
-        cursorColor: Colors.white,
-        decoration: const InputDecoration(
-          border: InputBorder.none,
-          icon: Icon(Icons.search, color: Colors.white54),
-          hintText: 'Search by chef',
-          hintStyle: TextStyle(color: Colors.white54),
-        ),
-        onTap: () {
-          // Keyboard opens automatically
-        },
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              autofocus: false,
+              style: GoogleFonts.montserrat(
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+                fontStyle: FontStyle.normal,
+                color: AppColor.white,
+              ),
+              decoration: InputDecoration.collapsed(
+                hintText: "Search by tags...",
+                hintStyle: TextStyle(color: AppColor.white, fontSize: 12.0),
+                border: InputBorder.none,
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 14.0,
+            height: 14.0,
+            child: Image.asset('assets/search.png'), // Use AssetImage
+          ),
+        ],
       ),
     );
   }
 
-  /// ---------------- CATEGORY CHIPS ----------------
-  // Widget _categoryChips() {
-  //   final categories = [
-  //     'All',
-  //     'Latest',
-  //     'Under 30 Min',
-  //     'High Flame',
-  //     'Italian',
-  //     'Low Fat',
-  //   ];
-  //
-  //   return SizedBox(
-  //     height: 36,
-  //     child: ListView.separated(
-  //       scrollDirection: Axis.horizontal,
-  //       itemCount: categories.length,
-  //       separatorBuilder: (_, __) => const SizedBox(width: 8),
-  //       itemBuilder: (context, index) {
-  //         final bool isSelected = selectedChipIndex == index;
-  //
-  //         return InkWell(
-  //           onTap: () {
-  //             setState(() {
-  //               selectedChipIndex = index;
-  //             });
-  //           },
-  //           borderRadius: BorderRadius.circular(20),
-  //           child: Container(
-  //             padding: const EdgeInsets.symmetric(horizontal: 14),
-  //             alignment: Alignment.center,
-  //             decoration: BoxDecoration(
-  //               color: isSelected ? Colors.red : const Color(0xFF1C1C1C),
-  //               borderRadius: BorderRadius.circular(20),
-  //             ),
-  //             child: Text(
-  //               categories[index],
-  //               style: TextStyle(
-  //                 fontSize: 12,
-  //                 fontWeight: FontWeight.w500,
-  //                 color: isSelected ? Colors.white : Colors.white70,
-  //               ),
-  //             ),
-  //           ),
-  //         );
-  //       },
-  //     ),
-  //   );
-  // }
-
   /// ---------------- GRID ----------------
   Widget _recipeGrid() {
-    return GridView.builder(
-      itemCount: favorites.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
-        childAspectRatio: 0.72,
-      ),
-      itemBuilder: (context, index) {
-        return _chefProfileCard(index);
+    return Consumer<HomeScreenProvider>(
+      builder: (_, provider, _) {
+        return GridView.builder(
+          itemCount: provider.popularTechniqueAllData!.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+            childAspectRatio: 0.72,
+          ),
+          itemBuilder: (context, index) {
+            return _chefProfileCard(index, provider);
+          },
+        );
       },
     );
   }
 
   /// ---------------- CARD ----------------
-  Widget _chefProfileCard(int index) {
+  Widget _chefProfileCard(int index, HomeScreenProvider provider) {
     return Container(
       decoration: BoxDecoration(
         color: const Color(0xFF1A1A1A),
-        borderRadius: BorderRadius.circular(18),
+        border: Border.all(width: 1, color: AppColor.ligtestGray),
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Chef image inside card
           ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(18)),
-            child: Image.asset(
-              'assets/safe_marco.png',
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+            child:FadeInImage.assetNetwork(
+                image: getImageUrl(
+                provider.popularTechniqueAllData![index].imageResponseDTO,
+                'video_thumbnail',
+                'assets/images/chef_default.png',
+              ),
+              placeholder: 'assets/images/chef_default.png',
+              fit: BoxFit.cover,
               height: 120,
               width: double.infinity,
-              fit: BoxFit.cover,
             ),
           ),
           const SizedBox(height: 12),
@@ -246,7 +250,7 @@ class _MasterChefScreenState extends State<MasterChefScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Chef Marco',
+                  provider.popularTechniqueAllData![index].chefName ?? '',
                   style: GoogleFonts.playfairDisplay(
                     color: Colors.white,
                     fontSize: 14,
@@ -255,16 +259,18 @@ class _MasterChefScreenState extends State<MasterChefScreen> {
                 ),
                 InkWell(
                   onTap: () {
-                    setState(() {
-                      favorites[index] = !favorites[index];
-                    });
+                    provider.isFavoritePopularTechniqueAll
+                        ? provider.setIsFavoritePopularTechniqueAll(false)
+                        : provider.setIsFavoritePopularTechniqueAll(true);
                   },
-                  child: Icon(
-                    favorites[index]
-                        ? Icons.favorite
-                        : Icons.favorite_border,
-                    color: favorites[index] ? Colors.red : Colors.white54,
-                    size: 18,
+                  child: SizedBox(
+                    width: 14.0,
+                    height: 14.0,
+                    child: Image.asset(
+                      provider.isFavoritePopularTechniqueAll
+                          ? 'assets/images/favorite_select.png'
+                          : 'assets/images/favorite_unselect.png',
+                    ), // Use AssetImage
                   ),
                 ),
               ],
@@ -272,10 +278,10 @@ class _MasterChefScreenState extends State<MasterChefScreen> {
           ),
 
           // Top-Rated label
-          const Padding(
+          Padding(
             padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             child: Text(
-              'Top-Rated',
+              provider.popularTechniqueAllData![index].title ?? '',
               style: TextStyle(fontSize: 12, color: Colors.grey),
             ),
           ),
@@ -292,13 +298,13 @@ class _MasterChefScreenState extends State<MasterChefScreen> {
                     Icon(Icons.star, color: Colors.amber, size: 14),
                     SizedBox(width: 4),
                     Text(
-                      '4.0 (1206)',
+                      '4.0 (1206).',
                       style: TextStyle(fontSize: 11, color: Colors.white54),
                     ),
                   ],
                 ),
                 const Text(
-                  '40 Recipes',
+                  '40 Recipes.',
                   style: TextStyle(fontSize: 11, color: Colors.white54),
                 ),
               ],
@@ -307,5 +313,21 @@ class _MasterChefScreenState extends State<MasterChefScreen> {
         ],
       ),
     );
+  }
+
+  //---------------- Methods ---------------
+
+  String getImageUrl(
+    List<dynamic>? image_list,
+    String file_type,
+    String default_image,
+  ) {
+    int index = image_list!.indexWhere(
+      (image_url) => image_url.fileType!.toLowerCase() == file_type,
+    );
+    if (index != -1) {
+      return image_list[index].filePath ?? default_image;
+    }
+    return default_image;
   }
 }

@@ -17,7 +17,7 @@ class HomeRecipesController {
     return homeRecipesRepository.getHomeRecipesData(data, headersData);
   }
 
-  Future<ChefListDataModel> getChefListDat(Map<String, dynamic> data) async {
+  Future<ChefListDataModel> getChefList(Map<String, dynamic> data) async {
     final prefs = await SharedPreferences.getInstance();
     final uid = prefs.getString(SharedPrefService.uid);
     final Map<String, dynamic> headersData = {'uid': uid};
