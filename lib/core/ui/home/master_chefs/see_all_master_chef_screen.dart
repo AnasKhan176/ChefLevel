@@ -204,7 +204,7 @@ class _MasterChefScreenState extends State<SeeAllMasterChefScreen> {
             crossAxisCount: 2,
             crossAxisSpacing: 12,
             mainAxisSpacing: 12,
-            childAspectRatio: 0.72,
+            childAspectRatio: 0.65,
           ),
           itemBuilder: (context, index) {
             return _chefProfileCard(index, provider);
@@ -224,6 +224,7 @@ class _MasterChefScreenState extends State<SeeAllMasterChefScreen> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        // mainAxisSize: MainAxisSize.min,
         children: [
           // Chef image inside card
           ClipRRect(
@@ -302,7 +303,7 @@ class _MasterChefScreenState extends State<SeeAllMasterChefScreen> {
               children: [
                 Row(
                   children: const [
-                    Icon(Icons.star, color: Colors.amber, size: 14),
+                    Icon(Icons.star, color: Colors.amber, size: 12),
                     SizedBox(width: 4),
                     Text(
                       '4.0 (1206).',
@@ -312,7 +313,7 @@ class _MasterChefScreenState extends State<SeeAllMasterChefScreen> {
                 ),
                 Text(
                   '${provider.masterChefAllData![index].recipeCount} Recipies',
-                  style: TextStyle(fontSize: 11, color: Colors.white54),
+                  style: TextStyle(fontSize: 10, color: Colors.white54),
                 ),
               ],
             ),
