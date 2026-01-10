@@ -6,6 +6,7 @@ import 'package:food_chef/core/domain/di/service_locator.dart';
 import 'package:food_chef/core/providers/home_provider.dart';
 import 'package:food_chef/core/ui/widgets/snackbar/bottom_snackbar.dart';
 import 'package:food_chef/core/utils/constant/colors/app_color.dart';
+import 'package:food_chef/core/utils/function/utility.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -17,9 +18,11 @@ class SeeAllPopularTechniquesScreen extends StatefulWidget {
       _PopularTechniquesScreenState();
 }
 
-class _PopularTechniquesScreenState extends State<SeeAllPopularTechniquesScreen> {
+class _PopularTechniquesScreenState
+    extends State<SeeAllPopularTechniquesScreen> {
   final TextEditingController searchController = TextEditingController();
   final homeRecipesController = getIt.get<HomeRecipesController>();
+  bool isLoaderVisible = false;
 
   @override
   void initState() {
@@ -32,15 +35,27 @@ class _PopularTechniquesScreenState extends State<SeeAllPopularTechniquesScreen>
   }
 
   Future<void> getPopularTechniqueAllData() async {
-    HomeScreenProvider chefprovider = Provider.of<HomeScreenProvider>(
+    HomeScreenProvider popularTechniqueprovider = Provider.of<HomeScreenProvider>(
       context,
       listen: false,
     );
-    final Map<String, dynamic> data = {'pageNo': '0', 'pageSize': '10'};
+    setState(() {
+      isLoaderVisible = true;
+    });
+    final Map<String, dynamic> data = {
+      'pageNo': popularTechniqueprovider.currentPage.toString(),
+      'pageSize': popularTechniqueprovider.pageSize.toString(),
+    };
     var response = await homeRecipesController.getPopularTechniqueList(data);
+    setState(() {
+      isLoaderVisible = false;
+    });
     if (response.responseCode == 20000) {
-      chefprovider.setPopularTechniqueAllData(response.data);
+      popularTechniqueprovider.setPopularTechniqueAllData(response.data);
     } else {
+      setState(() {
+      isLoaderVisible = false;
+    });
       BottomSnackBar.show(
         context,
         message: response.message!,
@@ -65,63 +80,99 @@ class _PopularTechniquesScreenState extends State<SeeAllPopularTechniquesScreen>
               _searchBar(),
               const SizedBox(height: 20),
               Expanded(child: _recipeGrid()),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFFFF6A6A), Color(0xFFE53935)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.15),
-                        blurRadius: 6,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(20),
-                      onTap: () {
-                        // Load more action
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 18,
-                          vertical: 8,
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            Text(
-                              'Load More',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 0.3,
+             Consumer<HomeScreenProvider>(
+                builder: (_, provider, _) {
+                  return Column(
+                    children: [
+                      Visibility(
+                        visible: isLoaderVisible,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: AppColor.btnBackground,
                               ),
                             ),
-                            SizedBox(width: 6),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 12,
-                              color: Colors.white,
-                            ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
+
+                      Visibility(
+                        visible:
+                            provider.popularTechniqueFilteredAllData!.isNotEmpty &&
+                            !provider.isLastPage,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [Color(0xFF18181B), Color(0xFF565656)],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColor.ligtestGray,
+                                  blurRadius: 6,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                              border: Border.all(
+                                color: AppColor.btnBackground,
+                                style: BorderStyle.solid,
+                                width: 1.0,
+                              ),
+                            ),
+                            child: Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(20),
+                                onTap: () {
+                                  if (!provider.isLastPage) {
+                                    provider.loadMoreData();
+                                    getData();
+                                  }
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 18,
+                                    vertical: 8,
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        'Load More',
+                                        style: GoogleFonts.montserrat(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          fontStyle: FontStyle.normal,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      SizedBox(width: 6),
+                                      Icon(
+                                        Icons.arrow_forward_ios,
+                                        size: 12,
+                                        color: Colors.white,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
-            ],
-          ),
+              ]
+           ),
         ),
       ),
     );
@@ -134,7 +185,13 @@ class _PopularTechniquesScreenState extends State<SeeAllPopularTechniquesScreen>
         Row(
           children: [
             InkWell(
-              onTap: () => Navigator.pop(context),
+              onTap: () =>  {
+                Provider.of<HomeScreenProvider>(
+                  context,
+                  listen: false,
+                ).clearSeeAllData(),
+                Navigator.pop(context),
+              },
               borderRadius: BorderRadius.circular(24),
               child: const Icon(Icons.arrow_back, color: Colors.white),
             ),
@@ -200,7 +257,7 @@ class _PopularTechniquesScreenState extends State<SeeAllPopularTechniquesScreen>
     return Consumer<HomeScreenProvider>(
       builder: (_, provider, _) {
         return GridView.builder(
-          itemCount: provider.popularTechniqueAllData!.length,
+          itemCount: provider.popularTechniqueFilteredAllData!.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             crossAxisSpacing: 12,
@@ -229,17 +286,31 @@ class _PopularTechniquesScreenState extends State<SeeAllPopularTechniquesScreen>
           // Chef image inside card
           ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            child:FadeInImage.assetNetwork(
-                image: getImageUrl(
-                provider.popularTechniqueAllData![index].imageResponseDTO,
-                'video_thumbnail',
-                'assets/images/chef_default.png',
-              ),
-              placeholder: 'assets/images/chef_default.png',
-              fit: BoxFit.cover,
-              height: 120,
-              width: double.infinity,
-            ),
+            child:
+                provider.popularTechniqueFilteredAllData![index].imageResponseDTO !=
+                    null
+                ? FadeInImage.assetNetwork(
+                    image: Utility.getImageUrl(
+                      provider.popularTechniqueFilteredAllData![index].imageResponseDTO,
+                      'video_thumbnail',
+                      'assets/images/chef_default.png',
+                    ),
+                    placeholder: 'assets/images/chef_default.png',
+                    fit: BoxFit.cover,
+                    height: 120,
+                    width: double.infinity,
+                  )
+                : FadeInImage(
+                    placeholder: const AssetImage(
+                      'assets/images/chef_default.png',
+                    ), // Your asset placeholder
+                    image: const AssetImage(
+                      'assets/images/chef_default.png',
+                    ), // Your final asset image
+                    fit: BoxFit.cover,
+                    height: 120,
+                    width: double.infinity,
+                  ),
           ),
           const SizedBox(height: 12),
 
@@ -250,7 +321,7 @@ class _PopularTechniquesScreenState extends State<SeeAllPopularTechniquesScreen>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  provider.popularTechniqueAllData![index].chefName ?? '',
+                  provider.popularTechniqueFilteredAllData![index].chefName ?? '',
                   style: GoogleFonts.playfairDisplay(
                     color: Colors.white,
                     fontSize: 14,
@@ -281,7 +352,7 @@ class _PopularTechniquesScreenState extends State<SeeAllPopularTechniquesScreen>
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             child: Text(
-              provider.popularTechniqueAllData![index].title ?? '',
+              provider.popularTechniqueFilteredAllData![index].title ?? '',
               style: TextStyle(fontSize: 12, color: Colors.grey),
             ),
           ),
@@ -316,18 +387,4 @@ class _PopularTechniquesScreenState extends State<SeeAllPopularTechniquesScreen>
   }
 
   //---------------- Methods ---------------
-
-  String getImageUrl(
-    List<dynamic>? image_list,
-    String file_type,
-    String default_image,
-  ) {
-    int index = image_list!.indexWhere(
-      (image_url) => image_url.fileType!.toLowerCase() == file_type,
-    );
-    if (index != -1) {
-      return image_list[index].filePath ?? default_image;
-    }
-    return default_image;
-  }
 }

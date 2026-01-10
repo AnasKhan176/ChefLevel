@@ -13,6 +13,7 @@ import 'package:food_chef/core/ui/home/tailored_recipes/see_all_receipe_home_scr
 import 'package:food_chef/core/utils/constant/colors/app_color.dart';
 import 'package:food_chef/core/utils/constant/fonts/font_style.dart';
 import 'package:food_chef/core/utils/constant/prefs/shared_pref.dart';
+import 'package:food_chef/core/utils/function/utility.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -170,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               builder: (_) => SeeAllTailoredRecipeHomeScreen(),
                             ),
                           );
-                        },
+                        },isShow: true
                       ),
                       const SizedBox(height: 12),
                       _recipeHorizontalList(),
@@ -197,6 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           );
                         },
+                        isShow: true
                       ),
                       const SizedBox(height: 12),
                       _chefHorizontalList(),
@@ -207,7 +209,11 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
             const SizedBox(height: 12),
-            _sectionTitle(title: 'Popular Cuisine', onSeeAllTap: () {}),
+            _sectionTitle(
+              title: 'Popular Cuisine',
+              onSeeAllTap: () {},
+              isShow: false,
+            ),
             const SizedBox(height: 12),
             _cuisineGrid(),
             Consumer<HomeScreenProvider>(
@@ -226,7 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               builder: (_) => SeeAllPopularTechniquesScreen(),
                             ),
                           );
-                        },
+                        },isShow: true
                       ),
                       const SizedBox(height: 12),
                       _techniqueHorizontalList(),
@@ -256,14 +262,20 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _sectionTitle({required String title, VoidCallback? onSeeAllTap}) {
+  Widget _sectionTitle({
+    required String title,
+    VoidCallback? onSeeAllTap,
+    required bool isShow,
+  }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(title, style: AppFontStyle.whiteText14Bold),
         InkWell(
           onTap: onSeeAllTap,
-          child: Text('See All', style: AppFontStyle.redText12NormalMont),
+          child: isShow
+              ? Text('See All', style: AppFontStyle.redText12NormalMont)
+              : Text('', style: AppFontStyle.redText12NormalMont),
         ),
       ],
     );
@@ -310,13 +322,15 @@ Widget _recipeCard(int index, HomeScreenProvider provider) {
                 ),
                 child: FadeInImage(
                   placeholder: AssetImage('assets/images/cuisine_default.png'),
-                  image: NetworkImage(
-                    getImageUrl(
-                      provider.tailoredRecipesHomeData![index].image,
-                      'recipe',
-                      'assets/images/cuisine_default.png',
-                    ),
-                  ),
+                  image: provider.tailoredRecipesHomeData![index].image != null
+                      ? NetworkImage(
+                          Utility.getImageUrl(
+                            provider.tailoredRecipesHomeData![index].image,
+                            'recipe',
+                            'assets/images/cuisine_default.png',
+                          ),
+                        )
+                      : AssetImage('assets/images/cuisine_default.png'),
                   width: double.infinity,
                   fit: BoxFit.cover,
                 ),
@@ -420,20 +434,6 @@ Widget _recipeCard(int index, HomeScreenProvider provider) {
 
 //---------------- Methods ---------------
 
-String getImageUrl(
-  List<dynamic>? image_list,
-  String file_type,
-  String default_image,
-) {
-  int index = image_list!.indexWhere(
-    (image_url) => image_url.fileType!.toLowerCase() == file_type,
-  );
-  if (index != -1) {
-    return image_list[index].filePath ?? default_image;
-  }
-  return default_image;
-}
-
 Widget _chefHorizontalList() {
   return Consumer<HomeScreenProvider>(
     builder: (_, provider, _) {
@@ -451,7 +451,7 @@ Widget _chefHorizontalList() {
                 borderRadius: BorderRadius.circular(16),
                 image: DecorationImage(
                   image: NetworkImage(
-                    getImageUrl(
+                    Utility.getImageUrl(
                       provider.masterChefHomeData![index].imageResponse,
                       'chef_profile_photo',
                       'assets/images/chef_default.png',
@@ -549,8 +549,18 @@ Widget _cuisineGrid() {
       (index) => Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          image: const DecorationImage(
-            image: AssetImage('assets/italian.png'),
+          image:  DecorationImage(
+            image: index == 0
+                    ? AssetImage('assets/italian.png')
+                    : index == 1
+                    ? AssetImage('assets/japenies.png')
+                    : index == 2
+                    ? AssetImage('assets/maxican.png')
+                    : index == 3
+                    ? AssetImage('assets/vegeterian.png')
+                    : index == 4
+                    ? AssetImage('assets/bbq.png')
+                    : AssetImage('assets/deserts.png'),
             fit: BoxFit.cover,
           ),
         ),
@@ -611,7 +621,7 @@ Widget _techniqueHorizontalList() {
                 borderRadius: BorderRadius.circular(16),
                 image: DecorationImage(
                   image: NetworkImage(
-                    getImageUrl(
+                    Utility.getImageUrl(
                       provider
                           .popularTechniquesHomeData![index]
                           .imageResponseDTO,

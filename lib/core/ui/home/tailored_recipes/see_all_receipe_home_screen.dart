@@ -6,6 +6,7 @@ import 'package:food_chef/core/domain/di/service_locator.dart';
 import 'package:food_chef/core/providers/home_provider.dart';
 import 'package:food_chef/core/ui/widgets/snackbar/bottom_snackbar.dart';
 import 'package:food_chef/core/utils/constant/colors/app_color.dart';
+import 'package:food_chef/core/utils/function/utility.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -13,13 +14,15 @@ class SeeAllTailoredRecipeHomeScreen extends StatefulWidget {
   const SeeAllTailoredRecipeHomeScreen({super.key});
 
   @override
-  State<SeeAllTailoredRecipeHomeScreen> createState() => _RecipeHomeScreenState();
+  State<SeeAllTailoredRecipeHomeScreen> createState() =>
+      _RecipeHomeScreenState();
 }
 
 class _RecipeHomeScreenState extends State<SeeAllTailoredRecipeHomeScreen> {
   int selectedChipIndex = 0;
   final TextEditingController searchController = TextEditingController();
   final homeRecipesController = getIt.get<HomeRecipesController>();
+  bool isLoaderVisible = false;
 
   @override
   void initState() {
@@ -36,11 +39,23 @@ class _RecipeHomeScreenState extends State<SeeAllTailoredRecipeHomeScreen> {
       context,
       listen: false,
     );
-    final Map<String, dynamic> data = {'pageNo': '0', 'pageSize': '10'};
+    setState(() {
+      isLoaderVisible = true;
+    });
+    final Map<String, dynamic> data = {
+      'pageNo': tailoredprovider.currentPage.toString(),
+      'pageSize': tailoredprovider.pageSize.toString(),
+    };
     var response = await homeRecipesController.getTailoerdRecipeList(data);
+    setState(() {
+      isLoaderVisible = false;
+    });
     if (response.responseCode == 20000) {
       tailoredprovider.setTailoredAllRecipiesData(response.data);
     } else {
+      setState(() {
+      isLoaderVisible = false;
+    });
       BottomSnackBar.show(
         context,
         message: response.message!,
@@ -67,60 +82,96 @@ class _RecipeHomeScreenState extends State<SeeAllTailoredRecipeHomeScreen> {
               _categoryChips(),
               const SizedBox(height: 20),
               Expanded(child: _recipeGrid()),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFFFF6A6A), Color(0xFFE53935)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.15),
-                        blurRadius: 6,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(20),
-                      onTap: () {
-                        // Load more action
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 18,
-                          vertical: 8,
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            Text(
-                              'Load More',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 0.3,
+            Consumer<HomeScreenProvider>(
+                builder: (_, provider, _) {
+                  return Column(
+                    children: [
+                      Visibility(
+                        visible: isLoaderVisible,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: AppColor.btnBackground,
                               ),
                             ),
-                            SizedBox(width: 6),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 12,
-                              color: Colors.white,
-                            ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
+
+                      Visibility(
+                        visible:
+                            provider.tailoredRecipiesFilteredAllData!.isNotEmpty &&
+                            !provider.isLastPage,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [Color(0xFF18181B), Color(0xFF565656)],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColor.ligtestGray,
+                                  blurRadius: 6,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                              border: Border.all(
+                                color: AppColor.btnBackground,
+                                style: BorderStyle.solid,
+                                width: 1.0,
+                              ),
+                            ),
+                            child: Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(20),
+                                onTap: () {
+                                  if (!provider.isLastPage) {
+                                    provider.loadMoreData();
+                                    getData();
+                                  }
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 18,
+                                    vertical: 8,
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        'Load More',
+                                        style: GoogleFonts.montserrat(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          fontStyle: FontStyle.normal,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      SizedBox(width: 6),
+                                      Icon(
+                                        Icons.arrow_forward_ios,
+                                        size: 12,
+                                        color: Colors.white,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
             ],
           ),
@@ -136,7 +187,13 @@ class _RecipeHomeScreenState extends State<SeeAllTailoredRecipeHomeScreen> {
         Row(
           children: [
             InkWell(
-              onTap: () => Navigator.pop(context),
+              onTap: () =>   {
+                Provider.of<HomeScreenProvider>(
+                  context,
+                  listen: false,
+                ).clearSeeAllData(),
+                Navigator.pop(context),
+              },
               borderRadius: BorderRadius.circular(24),
               child: const Icon(Icons.arrow_back, color: Colors.white),
             ),
@@ -251,7 +308,7 @@ class _RecipeHomeScreenState extends State<SeeAllTailoredRecipeHomeScreen> {
     return Consumer<HomeScreenProvider>(
       builder: (_, provider, _) {
         return GridView.builder(
-          itemCount: provider.tailoredRecipiesAllData!.length,
+          itemCount: provider.tailoredRecipiesFilteredAllData!.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             crossAxisSpacing: 12,
@@ -306,23 +363,23 @@ class _RecipeHomeScreenState extends State<SeeAllTailoredRecipeHomeScreen> {
               ),
               child: CircleAvatar(
                 radius: 44,
-                backgroundImage: 
-                NetworkImage(
-                  getImageUrl(
-                    provider.tailoredRecipiesAllData![index].image,
-                    'recipe',
-                    'assets/images/cuisine_default.png',
-                  ),
-                ),
-
-                
+                backgroundImage:
+                    provider.tailoredRecipiesFilteredAllData![index].image != null
+                    ? NetworkImage(
+                        Utility.getImageUrl(
+                          provider.tailoredRecipiesFilteredAllData![index].image,
+                          'recipe',
+                          'assets/images/cuisine_default.png',
+                        ),
+                      )
+                    : AssetImage('assets/images/cuisine_default.png'),
               ),
             ),
           ),
           const SizedBox(height: 12),
           Center(
             child: Text(
-              provider.tailoredRecipiesAllData![index].dishName ?? '',
+              provider.tailoredRecipiesFilteredAllData![index].dishName ?? '',
               textAlign: TextAlign.center,
               style: GoogleFonts.playfairDisplay(
                 color: Colors.white,
@@ -334,7 +391,7 @@ class _RecipeHomeScreenState extends State<SeeAllTailoredRecipeHomeScreen> {
           const SizedBox(height: 4),
           Center(
             child: Text(
-              provider.tailoredRecipiesAllData![index].chefName ?? '',
+              provider.tailoredRecipiesFilteredAllData![index].chefName ?? '',
               textAlign: TextAlign.center,
               style: GoogleFonts.montserrat(
                 fontSize: 11,
@@ -360,7 +417,7 @@ class _RecipeHomeScreenState extends State<SeeAllTailoredRecipeHomeScreen> {
                 ],
               ),
               Text(
-                '${provider.tailoredRecipiesAllData![index].prepTime} min',
+                '${provider.tailoredRecipiesFilteredAllData![index].prepTime} min',
                 style: GoogleFonts.montserrat(
                   fontSize: 11,
                   color: Colors.white54,
@@ -374,18 +431,4 @@ class _RecipeHomeScreenState extends State<SeeAllTailoredRecipeHomeScreen> {
   }
 
   //---------------- Methods ---------------
-
-  String getImageUrl(
-    List<dynamic>? image_list,
-    String file_type,
-    String default_image,
-  ) {
-    int index = image_list!.indexWhere(
-      (image_url) => image_url.fileType!.toLowerCase() == file_type,
-    );
-    if (index != -1) {
-      return image_list[index].filePath ?? default_image;
-    }
-    return default_image;
-  }
 }

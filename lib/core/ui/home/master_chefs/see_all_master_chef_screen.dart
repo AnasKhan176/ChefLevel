@@ -6,6 +6,7 @@ import 'package:food_chef/core/domain/di/service_locator.dart';
 import 'package:food_chef/core/providers/home_provider.dart';
 import 'package:food_chef/core/ui/widgets/snackbar/bottom_snackbar.dart';
 import 'package:food_chef/core/utils/constant/colors/app_color.dart';
+import 'package:food_chef/core/utils/function/utility.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +20,7 @@ class SeeAllMasterChefScreen extends StatefulWidget {
 class _MasterChefScreenState extends State<SeeAllMasterChefScreen> {
   final TextEditingController searchController = TextEditingController();
   final homeRecipesController = getIt.get<HomeRecipesController>();
+  bool isLoaderVisible = false;
 
   @override
   void initState() {
@@ -35,11 +37,23 @@ class _MasterChefScreenState extends State<SeeAllMasterChefScreen> {
       context,
       listen: false,
     );
-    final Map<String, dynamic> data = {'pageNo': '0', 'pageSize': '10'};
+    setState(() {
+      isLoaderVisible = true;
+    });
+    final Map<String, dynamic> data = {
+      'pageNo': chefprovider.currentPage.toString(),
+      'pageSize': chefprovider.pageSize.toString(),
+    };
     var response = await homeRecipesController.getChefList(data);
+    setState(() {
+      isLoaderVisible = false;
+    });
     if (response.responseCode == 20000) {
       chefprovider.setMasterChefAllData(response.data);
     } else {
+      setState(() {
+        isLoaderVisible = false;
+      });
       BottomSnackBar.show(
         context,
         message: response.message!,
@@ -64,60 +78,96 @@ class _MasterChefScreenState extends State<SeeAllMasterChefScreen> {
               _searchBar(),
               const SizedBox(height: 20),
               Expanded(child: _recipeGrid()),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFFFF6A6A), Color(0xFFE53935)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.15),
-                        blurRadius: 6,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(20),
-                      onTap: () {
-                        // Load more action
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 18,
-                          vertical: 8,
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            Text(
-                              'Load More',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 0.3,
+              Consumer<HomeScreenProvider>(
+                builder: (_, provider, _) {
+                  return Column(
+                    children: [
+                      Visibility(
+                        visible: isLoaderVisible,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: AppColor.btnBackground,
                               ),
                             ),
-                            SizedBox(width: 6),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 12,
-                              color: Colors.white,
-                            ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
+
+                      Visibility(
+                        visible:
+                            provider.masterChefFilteredAllData!.isNotEmpty &&
+                            !provider.isLastPage,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [Color(0xFF18181B), Color(0xFF565656)],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColor.ligtestGray,
+                                  blurRadius: 6,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                              border: Border.all(
+                                color: AppColor.btnBackground,
+                                style: BorderStyle.solid,
+                                width: 1.0,
+                              ),
+                            ),
+                            child: Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(20),
+                                onTap: () {
+                                  if (!provider.isLastPage) {
+                                    provider.loadMoreData();
+                                    getData();
+                                  }
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 18,
+                                    vertical: 8,
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        'Load More',
+                                        style: GoogleFonts.montserrat(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          fontStyle: FontStyle.normal,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      SizedBox(width: 6),
+                                      Icon(
+                                        Icons.arrow_forward_ios,
+                                        size: 12,
+                                        color: Colors.white,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
             ],
           ),
@@ -133,7 +183,13 @@ class _MasterChefScreenState extends State<SeeAllMasterChefScreen> {
         Row(
           children: [
             InkWell(
-              onTap: () => Navigator.pop(context),
+              onTap: () => {
+                Provider.of<HomeScreenProvider>(
+                  context,
+                  listen: false,
+                ).clearSeeAllData(),
+                Navigator.pop(context),
+              },
               borderRadius: BorderRadius.circular(24),
               child: const Icon(Icons.arrow_back, color: Colors.white),
             ),
@@ -199,7 +255,7 @@ class _MasterChefScreenState extends State<SeeAllMasterChefScreen> {
     return Consumer<HomeScreenProvider>(
       builder: (_, provider, _) {
         return GridView.builder(
-          itemCount: provider.masterChefAllData!.length,
+          itemCount: provider.masterChefFilteredAllData!.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             crossAxisSpacing: 12,
@@ -228,17 +284,28 @@ class _MasterChefScreenState extends State<SeeAllMasterChefScreen> {
           // Chef image inside card
           ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            child: FadeInImage.assetNetwork(
-                image: getImageUrl(
-                provider.masterChefAllData![index].imageResponse,
-                'chef_profile_photo',
-                'assets/images/chef_default.png',
-              ),
-              placeholder: 'assets/images/chef_default.png',
-              fit: BoxFit.cover,
-              height: 120,
-              width: double.infinity,
-            ),
+            child:
+                provider.masterChefFilteredAllData![index].imageResponse != null
+                ? FadeInImage.assetNetwork(
+                    image: Utility.getImageUrl(
+                      provider.masterChefFilteredAllData![index].imageResponse,
+                      'chef_profile_photo',
+                      'assets/images/chef_default.png',
+                    ),
+                    placeholder: 'assets/images/chef_default.png',
+                    fit: BoxFit.cover,
+                    height: 120,
+                    width: double.infinity,
+                  )
+                : FadeInImage(
+                    placeholder: const AssetImage(
+                      'assets/images/chef_default.png',
+                    ), // Your asset placeholder
+                    image: const AssetImage('assets/images/chef_default.png'),
+                    fit: BoxFit.cover,
+                    height: 120,
+                    width: double.infinity,
+                  ),
           ),
           const SizedBox(height: 12),
 
@@ -249,26 +316,29 @@ class _MasterChefScreenState extends State<SeeAllMasterChefScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  provider.masterChefAllData![index].name ?? '',
+                  provider.masterChefFilteredAllData![index].name ?? '',
                   style: GoogleFonts.playfairDisplay(
                     color: Colors.white,
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                InkWell(onTap: () {
-                provider.isFavoriteMasterChefAll
-                    ? provider.setIsFavoriteMasterChefdAll(false)
-                    : provider.setIsFavoriteMasterChefdAll(true);}, 
-                    child: SizedBox(
-                width: 14.0,
-                height: 14.0,
-                child: Image.asset(
-                  provider.isFavoriteMasterChefAll
-                      ? 'assets/images/favorite_select.png'
-                      : 'assets/images/favorite_unselect.png',
-                ), // Use AssetImage
-              ),),
+                InkWell(
+                  onTap: () {
+                    provider.isFavoriteMasterChefAll
+                        ? provider.setIsFavoriteMasterChefdAll(false)
+                        : provider.setIsFavoriteMasterChefdAll(true);
+                  },
+                  child: SizedBox(
+                    width: 14.0,
+                    height: 14.0,
+                    child: Image.asset(
+                      provider.isFavoriteMasterChefAll
+                          ? 'assets/images/favorite_select.png'
+                          : 'assets/images/favorite_unselect.png',
+                    ), // Use AssetImage
+                  ),
+                ),
               ],
             ),
           ),
@@ -300,7 +370,7 @@ class _MasterChefScreenState extends State<SeeAllMasterChefScreen> {
                   ],
                 ),
                 Text(
-                  '${provider.masterChefAllData![index].recipeCount} Recipies',
+                  '${provider.masterChefFilteredAllData![index].recipeCount} Recipies',
                   style: TextStyle(fontSize: 11, color: Colors.white54),
                 ),
               ],
@@ -312,18 +382,4 @@ class _MasterChefScreenState extends State<SeeAllMasterChefScreen> {
   }
 
   //---------------- Methods ---------------
-
-  String getImageUrl(
-    List<dynamic>? image_list,
-    String file_type,
-    String default_image,
-  ) {
-    int index = image_list!.indexWhere(
-      (image_url) => image_url.fileType!.toLowerCase() == file_type,
-    );
-    if (index != -1) {
-      return image_list[index].filePath ?? default_image;
-    }
-    return default_image;
-  }
 }

@@ -20,17 +20,17 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
 
   final List<Map<String, String>> pages = [
     {
-      "image": "assets/wth_1.jpg",
+      "image": "assets/images/wth_1.jpg",
       "title": AppString.walkThroughTitle_1,
       "subtitle": AppString.walkThroughDesc_1,
     },
     {
-      "image": "assets/wth_2.jpg",
+      "image": "assets/images/wth_2.jpg",
       "title": AppString.walkThroughTitle_2,
       "subtitle": AppString.walkThroughDesc_2,
     },
     {
-      "image": "assets/wth_3.jpg",
+      "image": "assets/images/wth_3.jpg",
       "title": AppString.walkThroughTitle_3,
       "subtitle": AppString.walkThroughDesc_3,
     },
