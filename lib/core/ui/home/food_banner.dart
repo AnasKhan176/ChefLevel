@@ -12,9 +12,9 @@ class _FoodBannerState extends State<FoodBanner> {
   int _currentIndex = 0;
 
   final List<String> images = [
-    'assets/wth_1.jpg',
-    'assets/wth_2.jpg',
-    'assets/wth_3.jpg',
+    'assets/images/wth_1.jpg',
+    'assets/images/wth_2.jpg',
+    'assets/images/wth_3.jpg',
     'assets/vegeterian.png',
   ];
 

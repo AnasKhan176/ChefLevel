@@ -316,14 +316,6 @@ class _MasterChefScreenState extends State<SeeAllMasterChefScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Text(
-                //   provider.masterChefAllData![index].name ?? '',
-                //   style: GoogleFonts.playfairDisplay(
-                //     color: Colors.white,
-                //     fontSize: 14,
-                //     fontWeight: FontWeight.w600,
-                //   ),
-                // ),
                 Flexible(
                     child: Text(
                       provider.masterChefFilteredAllData![index].name ?? '',
