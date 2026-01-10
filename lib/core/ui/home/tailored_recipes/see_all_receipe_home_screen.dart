@@ -313,7 +313,7 @@ class _RecipeHomeScreenState extends State<SeeAllTailoredRecipeHomeScreen> {
             crossAxisCount: 2,
             crossAxisSpacing: 12,
             mainAxisSpacing: 12,
-            childAspectRatio: 0.72,
+            childAspectRatio: 0.65,
           ),
           itemBuilder: (context, index) {
             return _recipeCard(index, provider);

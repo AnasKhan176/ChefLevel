@@ -260,7 +260,7 @@ class _MasterChefScreenState extends State<SeeAllMasterChefScreen> {
             crossAxisCount: 2,
             crossAxisSpacing: 12,
             mainAxisSpacing: 12,
-            childAspectRatio: 0.72,
+            childAspectRatio: 0.65,
           ),
           itemBuilder: (context, index) {
             return _chefProfileCard(index, provider);
@@ -280,6 +280,7 @@ class _MasterChefScreenState extends State<SeeAllMasterChefScreen> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        // mainAxisSize: MainAxisSize.min,
         children: [
           // Chef image inside card
           ClipRRect(
@@ -315,30 +316,38 @@ class _MasterChefScreenState extends State<SeeAllMasterChefScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  provider.masterChefFilteredAllData![index].name ?? '',
-                  style: GoogleFonts.playfairDisplay(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                  ),
+                // Text(
+                //   provider.masterChefAllData![index].name ?? '',
+                //   style: GoogleFonts.playfairDisplay(
+                //     color: Colors.white,
+                //     fontSize: 14,
+                //     fontWeight: FontWeight.w600,
+                //   ),
+                // ),
+                Flexible(
+                    child: Text(
+                      provider.masterChefFilteredAllData![index].name ?? '',
+                      style: GoogleFonts.playfairDisplay(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      softWrap: true,
+                    )
                 ),
-                InkWell(
-                  onTap: () {
-                    provider.isFavoriteMasterChefAll
-                        ? provider.setIsFavoriteMasterChefdAll(false)
-                        : provider.setIsFavoriteMasterChefdAll(true);
-                  },
-                  child: SizedBox(
-                    width: 14.0,
-                    height: 14.0,
-                    child: Image.asset(
-                      provider.isFavoriteMasterChefAll
-                          ? 'assets/images/favorite_select.png'
-                          : 'assets/images/favorite_unselect.png',
-                    ), // Use AssetImage
-                  ),
-                ),
+                InkWell(onTap: () {
+                provider.isFavoriteMasterChefAll
+                    ? provider.setIsFavoriteMasterChefdAll(false)
+                    : provider.setIsFavoriteMasterChefdAll(true);},
+                    child: SizedBox(
+                width: 14.0,
+                height: 14.0,
+                child: Image.asset(
+                  provider.isFavoriteMasterChefAll
+                      ? 'assets/images/favorite_select.png'
+                      : 'assets/images/favorite_unselect.png',
+                ), // Use AssetImage
+              ),),
               ],
             ),
           ),
@@ -361,7 +370,7 @@ class _MasterChefScreenState extends State<SeeAllMasterChefScreen> {
               children: [
                 Row(
                   children: const [
-                    Icon(Icons.star, color: Colors.amber, size: 14),
+                    Icon(Icons.star, color: Colors.amber, size: 12),
                     SizedBox(width: 4),
                     Text(
                       '4.0 (1206).',
@@ -371,7 +380,7 @@ class _MasterChefScreenState extends State<SeeAllMasterChefScreen> {
                 ),
                 Text(
                   '${provider.masterChefFilteredAllData![index].recipeCount} Recipies',
-                  style: TextStyle(fontSize: 11, color: Colors.white54),
+                  style: TextStyle(fontSize: 10, color: Colors.white54),
                 ),
               ],
             ),
