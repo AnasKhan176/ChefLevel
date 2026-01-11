@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:food_chef/core/controller/home_recipes_controller.dart';
 import 'package:food_chef/core/domain/di/service_locator.dart';
 import 'package:food_chef/core/providers/home_provider.dart';
+import 'package:food_chef/core/ui/home/tailored_recipes/receipe_details_screen.dart';
 import 'package:food_chef/core/ui/widgets/snackbar/bottom_snackbar.dart';
 import 'package:food_chef/core/utils/constant/colors/app_color.dart';
 import 'package:food_chef/core/utils/function/utility.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -316,7 +318,18 @@ class _RecipeHomeScreenState extends State<SeeAllTailoredRecipeHomeScreen> {
             childAspectRatio: 0.65,
           ),
           itemBuilder: (context, index) {
-            return _recipeCard(index, provider);
+            // return _recipeCard(index, provider);
+            return GestureDetector(
+              onTap: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => RecipeDetailsScreen()
+                    )
+                );
+              },
+              child: _recipeCard(index, provider),
+            );
           },
         );
       },

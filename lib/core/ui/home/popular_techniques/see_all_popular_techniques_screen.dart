@@ -284,33 +284,80 @@ class _PopularTechniquesScreenState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Chef image inside card
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            child:
-                provider.popularTechniqueFilteredAllData![index].imageResponseDTO !=
-                    null
-                ? FadeInImage.assetNetwork(
-                    image: Utility.getImageUrl(
-                      provider.popularTechniqueFilteredAllData![index].imageResponseDTO,
-                      'video_thumbnail',
-                      'assets/images/chef_default.png',
-                    ),
-                    placeholder: 'assets/images/chef_default.png',
-                    fit: BoxFit.cover,
-                    height: 120,
-                    width: double.infinity,
-                  )
-                : FadeInImage(
-                    placeholder: const AssetImage(
-                      'assets/images/chef_default.png',
-                    ), // Your asset placeholder
-                    image: const AssetImage(
-                      'assets/images/chef_default.png',
-                    ), // Your final asset image
-                    fit: BoxFit.cover,
-                    height: 120,
-                    width: double.infinity,
+          // ClipRRect(
+          //   borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+          //   child:
+          //       provider.popularTechniqueFilteredAllData![index].imageResponseDTO !=
+          //           null
+          //       ? FadeInImage.assetNetwork(
+          //           image: Utility.getImageUrl(
+          //             provider.popularTechniqueFilteredAllData![index].imageResponseDTO,
+          //             'video_thumbnail',
+          //             'assets/images/chef_default.png',
+          //           ),
+          //           placeholder: 'assets/images/chef_default.png',
+          //           fit: BoxFit.cover,
+          //           height: 120,
+          //           width: double.infinity,
+          //         )
+          //       : FadeInImage(
+          //           placeholder: const AssetImage(
+          //             'assets/images/chef_default.png',
+          //           ), // Your asset placeholder
+          //           image: const AssetImage(
+          //             'assets/images/chef_default.png',
+          //           ), // Your final asset image
+          //           fit: BoxFit.cover,
+          //           height: 120,
+          //           width: double.infinity,
+          //         ),
+          // ),
+          Stack(
+            children: [
+              // Image
+              ClipRRect(
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                child: provider.popularTechniqueFilteredAllData![index].imageResponseDTO != null
+                    ? FadeInImage.assetNetwork(
+                  image: Utility.getImageUrl(
+                    provider.popularTechniqueFilteredAllData![index].imageResponseDTO,
+                    'video_thumbnail',
+                    'assets/images/chef_default.png',
                   ),
+                  placeholder: 'assets/images/chef_default.png',
+                  fit: BoxFit.cover,
+                  height: 120,
+                  width: double.infinity,
+                )
+                    : FadeInImage(
+                  placeholder: const AssetImage('assets/images/chef_default.png'),
+                  image: const AssetImage('assets/images/chef_default.png'),
+                  fit: BoxFit.cover,
+                  height: 120,
+                  width: double.infinity,
+                ),
+              ),
+
+              // Play icon overlay
+              Positioned.fill(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    width: 40,
+                    height: 40,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.red, // red background
+                    ),
+                    child: const Icon(
+                      Icons.play_arrow,
+                      color: Colors.white, // white arrow
+                      size: 24,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 12),
 

@@ -5,6 +5,7 @@ import 'package:food_chef/core/controller/home_recipes_controller.dart';
 import 'package:food_chef/core/domain/di/service_locator.dart';
 import 'package:food_chef/core/providers/home_provider.dart';
 import 'package:food_chef/core/ui/auth/login_screen.dart';
+import 'package:food_chef/core/ui/home/tailored_recipes/receipe_details_screen.dart';
 import 'package:food_chef/core/ui/widgets/snackbar/bottom_snackbar.dart';
 import 'package:food_chef/core/ui/home/food_banner.dart';
 import 'package:food_chef/core/ui/home/master_chefs/see_all_master_chef_screen.dart';
@@ -290,7 +291,18 @@ class _HomeScreenState extends State<HomeScreen> {
             scrollDirection: Axis.horizontal,
             itemCount: provider.tailoredRecipesHomeData!.length,
             itemBuilder: (context, index) {
-              return _recipeCard(index, provider);
+              return GestureDetector(
+                onTap: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => RecipeDetailsScreen()
+                      )
+                  );
+                },
+                child: _recipeCard(index, provider),
+              );
+              // return _recipeCard(index, provider);
             },
           ),
         );

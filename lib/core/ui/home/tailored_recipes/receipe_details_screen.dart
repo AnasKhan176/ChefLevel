@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../utils/constant/colors/app_color.dart';
+
 class RecipeDetailsScreen extends StatefulWidget {
   const RecipeDetailsScreen({super.key});
 
@@ -56,7 +58,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen>
             borderRadius: const BorderRadius.all(Radius.circular(16)),
             child: Image.asset(
               'assets/maxican.png',
-              height: 180,
+              height: 150,
               width: double.infinity,
               fit: BoxFit.cover,
             ),
@@ -302,8 +304,8 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen>
             const Text(
               'Add Rating',
               style: TextStyle(
-                color: Colors.white70,
-                fontSize: 14,
+                color: AppColor.white,
+                fontSize: 12,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -336,25 +338,48 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen>
           Container(
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white24),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(30),
+              color: AppColor.white
             ),
             child: Row(
               children: [
-                IconButton(
-                  icon: const Icon(Icons.remove, color: Colors.white),
-                  onPressed: () {
-                    if (quantity > 1) setState(() => quantity--);
-                  },
-                ),
+                Container(
+                  width: 30,
+                  height: 30,
+                  decoration: const BoxDecoration(
+                    color: Colors.black87,
+                    shape: BoxShape.circle,
+                  ),
+                   child: Center(
+                     child: IconButton(
+                       icon: const Icon(Icons.remove, color: Colors.white, size: 15,),
+                       onPressed: () {
+                         if (quantity > 1) setState(() => quantity--);
+                       },
+                     ),
+                   ),
+                  ),
+                const SizedBox(width: 12,),
                 Text(
                   '$quantity',
-                  style: const TextStyle(color: Colors.white, fontSize: 16),
+                  style: const TextStyle(color: Colors.black87, fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.add, color: Colors.white),
-                  onPressed: () {
-                    setState(() => quantity++);
-                  },
+                const SizedBox(width: 12,),
+                Container(
+                  width: 30,
+                  height: 30,
+                  decoration: const BoxDecoration(
+                    color: Colors.black87,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: IconButton(
+                      icon: const Icon(Icons.add, color: Colors.white, size: 15,),
+                      onPressed: () {
+                        setState(() => quantity++);
+                      },
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -363,13 +388,14 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen>
           Expanded(
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange,
+                backgroundColor: Colors.black87,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(30),
+                  side: BorderSide(color: Colors.white24, width: 1)
                 ),
               ),
               onPressed: () {},
-              child: const Text('Add to Cart'),
+              child: const Text('Add to Cart', style: TextStyle(color: AppColor.white),),
             ),
           ),
           const SizedBox(width: 12),
@@ -377,11 +403,11 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen>
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(30),
               ),
             ),
             onPressed: () {},
-            child: const Text('Wishlist'),
+            child: const Text('Wishlist', style: TextStyle(color: AppColor.white),),
           ),
         ],
       ),
@@ -396,7 +422,13 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen>
           // TOP BAR
           Row(
             children: [
-              const Icon(Icons.arrow_back, color: Colors.white),
+              InkWell(
+                onTap: () =>   {
+                  Navigator.pop(context),
+                },
+                borderRadius: BorderRadius.circular(24),
+                child: const Icon(Icons.arrow_back, color: Colors.white),
+              ),
               const Spacer(),
               const Text(
                 'Truffle Oil Risotto',
