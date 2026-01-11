@@ -245,7 +245,7 @@ class _PopularTechniquesScreenState
           SizedBox(
             width: 14.0,
             height: 14.0,
-            child: Image.asset('assets/search.png'), // Use AssetImage
+            child: Image.asset('assets/images/search.png'), // Use AssetImage
           ),
         ],
       ),

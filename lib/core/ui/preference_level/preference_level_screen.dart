@@ -159,7 +159,7 @@ class _PreferencesScreenState extends State<PreferenceLevelScreen> {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/common.png'),
+                image: AssetImage('assets/images/common.png'),
                 fit: BoxFit.cover,
               ),
             ),

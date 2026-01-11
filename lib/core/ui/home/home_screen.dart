@@ -143,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
           //   padding: const EdgeInsets.only(right: 18),
           //   child: CircleAvatar(
           //     radius: 14,
-          //     backgroundImage: AssetImage('assets/common.png'),
+          //     backgroundImage: AssetImage('assets/images/common.png'),
           //   ),
           // ),
         ],
@@ -563,16 +563,16 @@ Widget _cuisineGrid() {
           borderRadius: BorderRadius.circular(16),
           image:  DecorationImage(
             image: index == 0
-                    ? AssetImage('assets/italian.png')
+                    ? AssetImage('assets/images/italian.png')
                     : index == 1
-                    ? AssetImage('assets/japenies.png')
+                    ? AssetImage('assets/images/japenies.png')
                     : index == 2
-                    ? AssetImage('assets/maxican.png')
+                    ? AssetImage('assets/images/maxican.png')
                     : index == 3
-                    ? AssetImage('assets/vegeterian.png')
+                    ? AssetImage('assets/images/vegeterian.png')
                     : index == 4
-                    ? AssetImage('assets/bbq.png')
-                    : AssetImage('assets/deserts.png'),
+                    ? AssetImage('assets/images/bbq.png')
+                    : AssetImage('assets/images/deserts.png'),
             fit: BoxFit.cover,
           ),
         ),
@@ -664,7 +664,7 @@ Widget _techniqueHorizontalList() {
                           width: 28.0,
                           height: 28.0,
                           child: Image.asset(
-                            'assets/play.png',
+                            'assets/images/play.png',
                           ), // Use AssetImage
                         ),
                       ),
@@ -737,7 +737,7 @@ Widget _techniqueHorizontalList() {
                 //           width: 24.0,
                 //           height: 24.0,
                 //           child: Image.asset(
-                //             'assets/play.png',
+                //             'assets/images/play.png',
                 //           ), // Use AssetImage
                 //         ),
                 // ),

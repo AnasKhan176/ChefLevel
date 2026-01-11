@@ -78,26 +78,6 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - 'assets/images/'
-    - assets/common.png
-    - assets/bbq.png
-    - assets/deserts.png
-    - assets/italian.png
-    - assets/japenies.png
-    - assets/maxican.png
-    - assets/safe_marco.png
-    - assets/sea_food_salad.jpg
-    - assets/vegeterian.png
-    - assets/filter.png
-    - assets/search.png
-    - assets/play.png
-    - assets/person.png
-    - assets/address.png
-    - assets/password.png
-    - assets/email.png
-    - assets/phone.png
-
-
-
 
 
 flutter_launcher_icons:

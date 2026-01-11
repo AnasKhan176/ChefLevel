@@ -224,7 +224,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/common.png'),
+                image: AssetImage('assets/images/common.png'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -512,7 +512,7 @@ class _LoginScreenState extends State<LoginScreen> {
         prefixIcon: Padding(
           padding: const EdgeInsets.all(10.0), // Adjust padding as needed
           child: Image.asset(
-            _toggleValue == -1 ? 'assets/phone.png' : 'assets/email.png',
+            _toggleValue == -1 ? 'assets/images/phone.png' : 'assets/images/email.png',
             width: 16,
             height: 16,
             fit: BoxFit.contain,

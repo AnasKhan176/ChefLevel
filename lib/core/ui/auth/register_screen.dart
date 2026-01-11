@@ -129,7 +129,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/common.png'),
+                image: AssetImage('assets/images/common.png'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -246,7 +246,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               prefixIcon: Padding(
             padding: const EdgeInsets.all(10.0), // Adjust padding as needed
             child: Image.asset(
-              'assets/phone.png',
+              'assets/images/phone.png',
               width: 16,
               height: 16,
               fit: BoxFit.contain,
@@ -458,7 +458,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           prefixIcon: Padding(
             padding: const EdgeInsets.all(10.0), // Adjust padding as needed
             child: Image.asset(
-              'assets/person.png',
+              'assets/images/person.png',
               width: 16,
               height: 16,
               fit: BoxFit.contain,
@@ -502,7 +502,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           prefixIcon: Padding(
             padding: const EdgeInsets.all(10.0), // Adjust padding as needed
             child: Image.asset(
-              'assets/email.png',
+              'assets/images/email.png',
               width: 16,
               height: 16,
               fit: BoxFit.contain,
@@ -546,7 +546,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           prefixIcon: Padding(
             padding: const EdgeInsets.all(10.0), // Adjust padding as needed
             child: Image.asset(
-              'assets/address.png',
+              'assets/images/address.png',
               width: 16,
               height: 16,
               fit: BoxFit.contain,
@@ -592,7 +592,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           prefixIcon: Padding(
             padding: const EdgeInsets.all(10.0), // Adjust padding as needed
             child: Image.asset(
-              'assets/password.png',
+              'assets/images/password.png',
               width: 16,
               height: 16,
               fit: BoxFit.contain,

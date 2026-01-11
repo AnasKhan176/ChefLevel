@@ -15,7 +15,7 @@ class _FoodBannerState extends State<FoodBanner> {
     'assets/images/wth_1.jpg',
     'assets/images/wth_2.jpg',
     'assets/images/wth_3.jpg',
-    'assets/vegeterian.png',
+    'assets/images/vegeterian.png',
   ];
 
   @override

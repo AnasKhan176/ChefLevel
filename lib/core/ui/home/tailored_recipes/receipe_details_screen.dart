@@ -57,7 +57,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen>
           ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(16)),
             child: Image.asset(
-              'assets/maxican.png',
+              'assets/images/maxican.png',
               height: 150,
               width: double.infinity,
               fit: BoxFit.cover,

@@ -243,7 +243,7 @@ class _MasterChefScreenState extends State<SeeAllMasterChefScreen> {
           SizedBox(
             width: 14.0,
             height: 14.0,
-            child: Image.asset('assets/search.png'), // Use AssetImage
+            child: Image.asset('assets/images/search.png'), // Use AssetImage
           ),
         ],
       ),

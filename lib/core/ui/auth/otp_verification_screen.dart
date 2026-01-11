@@ -303,7 +303,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
         fit: StackFit.expand,
         children: [
           // Background image
-          Image.asset('assets/common.png', fit: BoxFit.cover),
+          Image.asset('assets/images/common.png', fit: BoxFit.cover),
           Container(color: Colors.black.withOpacity(0.6)),
 
           SafeArea(
