@@ -304,6 +304,7 @@ class ChefProfileScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start, // 🔹 LEFT ALIGN
         children: [
           ClipRRect(
             borderRadius:
@@ -315,11 +316,48 @@ class ChefProfileScreen extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
+
           const SizedBox(height: 8),
-          Text(name, style: const TextStyle(color: Colors.white)),
+
+          /// 🔹 CHEF NAME (LEFT)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Text(
+              name,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+
           const SizedBox(height: 4),
-          const Text("Top-Rated",
-              style: TextStyle(color: Colors.orange, fontSize: 12)),
+
+          /// 🔹 STAR + TOP RATED (LEFT)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Row(
+              children: const [
+                Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                  size: 14,
+                ),
+                SizedBox(width: 4),
+                Text(
+                  "Top-Rated",
+                  style: TextStyle(
+                    color: Colors.orange,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 8),
         ],
       ),
     );
