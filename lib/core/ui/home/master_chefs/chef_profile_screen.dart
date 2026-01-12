@@ -71,7 +71,7 @@ class ChefProfileScreen extends StatelessWidget {
                     alignment: Alignment.center,
                     children: [
                       Image.asset(
-                        'assets/images/safe_marco.pngq',
+                        'assets/images/safe_marco.png',
                         height: 150,
                         width: double.infinity,
                         fit: BoxFit.cover,
