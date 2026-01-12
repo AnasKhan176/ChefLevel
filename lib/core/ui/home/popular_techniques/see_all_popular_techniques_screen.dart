@@ -186,11 +186,7 @@ class _PopularTechniquesScreenState
           children: [
             InkWell(
               onTap: () =>  {
-                Provider.of<HomeScreenProvider>(
-                  context,
-                  listen: false,
-                ).clearSeeAllData(),
-                Navigator.pop(context),
+                Navigator.pop(context,'popular_techniques_see_all'),
               },
               borderRadius: BorderRadius.circular(24),
               child: const Icon(Icons.arrow_back, color: Colors.white),

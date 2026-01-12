@@ -15,7 +15,8 @@ class SharedPrefService {
   static const String userIdKey = "userid";
   static const String pinKey = "pin";
 
-
+  static const String dietaryList = "dietary_list";
+  static const String favoriteCussineList = "favorite_cuisine_list";
 
 
 
@@ -127,6 +128,26 @@ class SharedPrefService {
   static Future<String> getPin() async{
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(pinKey) ?? "";
+  }
+
+  static Future<void> setFavoriteCuisineList(String value) async{
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(favoriteCussineList, value);
+  }
+
+  static Future<String> getFavoriteCuisineList() async{
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(favoriteCussineList) ?? "";
+  }
+
+  static Future<void> setDietaryList(String value) async{
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(dietaryList, value);
+  }
+
+  static Future<String> getDietaryList() async{
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(dietaryList) ?? "";
   }
 
   static Future<void> clearOnLogout() async {

@@ -1,5 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:food_chef/core/ui/auth/login_screen.dart';
+import 'package:food_chef/core/ui/home/home_screen.dart';
+import 'package:food_chef/core/ui/preference_level/preference_level_screen.dart';
 import 'package:food_chef/core/utils/constant/colors/app_color.dart';
 import 'package:food_chef/core/utils/constant/fonts/font_style.dart';
 import 'package:food_chef/core/utils/constant/string/app_string.dart';
@@ -122,12 +126,33 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                                     true,
                                   );
                                   if (currentPage == pages.length - 1) {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) => const LoginScreen(),
-                                      ),
-                                    );
+                                    final bool isLoggedIn =
+                                        await SharedPrefService.isLoggedIn();
+                                    final bool isPrefLevel =
+                                        await SharedPrefService.isPrefLevel();
+                                    isLoggedIn
+                                        ? isPrefLevel
+                                              ? Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        const HomeScreen(),
+                                                  ),
+                                                )
+                                              : Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        const PreferenceLevelScreen(),
+                                                  ),
+                                                )
+                                        : Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) =>
+                                                  const LoginScreen(),
+                                            ),
+                                          );
                                   } else {
                                     _pageController.nextPage(
                                       duration: const Duration(

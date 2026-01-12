@@ -62,6 +62,7 @@ class _PreferencesScreenState extends State<PreferenceLevelScreen> {
     var response = await userController.dataDefination(data);
     if (response?.responseCode == 20000) {
       dietary_data_list = response?.data;
+      await SharedPrefService.setDietaryList(jsonEncode(dietary_data_list));
     } else {
       BottomSnackBar.show(
         context,
@@ -78,6 +79,7 @@ class _PreferencesScreenState extends State<PreferenceLevelScreen> {
     var response = await userController.dataDefination(data);
     if (response?.responseCode == 20000) {
       favorite_data_list = response?.data;
+      await SharedPrefService.setFavoriteCuisineList(jsonEncode(favorite_data_list));
     } else {
       BottomSnackBar.show(
         context,

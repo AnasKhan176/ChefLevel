@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:food_chef/core/controller/home_recipes_controller.dart';
 import 'package:food_chef/core/domain/di/service_locator.dart';
 import 'package:food_chef/core/domain/models/preference_level/get_all_pref_data_model.dart';
-import 'package:food_chef/core/providers/home_provider.dart';
-import 'package:food_chef/core/ui/home/tailored_recipes/receipe_details_screen.dart';
+import 'package:food_chef/core/providers/item_details_provider.dart';
 import 'package:food_chef/core/ui/widgets/snackbar/bottom_snackbar.dart';
 import 'package:food_chef/core/utils/constant/colors/app_color.dart';
 import 'package:food_chef/core/utils/constant/prefs/shared_pref.dart';
@@ -15,15 +14,15 @@ import 'package:food_chef/core/utils/function/utility.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class SeeAllTailoredRecipeHomeScreen extends StatefulWidget {
-  const SeeAllTailoredRecipeHomeScreen({super.key});
+class PopularCuisineDetailsScreen extends StatefulWidget {
+  final String cuisineTitle;
+  const PopularCuisineDetailsScreen({super.key, required this.cuisineTitle});
 
   @override
-  State<SeeAllTailoredRecipeHomeScreen> createState() =>
-      _RecipeHomeScreenState();
+  State<PopularCuisineDetailsScreen> createState() => _RecipeHomeScreenState();
 }
 
-class _RecipeHomeScreenState extends State<SeeAllTailoredRecipeHomeScreen> {
+class _RecipeHomeScreenState extends State<PopularCuisineDetailsScreen> {
   int selectedChipIndex = 0;
   final TextEditingController searchController = TextEditingController();
   final homeRecipesController = getIt.get<HomeRecipesController>();
@@ -49,9 +48,6 @@ class _RecipeHomeScreenState extends State<SeeAllTailoredRecipeHomeScreen> {
     favorite_data_list = List<Data>.from(
       jsonMapFavorite.map((x) => Data.fromJson(x)),
     );
-
-    print(favorite_data_list!.length);
-    print('anas');
   }
 
   Future<void> getData() async {
@@ -59,7 +55,7 @@ class _RecipeHomeScreenState extends State<SeeAllTailoredRecipeHomeScreen> {
   }
 
   Future<void> getTailoredRecipesData() async {
-    HomeScreenProvider tailoredprovider = Provider.of<HomeScreenProvider>(
+    ItemDetailsProvider tailoredprovider = Provider.of<ItemDetailsProvider>(
       context,
       listen: false,
     );
@@ -106,7 +102,7 @@ class _RecipeHomeScreenState extends State<SeeAllTailoredRecipeHomeScreen> {
               _categoryChips(),
               const SizedBox(height: 20),
               Expanded(child: _recipeGrid()),
-              Consumer<HomeScreenProvider>(
+              Consumer<ItemDetailsProvider>(
                 builder: (_, provider, _) {
                   return Column(
                     children: [
@@ -214,7 +210,7 @@ class _RecipeHomeScreenState extends State<SeeAllTailoredRecipeHomeScreen> {
           children: [
             InkWell(
               onTap: () => {
-                Navigator.pop(context, 'tailored_recipies_see_all'),
+                Navigator.pop(context,'popular_cuisine_details'),
               },
               borderRadius: BorderRadius.circular(24),
               child: const Icon(Icons.arrow_back, color: Colors.white),
@@ -225,7 +221,7 @@ class _RecipeHomeScreenState extends State<SeeAllTailoredRecipeHomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Tailored Recipes for You',
+              '${widget.cuisineTitle} Recipes for You',
               style: GoogleFonts.playfairDisplay(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -340,7 +336,7 @@ class _RecipeHomeScreenState extends State<SeeAllTailoredRecipeHomeScreen> {
 
   /// ---------------- GRID ----------------
   Widget _recipeGrid() {
-    return Consumer<HomeScreenProvider>(
+    return Consumer<ItemDetailsProvider>(
       builder: (_, provider, _) {
         return GridView.builder(
           itemCount: provider.tailoredRecipiesFilteredAllData!.length,
@@ -354,10 +350,7 @@ class _RecipeHomeScreenState extends State<SeeAllTailoredRecipeHomeScreen> {
             // return _recipeCard(index, provider);
             return GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => RecipeDetailsScreen()),
-                );
+                    Navigator.pop(context, 'popular_cuisine_clear_data');
               },
               child: _recipeCard(index, provider),
             );
@@ -368,7 +361,7 @@ class _RecipeHomeScreenState extends State<SeeAllTailoredRecipeHomeScreen> {
   }
 
   /// ---------------- CARD ----------------
-  Widget _recipeCard(int index, HomeScreenProvider provider) {
+  Widget _recipeCard(int index, ItemDetailsProvider provider) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -476,6 +469,4 @@ class _RecipeHomeScreenState extends State<SeeAllTailoredRecipeHomeScreen> {
       ),
     );
   }
-
-  //---------------- Methods ---------------
 }

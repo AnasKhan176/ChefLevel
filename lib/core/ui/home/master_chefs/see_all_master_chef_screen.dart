@@ -184,11 +184,7 @@ class _MasterChefScreenState extends State<SeeAllMasterChefScreen> {
           children: [
             InkWell(
               onTap: () => {
-                Provider.of<HomeScreenProvider>(
-                  context,
-                  listen: false,
-                ).clearSeeAllData(),
-                Navigator.pop(context),
+              Navigator.pop(context, 'master_chef_see_all'),
               },
               borderRadius: BorderRadius.circular(24),
               child: const Icon(Icons.arrow_back, color: Colors.white),

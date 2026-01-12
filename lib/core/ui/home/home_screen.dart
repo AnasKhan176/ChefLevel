@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:food_chef/core/controller/home_recipes_controller.dart';
 import 'package:food_chef/core/domain/di/service_locator.dart';
 import 'package:food_chef/core/providers/home_provider.dart';
+import 'package:food_chef/core/providers/item_details_provider.dart';
 import 'package:food_chef/core/ui/auth/login_screen.dart';
+import 'package:food_chef/core/ui/home/popular_cuisine/popular_cuisine_details_screen.dart';
 import 'package:food_chef/core/ui/home/tailored_recipes/receipe_details_screen.dart';
 import 'package:food_chef/core/ui/widgets/snackbar/bottom_snackbar.dart';
 import 'package:food_chef/core/ui/home/food_banner.dart';
@@ -166,13 +168,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       _sectionTitle(
                         title: 'Tailored Recipes for You',
                         onSeeAllTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => SeeAllTailoredRecipeHomeScreen(),
-                            ),
-                          );
-                        },isShow: true
+                         
+                          _refreshData(context, 'tailored_recipies_see_all');
+                        },
+                        isShow: true,
                       ),
                       const SizedBox(height: 12),
                       _recipeHorizontalList(),
@@ -192,14 +191,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       _sectionTitle(
                         title: 'Master Chefs',
                         onSeeAllTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => SeeAllMasterChefScreen(),
-                            ),
-                          );
+                          
+                          _refreshData(context, 'master_chef_see_all');
                         },
-                        isShow: true
+                        isShow: true,
                       ),
                       const SizedBox(height: 12),
                       _chefHorizontalList(),
@@ -216,7 +211,7 @@ class _HomeScreenState extends State<HomeScreen> {
               isShow: false,
             ),
             const SizedBox(height: 12),
-            _cuisineGrid(),
+            _cuisineGrid(context),
             Consumer<HomeScreenProvider>(
               builder: (_, provider, _) {
                 return Visibility(
@@ -227,13 +222,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       _sectionTitle(
                         title: 'Popular Techniques',
                         onSeeAllTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => SeeAllPopularTechniquesScreen(),
-                            ),
-                          );
-                        },isShow: true
+                          
+                          _refreshData(context, 'popular_techniques_see_all');
+                        },
+                        isShow: true,
                       ),
                       const SizedBox(height: 12),
                       _techniqueHorizontalList(),
@@ -292,12 +284,10 @@ class _HomeScreenState extends State<HomeScreen> {
             itemCount: provider.tailoredRecipesHomeData!.length,
             itemBuilder: (context, index) {
               return GestureDetector(
-                onTap: (){
+                onTap: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => RecipeDetailsScreen()
-                      )
+                    context,
+                    MaterialPageRoute(builder: (_) => RecipeDetailsScreen()),
                   );
                 },
                 child: _recipeCard(index, provider),
@@ -549,7 +539,7 @@ Widget _chefHorizontalList() {
   );
 }
 
-Widget _cuisineGrid() {
+Widget _cuisineGrid(BuildContext context) {
   return GridView.count(
     crossAxisCount: 3,
     shrinkWrap: true,
@@ -561,51 +551,71 @@ Widget _cuisineGrid() {
       (index) => Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          image:  DecorationImage(
+          image: DecorationImage(
             image: index == 0
-                    ? AssetImage('assets/images/italian.png')
-                    : index == 1
-                    ? AssetImage('assets/images/japenies.png')
-                    : index == 2
-                    ? AssetImage('assets/images/maxican.png')
-                    : index == 3
-                    ? AssetImage('assets/images/vegeterian.png')
-                    : index == 4
-                    ? AssetImage('assets/images/bbq.png')
-                    : AssetImage('assets/images/deserts.png'),
+                ? AssetImage('assets/images/italian.png')
+                : index == 1
+                ? AssetImage('assets/images/japenies.png')
+                : index == 2
+                ? AssetImage('assets/images/maxican.png')
+                : index == 3
+                ? AssetImage('assets/images/vegeterian.png')
+                : index == 4
+                ? AssetImage('assets/images/bbq.png')
+                : AssetImage('assets/images/deserts.png'),
             fit: BoxFit.cover,
           ),
         ),
-        child: Container(
-          alignment: Alignment.bottomCenter,
-          padding: const EdgeInsets.all(6),
-          decoration: BoxDecoration(
-            border: Border.all(width: 1, color: AppColor.ligtestGray),
+        child: GestureDetector(
+          onTap: () {
+            _refreshData(
+              context,
+              'popular_cuisine_details',
+              index == 0
+                  ? 'Italian'
+                  : index == 1
+                  ? 'Japanese'
+                  : index == 2
+                  ? 'Mexican'
+                  : index == 3
+                  ? 'Vegetarian'
+                  : index == 4
+                  ? 'BBQ'
+                  : 'Desserts',
+            );
+          },
 
-            borderRadius: BorderRadius.circular(16),
-            color: Colors.black.withOpacity(0.4),
-          ),
-          child: Align(
-            alignment: Alignment.bottomLeft,
-            child: Padding(
-              padding: EdgeInsets.all(5),
-              child: Text(
-                index == 0
-                    ? 'Italian'
-                    : index == 1
-                    ? 'Japanese'
-                    : index == 2
-                    ? 'Mexican'
-                    : index == 3
-                    ? 'Vegetarian'
-                    : index == 4
-                    ? 'BBQ'
-                    : 'Desserts',
-                style: GoogleFonts.playfairDisplay(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  fontStyle: FontStyle.normal,
-                  color: AppColor.white,
+          child: Container(
+            alignment: Alignment.bottomCenter,
+            padding: const EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              border: Border.all(width: 1, color: AppColor.ligtestGray),
+
+              borderRadius: BorderRadius.circular(16),
+              color: Colors.black.withOpacity(0.4),
+            ),
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                padding: EdgeInsets.all(5),
+                child: Text(
+                  index == 0
+                      ? 'Italian'
+                      : index == 1
+                      ? 'Japanese'
+                      : index == 2
+                      ? 'Mexican'
+                      : index == 3
+                      ? 'Vegetarian'
+                      : index == 4
+                      ? 'BBQ'
+                      : 'Desserts',
+                  style: GoogleFonts.playfairDisplay(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    fontStyle: FontStyle.normal,
+                    color: AppColor.white,
+                  ),
                 ),
               ),
             ),
@@ -614,6 +624,49 @@ Widget _cuisineGrid() {
       ),
     ),
   );
+}
+
+Future<void> _refreshData(
+  BuildContext context,
+  String? title, [
+  String? val,
+]) async {
+  if (title == 'tailored_recipies_see_all') {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SeeAllTailoredRecipeHomeScreen()),
+    );
+    if (result != null && result == 'tailored_recipies_see_all') {
+      Provider.of<HomeScreenProvider>(context, listen: false).clearSeeAllData();
+    }
+  } else if (title == 'master_chef_see_all') {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SeeAllMasterChefScreen()),
+    );
+    if (result != null && result == 'master_chef_see_all') {
+      Provider.of<HomeScreenProvider>(context, listen: false).clearSeeAllData();
+    }
+  } else if (title == 'popular_techniques_see_all') {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SeeAllPopularTechniquesScreen()),
+    );
+    if (result != null && result == 'popular_techniques_see_all') {
+      Provider.of<HomeScreenProvider>(context, listen: false).clearSeeAllData();
+    }
+  } else if (title == 'popular_cuisine_details') {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            PopularCuisineDetailsScreen(cuisineTitle: val ?? 'dafult'),
+      ),
+    );
+    if (result != null && result == 'popular_cuisine_details') {
+      Provider.of<ItemDetailsProvider>(context, listen: false).clearAllData();
+    }
+  }
 }
 
 Widget _techniqueHorizontalList() {
