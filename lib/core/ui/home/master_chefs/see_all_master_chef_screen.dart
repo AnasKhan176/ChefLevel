@@ -10,6 +10,8 @@ import 'package:food_chef/core/utils/function/utility.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import 'chef_profile_screen.dart';
+
 class SeeAllMasterChefScreen extends StatefulWidget {
   const SeeAllMasterChefScreen({super.key});
 
@@ -259,7 +261,18 @@ class _MasterChefScreenState extends State<SeeAllMasterChefScreen> {
             childAspectRatio: 0.65,
           ),
           itemBuilder: (context, index) {
-            return _chefProfileCard(index, provider);
+            // return _chefProfileCard(index, provider);
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChefProfileScreen(),
+                  ),
+                );
+              },
+              child: _chefProfileCard(index, provider),
+            );
           },
         );
       },
