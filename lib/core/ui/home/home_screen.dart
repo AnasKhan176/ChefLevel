@@ -71,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0,
         leading: Builder(
           builder: (context) => IconButton(
-            padding: EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(18.0),
             icon: Image.asset('assets/images/drawer.png'),
             onPressed: () => Scaffold.of(context).openDrawer(),
           ),
@@ -82,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: IconButton(
               padding: EdgeInsets.zero, // Remove padding first
               constraints: BoxConstraints.tight(
-                Size(22, 22),
+                Size(24, 24),
               ), // Force 32x32 size
               icon: Image.asset('assets/images/cart_rounded.png'),
               onPressed: () {
@@ -95,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: IconButton(
               padding: EdgeInsets.zero, // Remove padding first
               constraints: BoxConstraints.tight(
-                Size(22, 22),
+                Size(24, 24),
               ), // Force 32x32 size
               icon: Image.asset('assets/images/search_rounded.png'),
 
@@ -880,8 +880,8 @@ Widget _buildDrawer(BuildContext context, GlobalKey<ScaffoldState> global_key) {
                 ),
                 ListTile(
                   leading: SizedBox(
-                    width: 14.0,
-                    height: 14.0,
+                    width: 24.0,
+                    height: 24.0,
                     child: Image.asset(
                       'assets/images/your_orders.png',
                     ), // Use AssetImage
@@ -898,14 +898,14 @@ Widget _buildDrawer(BuildContext context, GlobalKey<ScaffoldState> global_key) {
                 ),
                 ListTile(
                   leading: SizedBox(
-                    width: 14.0,
-                    height: 14.0,
+                    width: 24.0,
+                    height: 24.0,
                     child: Image.asset(
                       'assets/images/save_recipes.png',
                     ), // Use AssetImage
                   ),
                   title: Text(
-                    'Save Recipes',
+                    'Wishlist',
                     style: GoogleFonts.montserrat(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
@@ -916,8 +916,8 @@ Widget _buildDrawer(BuildContext context, GlobalKey<ScaffoldState> global_key) {
                 ),
                 ListTile(
                   leading: SizedBox(
-                    width: 14.0,
-                    height: 14.0,
+                    width: 24.0,
+                    height: 24.0,
                     child: Image.asset(
                       'assets/images/coupans.png',
                     ), // Use AssetImage
@@ -934,8 +934,8 @@ Widget _buildDrawer(BuildContext context, GlobalKey<ScaffoldState> global_key) {
                 ),
                 ListTile(
                   leading: SizedBox(
-                    width: 14.0,
-                    height: 14.0,
+                    width: 24.0,
+                    height: 24.0,
                     child: Image.asset(
                       'assets/images/earn_rewards.png',
                     ), // Use AssetImage
@@ -952,8 +952,8 @@ Widget _buildDrawer(BuildContext context, GlobalKey<ScaffoldState> global_key) {
                 ),
                 ListTile(
                   leading: SizedBox(
-                    width: 14.0,
-                    height: 14.0,
+                    width: 24.0,
+                    height: 24.0,
                     child: Image.asset(
                       'assets/images/address_book.png',
                     ), // Use AssetImage
@@ -986,8 +986,8 @@ Widget _buildDrawer(BuildContext context, GlobalKey<ScaffoldState> global_key) {
 
                 ListTile(
                   leading: SizedBox(
-                    width: 14.0,
-                    height: 14.0,
+                    width: 24.0,
+                    height: 24.0,
                     child: Image.asset(
                       'assets/images/share.png',
                     ), // Use AssetImage
@@ -1004,8 +1004,8 @@ Widget _buildDrawer(BuildContext context, GlobalKey<ScaffoldState> global_key) {
                 ),
                 ListTile(
                   leading: SizedBox(
-                    width: 14.0,
-                    height: 14.0,
+                    width: 24.0,
+                    height: 24.0,
                     child: Image.asset(
                       'assets/images/about_us.png',
                     ), // Use AssetImage
@@ -1022,8 +1022,8 @@ Widget _buildDrawer(BuildContext context, GlobalKey<ScaffoldState> global_key) {
                 ),
                 ListTile(
                   leading: SizedBox(
-                    width: 14.0,
-                    height: 14.0,
+                    width: 24.0,
+                    height: 24.0,
                     child: Image.asset(
                       'assets/images/settings.png',
                     ), // Use AssetImage
@@ -1040,8 +1040,8 @@ Widget _buildDrawer(BuildContext context, GlobalKey<ScaffoldState> global_key) {
                 ),
                 ListTile(
                   leading: SizedBox(
-                    width: 14.0,
-                    height: 14.0,
+                    width: 24.0,
+                    height: 24.0,
                     child: Image.asset(
                       'assets/images/privacy_center.png',
                     ), // Use AssetImage
@@ -1071,7 +1071,8 @@ Widget _createFooterItem(BuildContext context) {
     decoration: BoxDecoration(color: Colors.black),
     child: ListTile(
       onTap: () async {
-        await SharedPrefService.clearOnLogout();
+       // await SharedPrefService.clearOnLogout();
+        await SharedPrefService.setLoggedIn(false);
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (_) => LoginScreen()),
@@ -1079,8 +1080,8 @@ Widget _createFooterItem(BuildContext context) {
         );
       },
       leading: SizedBox(
-        width: 14.0,
-        height: 14.0,
+        width: 24.0,
+        height: 24.0,
         child: Image.asset('assets/images/logout.png'), // Use AssetImage
       ),
       title: Text(
@@ -1105,7 +1106,7 @@ Widget _createHeader(
       context,
     ).copyWith(dividerTheme: const DividerThemeData(color: Colors.transparent)),
     child: SizedBox(
-      height: 100.0, // Set your desired height here
+      height: 50.0, // Set your desired height here
       child: DrawerHeader(
         decoration: BoxDecoration(color: Colors.black),
         margin: EdgeInsets.zero,
