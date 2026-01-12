@@ -49,9 +49,6 @@ class _RecipeHomeScreenState extends State<SeeAllTailoredRecipeHomeScreen> {
     favorite_data_list = List<Data>.from(
       jsonMapFavorite.map((x) => Data.fromJson(x)),
     );
-
-    print(favorite_data_list!.length);
-    print('anas');
   }
 
   Future<void> getData() async {
@@ -354,10 +351,7 @@ class _RecipeHomeScreenState extends State<SeeAllTailoredRecipeHomeScreen> {
             // return _recipeCard(index, provider);
             return GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => RecipeDetailsScreen()),
-                );
+                _openDetailPage(context, 'recipies_details', index);
               },
               child: _recipeCard(index, provider),
             );
@@ -478,4 +472,18 @@ class _RecipeHomeScreenState extends State<SeeAllTailoredRecipeHomeScreen> {
   }
 
   //---------------- Methods ---------------
+}
+Future<void> _openDetailPage(
+  BuildContext context,
+  String pageType,
+  int index,
+) async {
+  if (pageType == 'recipies_details') {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => RecipeDetailsScreen(clickedIndex: index),
+      ),
+    );
+  }
 }

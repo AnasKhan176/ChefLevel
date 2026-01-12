@@ -168,7 +168,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       _sectionTitle(
                         title: 'Tailored Recipes for You',
                         onSeeAllTap: () {
-                         
                           _refreshData(context, 'tailored_recipies_see_all');
                         },
                         isShow: true,
@@ -191,7 +190,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       _sectionTitle(
                         title: 'Master Chefs',
                         onSeeAllTap: () {
-                          
                           _refreshData(context, 'master_chef_see_all');
                         },
                         isShow: true,
@@ -222,7 +220,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       _sectionTitle(
                         title: 'Popular Techniques',
                         onSeeAllTap: () {
-                          
                           _refreshData(context, 'popular_techniques_see_all');
                         },
                         isShow: true,
@@ -285,14 +282,10 @@ class _HomeScreenState extends State<HomeScreen> {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => RecipeDetailsScreen()),
-                  );
+                  _openDetailPage(context, 'recipies_details', index);
                 },
                 child: _recipeCard(index, provider),
               );
-              // return _recipeCard(index, provider);
             },
           ),
         );
@@ -666,6 +659,21 @@ Future<void> _refreshData(
     if (result != null && result == 'popular_cuisine_details') {
       Provider.of<ItemDetailsProvider>(context, listen: false).clearAllData();
     }
+  }
+}
+
+Future<void> _openDetailPage(
+  BuildContext context,
+  String pageType,
+  int index,
+) async {
+  if (pageType == 'recipies_details') {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => RecipeDetailsScreen(clickedIndex: index),
+      ),
+    );
   }
 }
 
@@ -1071,7 +1079,7 @@ Widget _createFooterItem(BuildContext context) {
     decoration: BoxDecoration(color: Colors.black),
     child: ListTile(
       onTap: () async {
-       // await SharedPrefService.clearOnLogout();
+        // await SharedPrefService.clearOnLogout();
         await SharedPrefService.setLoggedIn(false);
         Navigator.pushAndRemoveUntil(
           context,

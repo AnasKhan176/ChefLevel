@@ -221,7 +221,7 @@ class _RecipeHomeScreenState extends State<PopularCuisineDetailsScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '${widget.cuisineTitle} Recipes for You',
+              '${widget.cuisineTitle} Cuisine',
               style: GoogleFonts.playfairDisplay(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,

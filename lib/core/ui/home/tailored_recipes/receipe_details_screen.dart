@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:food_chef/core/domain/models/home/home_recipes_model.dart';
+import 'package:food_chef/core/providers/home_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../../utils/constant/colors/app_color.dart';
 
 class RecipeDetailsScreen extends StatefulWidget {
-  const RecipeDetailsScreen({super.key});
+  final int clickedIndex;
+  const RecipeDetailsScreen({super.key, required this.clickedIndex});
 
   @override
   State<RecipeDetailsScreen> createState() => _RecipeDetailsScreenState();
@@ -13,11 +17,20 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen>
     with SingleTickerProviderStateMixin {
   int quantity = 1;
   late TabController _tabController;
+  TailoredRecipe? recipeDetails;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
+    setData();
+  }
+
+  Future<void> setData() async {
+    recipeDetails = Provider.of<HomeScreenProvider>(
+      context,
+      listen: false,
+    ).tailoredRecipesHomeData![widget.clickedIndex];
   }
 
   @override
@@ -339,7 +352,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen>
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white24),
               borderRadius: BorderRadius.circular(30),
-              color: AppColor.white
+              color: AppColor.white,
             ),
             child: Row(
               children: [
@@ -350,21 +363,29 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen>
                     color: Colors.black87,
                     shape: BoxShape.circle,
                   ),
-                   child: Center(
-                     child: IconButton(
-                       icon: const Icon(Icons.remove, color: Colors.white, size: 15,),
-                       onPressed: () {
-                         if (quantity > 1) setState(() => quantity--);
-                       },
-                     ),
-                   ),
+                  child: Center(
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.remove,
+                        color: Colors.white,
+                        size: 15,
+                      ),
+                      onPressed: () {
+                        if (quantity > 1) setState(() => quantity--);
+                      },
+                    ),
                   ),
-                const SizedBox(width: 12,),
+                ),
+                const SizedBox(width: 12),
                 Text(
                   '$quantity',
-                  style: const TextStyle(color: Colors.black87, fontSize: 20, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    color: Colors.black87,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                const SizedBox(width: 12,),
+                const SizedBox(width: 12),
                 Container(
                   width: 30,
                   height: 30,
@@ -374,7 +395,11 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen>
                   ),
                   child: Center(
                     child: IconButton(
-                      icon: const Icon(Icons.add, color: Colors.white, size: 15,),
+                      icon: const Icon(
+                        Icons.add,
+                        color: Colors.white,
+                        size: 15,
+                      ),
                       onPressed: () {
                         setState(() => quantity++);
                       },
@@ -391,11 +416,14 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen>
                 backgroundColor: Colors.black87,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
-                  side: BorderSide(color: Colors.white24, width: 1)
+                  side: BorderSide(color: Colors.white24, width: 1),
                 ),
               ),
               onPressed: () {},
-              child: const Text('Add to Cart', style: TextStyle(color: AppColor.white),),
+              child: const Text(
+                'Add to Cart',
+                style: TextStyle(color: AppColor.white),
+              ),
             ),
           ),
           const SizedBox(width: 12),
@@ -407,7 +435,10 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen>
               ),
             ),
             onPressed: () {},
-            child: const Text('Wishlist', style: TextStyle(color: AppColor.white),),
+            child: const Text(
+              'Wishlist',
+              style: TextStyle(color: AppColor.white),
+            ),
           ),
         ],
       ),
@@ -423,9 +454,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen>
           Row(
             children: [
               InkWell(
-                onTap: () =>   {
-                  Navigator.pop(context),
-                },
+                onTap: () => {Navigator.pop(context)},
                 borderRadius: BorderRadius.circular(24),
                 child: const Icon(Icons.arrow_back, color: Colors.white),
               ),
